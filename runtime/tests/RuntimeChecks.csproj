@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework><OutputType>Exe</OutputType><AssemblyName>RuntimeChecks</AssemblyName>
+    <LangVersion>latest</LangVersion><PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../OfflineTeamBuilderRuntime.csproj" />
+    <Reference Include="FrostyCore"><HintPath>$(MmcRoot)/FrostyCore.dll</HintPath></Reference>
+    <Reference Include="FrostySdk"><HintPath>$(MmcRoot)/FrostySdk.dll</HintPath></Reference>
+    <Reference Include="System.Web.Extensions" />
+    <None Include="golden-relays.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

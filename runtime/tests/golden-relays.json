@@ -1,0 +1,272 @@
+[
+    {
+        "method":  "BuildSavedAssetKeyFallbackRelay",
+        "sha256":  "c684d9354492c9b4a044cd47e2a8bf328b9c6ac555bc0fd6c77a212d95a7994f",
+        "arguments":  [
+                          "0x100000",
+                          "0x102000"
+                      ],
+        "type":  "CFB27TeamBuilderBatchQueuePreMcrProbe",
+        "length":  211
+    },
+    {
+        "method":  "BuildStockLifecycleCareerRelay",
+        "sha256":  "f713277f43418afcd5b0f2d34b8a5f60cfa0d6a7a3497a7b6c03c86b2b2a8d9c",
+        "arguments":  [
+                          "0x100000",
+                          "0x102000",
+                          "0x104000",
+                          "0x106000",
+                          "0x108000"
+                      ],
+        "type":  "CFB27TeamBuilderBatchQueuePreMcrProbe",
+        "length":  457
+    },
+    {
+        "method":  "BuildKeyShimShell",
+        "sha256":  "2b652d6879284327180c0476ac57b508b930d98457371e057f40df14e8b3a0e1",
+        "arguments":  [
+                          "0x100000",
+                          "0x102000"
+                      ],
+        "type":  "CFB27TeamBuilderBatchQueuePreMcrProbe",
+        "length":  74
+    },
+    {
+        "method":  "BuildOwnerGate3ResultShell",
+        "sha256":  "e73e65bdc0693eb143d06dd66cc50c33a8d6e58bbf6f2f61b067845760f3d0ec",
+        "arguments":  [
+                          "0x100000",
+                          "0x102000",
+                          "0x104000"
+                      ],
+        "type":  "CFB27TeamBuilderBatchQueuePreMcrProbe",
+        "length":  205
+    },
+    {
+        "method":  "BuildProtoHttpLoopbackUrlShimShell",
+        "sha256":  "77f7bc6951ab45f4eeacfd576a89af36ec7a73b66cf368cea58ee478eed946da",
+        "arguments":  [
+                          "0x100000",
+                          "0x102000",
+                          "bytes:48895c2408574883ec30488bf94d85c0"
+                      ],
+        "type":  "CFB27TeamBuilderBatchQueuePreMcrProbe",
+        "length":  364
+    },
+    {
+        "method":  "BuildCareerRelay",
+        "sha256":  "fb338b9fb22213babc73a3def0490a759486eb66a8e28f6593cee4958ebdba77",
+        "arguments":  [
+                          "0x100000",
+                          "0x102000",
+                          "0x104000",
+                          "0x106000",
+                          "0x108000",
+                          "0x10A000"
+                      ],
+        "type":  "OfflineTeamBuilderReentry.TeamBuilderReentryRepair",
+        "length":  1149
+    },
+    {
+        "method":  "BuildDispatcherRelay",
+        "sha256":  "74ec9e6131096c0b39ca39a49110fc89cdf979c4b0f97fe4e4c33ec9ae29507e",
+        "arguments":  [
+                          "0x100000",
+                          "0x102000"
+                      ],
+        "type":  "OfflineTeamBuilderReentry.TeamBuilderReentryRepair",
+        "length":  3146
+    },
+    {
+        "method":  "BuildNewsPreviewRelay",
+        "sha256":  "aa15ba91860f4cce9385de6982e4bf59aea4c3e06ba92eb7ff1cec36aab3f0c0",
+        "arguments":  [
+                          "0x100000",
+                          "0x102000",
+                          "0x104000"
+                      ],
+        "type":  "OfflineTeamBuilderReentry.TeamBuilderReentryRepair",
+        "length":  3792
+    },
+    {
+        "method":  "BuildSavedAssetKeyFallbackRelay",
+        "sha256":  "157153c9a2547b7287c6f12b8e495c01b27ad6634c026b02fe9e2ef5c6eb80dd",
+        "arguments":  [
+                          "0x100000000",
+                          "0x100002000"
+                      ],
+        "type":  "CFB27TeamBuilderBatchQueuePreMcrProbe",
+        "length":  211
+    },
+    {
+        "method":  "BuildStockLifecycleCareerRelay",
+        "sha256":  "c45c8fd9a001b117654a9cc8e7372920e1a85db224622c4b3a8efd8750900db0",
+        "arguments":  [
+                          "0x100000000",
+                          "0x100002000",
+                          "0x100004000",
+                          "0x100006000",
+                          "0x100008000"
+                      ],
+        "type":  "CFB27TeamBuilderBatchQueuePreMcrProbe",
+        "length":  457
+    },
+    {
+        "method":  "BuildKeyShimShell",
+        "sha256":  "fa87ab88e034277c2ba8109636dc6ef6470be46fc262738266aa66a931479172",
+        "arguments":  [
+                          "0x100000000",
+                          "0x100002000"
+                      ],
+        "type":  "CFB27TeamBuilderBatchQueuePreMcrProbe",
+        "length":  74
+    },
+    {
+        "method":  "BuildOwnerGate3ResultShell",
+        "sha256":  "85e7952e1dd836666c4c3c27cdfd72deb6b2d0b785ee139931fd6618b2688820",
+        "arguments":  [
+                          "0x100000000",
+                          "0x100002000",
+                          "0x100004000"
+                      ],
+        "type":  "CFB27TeamBuilderBatchQueuePreMcrProbe",
+        "length":  205
+    },
+    {
+        "method":  "BuildProtoHttpLoopbackUrlShimShell",
+        "sha256":  "d4d7d178e390f0eb18c0e11872e94c66d6a8209b3e02dba0927bb7f1e4c99059",
+        "arguments":  [
+                          "0x100000000",
+                          "0x100002000",
+                          "bytes:48895c2408574883ec30488bf94d85c0"
+                      ],
+        "type":  "CFB27TeamBuilderBatchQueuePreMcrProbe",
+        "length":  364
+    },
+    {
+        "method":  "BuildCareerRelay",
+        "sha256":  "01d369a3e8c0c075aa1fc730c9c339bb5e1a20cae33cdc3cab2a8a16c0b7a053",
+        "arguments":  [
+                          "0x100000000",
+                          "0x100002000",
+                          "0x100004000",
+                          "0x100006000",
+                          "0x100008000",
+                          "0x10000A000"
+                      ],
+        "type":  "OfflineTeamBuilderReentry.TeamBuilderReentryRepair",
+        "length":  1149
+    },
+    {
+        "method":  "BuildDispatcherRelay",
+        "sha256":  "25e0c8cef3dcacc929b5644fabfa0089d7c4fabc868c2fc3c974ac65e262878a",
+        "arguments":  [
+                          "0x100000000",
+                          "0x100002000"
+                      ],
+        "type":  "OfflineTeamBuilderReentry.TeamBuilderReentryRepair",
+        "length":  3146
+    },
+    {
+        "method":  "BuildNewsPreviewRelay",
+        "sha256":  "41a7a01ee84723ba14ae3f5c013d73932004fecdac91af99bd772c2c676bd304",
+        "arguments":  [
+                          "0x100000000",
+                          "0x100002000",
+                          "0x100004000"
+                      ],
+        "type":  "OfflineTeamBuilderReentry.TeamBuilderReentryRepair",
+        "length":  3792
+    },
+    {
+        "method":  "BuildSavedAssetKeyFallbackRelay",
+        "sha256":  "a6711576cfe806c2552853869c7f87ad18cd99d7c451111e7c9f2f3da25c0ee1",
+        "arguments":  [
+                          "0x123456000000",
+                          "0x123456002000"
+                      ],
+        "type":  "CFB27TeamBuilderBatchQueuePreMcrProbe",
+        "length":  211
+    },
+    {
+        "method":  "BuildStockLifecycleCareerRelay",
+        "sha256":  "41a1bec890cd2f9473dadd16acf32cb8555b1693846233f5381d30a8dbf6227e",
+        "arguments":  [
+                          "0x123456000000",
+                          "0x123456002000",
+                          "0x123456004000",
+                          "0x123456006000",
+                          "0x123456008000"
+                      ],
+        "type":  "CFB27TeamBuilderBatchQueuePreMcrProbe",
+        "length":  457
+    },
+    {
+        "method":  "BuildKeyShimShell",
+        "sha256":  "bd4b51728f9d80a75dc40c13407865bb82b14b7540ce3fb36843f374cb1162ef",
+        "arguments":  [
+                          "0x123456000000",
+                          "0x123456002000"
+                      ],
+        "type":  "CFB27TeamBuilderBatchQueuePreMcrProbe",
+        "length":  74
+    },
+    {
+        "method":  "BuildOwnerGate3ResultShell",
+        "sha256":  "121713a96d39b5765efe4e8c1b1f292ddf24abaccfd820d26494ee36a5f17c4a",
+        "arguments":  [
+                          "0x123456000000",
+                          "0x123456002000",
+                          "0x123456004000"
+                      ],
+        "type":  "CFB27TeamBuilderBatchQueuePreMcrProbe",
+        "length":  205
+    },
+    {
+        "method":  "BuildProtoHttpLoopbackUrlShimShell",
+        "sha256":  "105947779cc155b4a70e81457683bcb79ed5a7ec3e0fd6c329205a092253ae9f",
+        "arguments":  [
+                          "0x123456000000",
+                          "0x123456002000",
+                          "bytes:48895c2408574883ec30488bf94d85c0"
+                      ],
+        "type":  "CFB27TeamBuilderBatchQueuePreMcrProbe",
+        "length":  364
+    },
+    {
+        "method":  "BuildCareerRelay",
+        "sha256":  "a4bc5c2eda228398c7eca703cf7e1aeff70d0d4f598e2c0caf25cc073a90176e",
+        "arguments":  [
+                          "0x123456000000",
+                          "0x123456002000",
+                          "0x123456004000",
+                          "0x123456006000",
+                          "0x123456008000",
+                          "0x12345600A000"
+                      ],
+        "type":  "OfflineTeamBuilderReentry.TeamBuilderReentryRepair",
+        "length":  1149
+    },
+    {
+        "method":  "BuildDispatcherRelay",
+        "sha256":  "dfa0256aba2be897501fe198b74e28ea8cbd50ce5dc859759cc2932176b31974",
+        "arguments":  [
+                          "0x123456000000",
+                          "0x123456002000"
+                      ],
+        "type":  "OfflineTeamBuilderReentry.TeamBuilderReentryRepair",
+        "length":  3146
+    },
+    {
+        "method":  "BuildNewsPreviewRelay",
+        "sha256":  "0f7096343ad079a6910b840902002ba297181086a022d1568fb0bb4f102133df",
+        "arguments":  [
+                          "0x123456000000",
+                          "0x123456002000",
+                          "0x123456004000"
+                      ],
+        "type":  "OfflineTeamBuilderReentry.TeamBuilderReentryRepair",
+        "length":  3792
+    }
+]

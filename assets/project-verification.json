@@ -1,0 +1,48 @@
+﻿{
+    "version":  "2.1.3",
+    "head":  4333671,
+    "profile":  "CollegeFB27",
+    "title":  "Offline TeamBuilder",
+    "format":  18,
+    "chunks":  [
+                   {
+                       "superbundles":  [
+                                            "win32/globals"
+                                        ],
+                       "logicalSize":  34904,
+                       "name":  "common/ui/node_cfm/newcareer/corenode.ast",
+                       "guid":  "7df6419a-2848-7f58-1167-4a724f97c001",
+                       "h64":  -4342402584906101682,
+                       "payloadSha1":  "65faeb3b50dc61ef36730686363299631bcec805",
+                       "payloadBytes":  33076,
+                       "h32":  653200462
+                   },
+                   {
+                       "superbundles":  [
+                                            "win32/globals"
+                                        ],
+                       "logicalSize":  7112,
+                       "name":  "common/ui/madden/ultimatecareer/screen/newcareer/customizehub.ast",
+                       "guid":  "b3c509ea-7316-d570-42f8-e15670c41d01",
+                       "h64":  -6526218766616404280,
+                       "payloadSha1":  "b82291db1d3ce130ce8ad2f20612789cd8739fa7",
+                       "payloadBytes":  7023,
+                       "h32":  -245932344
+                   },
+                   {
+                       "superbundles":  [
+                                            "win32/globals",
+                                            "win32/levels/collegefbgame/collegefbgame"
+                                        ],
+                       "logicalSize":  255698,
+                       "name":  "common/ui/node_cfm/hub/corenode.ast",
+                       "guid":  "3dca3756-33b9-52d2-8644-7ef201babc01",
+                       "h64":  -6834153348315701969,
+                       "payloadSha1":  "c7cf1a81d5e3c9ce1a2346f67207cbc926b0df0b",
+                       "payloadBytes":  255762,
+                       "h32":  353934639
+                   }
+               ],
+    "authors":  "JDHalfRack / Ace / Timberline Tex",
+    "collectorLinks":  6
+}

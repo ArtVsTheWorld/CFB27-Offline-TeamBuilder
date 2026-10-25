@@ -1,0 +1,11 @@
+{
+  "version": "2.1.3",
+  "authors": "JDHalfRack / Ace / Timberline Tex",
+  "nativeProfile": "cfb27-2026-10-19",
+  "files": {
+    "assets/OfflineTeamBuilder.fbmod": "99AFBC7A1F094ECDAD5ECD67B448A059A0C620576D8F4F805FFC47E9785870D5",
+    "assets/OfflineTeamBuilder.fbproject": "1B9147E2E411B5A81F9873F698EF6566B81C44BD6C21D1F6079FA665185AC293",
+    "dist/v2.1.3/OfflineTeamBuilderRuntime.dll": "7E2DCF246ED1682F9215D0C91F878ED86F1C8B2C938F235557DEFD660D682475",
+    "dist/v2.1.3/OfflineTeamBuilder-2.1.3.zip": "BABB7B18511A65BD6BCDA21573B15CC935EC955519DEE5DCA841CC193A1E8C1C"
+  }
+}

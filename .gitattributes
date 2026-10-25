@@ -1,0 +1,8 @@
+* text=auto
+# Preserve the exact runtime source/profile bytes for reproducible builds.
+runtime/src/** -text whitespace=blank-at-eol,cr-at-eol
+runtime/Profiles/** -text whitespace=blank-at-eol,cr-at-eol
+*.dll -text
+*.fbmod -text
+*.fbproject -text
+*.zip -text

@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <PlatformTarget>x64</PlatformTarget>
+    <AssemblyName>OfflineTeamBuilderRuntime</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <Deterministic>true</Deterministic>
+    <PathMap>$(MSBuildProjectDirectory)=/_/OfflineTeamBuilderRuntime</PathMap>
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="src/**/*.cs" />
+    <EmbeddedResource Include="Profiles/cfb27-2026-10-19.json" LogicalName="OfflineTeamBuilderRuntime.Profile.json" />
+    <Reference Include="FrostyCore"><HintPath>$(MmcRoot)/FrostyCore.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="FrostySdk"><HintPath>$(MmcRoot)/FrostySdk.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <Target Name="CheckManagerReferences" BeforeTargets="ResolveReferences">
+    <Error Condition="!Exists('$(MmcRoot)/FrostyCore.dll') Or !Exists('$(MmcRoot)/FrostySdk.dll')" Text="Set MmcRoot to your MMC folder containing FrostyCore.dll and FrostySdk.dll." />
+  </Target>
+</Project>

@@ -1,0 +1,21 @@
+name: Game update or loading problem
+description: Report a compatibility or asset-loading problem.
+body:
+  - type: input
+    id: versions
+    attributes:
+      label: Game update, MMC version and plugin version
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Say whether this followed a reload, week advance, coach switch or match entry. Which assets were missing?
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Relevant log message
+      description: Remove personal paths and private information. Do not upload game EXEs, saves, memory dumps, credentials or repair configuration.
