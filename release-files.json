@@ -2,7 +2,7 @@
   "version": "2.1.4",
   "authors": "JDHalfRack / Ace / Timberline Tex",
   "nativeProfile": "cfb27-2026-10-30",
-  "verification": "Local and live native contracts passed; gameplay confirmation pending",
+  "verification": "Local and live native contracts passed; user confirmed working in-game on 2026-10-30",
   "files": {
     "assets/OfflineTeamBuilder.fbmod": "161FF61093D16074A70756E3E7701E12FCC2053F5C19E2BF4D453D15CC069537",
     "assets/OfflineTeamBuilder.fbproject": "FCADB45589C3557C81D206118503E3FFA9272CEC9225B3B2F187F1866DF71DB8",

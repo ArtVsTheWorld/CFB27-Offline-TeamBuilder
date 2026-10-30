@@ -1,4 +1,4 @@
-# 2.1.4 — October 30 native/fbmod compatibility candidate
+# 2.1.4 — October 30 compatibility update, confirmed working in-game
 
 - Add the October 30 profile with separately mapped native addresses, full
   signature checks, matching lifecycle slots and MCR-backed transport targets.
@@ -11,8 +11,8 @@
   relocations for those comparisons; use named current-profile symbols in the
   executable private-memory fixtures.
 - Pass 4,309 runtime checks, 21 packaging checks and 40 live read-only checks,
-  including both capacity wrappers and the capacity accessor. Full in-game
-  loading, previews, stadiums and audio playback still need confirmation.
+  including both capacity wrappers and the capacity accessor. The user confirmed
+  version 2.1.4 works in-game on October 30, 2026.
 
 # 2.1.3 — user-verified reload-logo fix
 

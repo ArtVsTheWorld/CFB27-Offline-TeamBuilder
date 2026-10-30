@@ -8,7 +8,7 @@
 - Preserve the uniform, preview, logo, audio and Dynasty-data safeguards.
 - Keep the historical relay hashes and make native tests use profile symbols.
 - Pass 4,309 local checks, 21 packaging checks and 40 read-only checks against
-  the running game. Full game loading and playback verification is pending.
+  the running game. Confirmed working in-game on October 30, 2026.
 
 ## 2.1.3
 

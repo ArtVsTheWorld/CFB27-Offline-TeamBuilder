@@ -7,8 +7,8 @@ stadiums, logos and custom stadium sounds, without resetting Dynasty progress.
 
 [Download version 2.1.4](dist/v2.1.4/OfflineTeamBuilder-2.1.4.zip).
 The ZIP includes the plugin, fbmod, editable fbproject and installation guide.
-This is the October 30 compatibility update. Native checks against the running
-game and local tests pass. A full in-game loading test is still pending.
+This is the October 30 compatibility update, confirmed working in-game on
+October 30, 2026.
 
 ## Install
 

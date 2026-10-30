@@ -3,8 +3,8 @@
 Authors: **JDHalfRack / Ace / Timberline Tex**
 
 2.1.4 updates the native profile and fbmod compatibility for the October 30 game
-update. Native contracts pass against the running game and local tests pass;
-full in-game loading and audio playback still need confirmation. The working
+update. Native contracts and local tests pass, and the user confirmed it works
+in-game on October 30, 2026. The working
 relay instruction templates and fbmod payloads are preserved. Shared-native-queue
 safeguards and per-team observations remain narrower
 than full streaming readiness; this does not claim to repair all stalled reads.
