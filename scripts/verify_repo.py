@@ -60,7 +60,10 @@ def check(root=ROOT):
     version = manifest['version']
     verify_hashes(root, manifest['files'])
     verify_identity((root / 'runtime/src/PluginIdentity.cs').read_text(encoding='utf-8-sig'), version)
-    profile = json.loads((root / 'runtime/Profiles/cfb27-2026-10-19.json').read_text(encoding='utf-8-sig'))
+    profile_name = manifest['nativeProfile']
+    if not re.fullmatch(r'cfb27-\d{4}-\d{2}-\d{2}', profile_name):
+        raise ValueError('Invalid native profile name')
+    profile = json.loads((root / ('runtime/Profiles/'+profile_name+'.json')).read_text(encoding='utf-8-sig'))
     if profile['id'] != manifest['nativeProfile']:
         raise ValueError('Native profile mismatch')
     mod = load_module('release_mod_header', root / 'runtime/tools/rebrand_fbmod.py')

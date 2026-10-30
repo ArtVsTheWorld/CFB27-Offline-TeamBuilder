@@ -1,10 +1,12 @@
-# Offline TeamBuilder Runtime 2.1.3
+# Offline TeamBuilder Runtime 2.1.4
 
 Authors: **JDHalfRack / Ace / Timberline Tex**
 
-The user confirmed the 2.1.3 reload-logo fix works in-game. This release preserves
-that exact DLL and the working fbmod payloads; mod display metadata is updated to
-match. Shared-native-queue safeguards and per-team observations remain narrower
+2.1.4 updates the native profile and fbmod compatibility for the October 30 game
+update. Native contracts pass against the running game and local tests pass;
+full in-game loading and audio playback still need confirmation. The working
+relay instruction templates and fbmod payloads are preserved. Shared-native-queue
+safeguards and per-team observations remain narrower
 than full streaming readiness; this does not claim to repair all stalled reads.
 
 2.1.1 rechecks the current Career, selected school/slot, converter and metadata

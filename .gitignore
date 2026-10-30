@@ -22,3 +22,4 @@
 *.exe
 *.dll
 !dist/v2.1.3/OfflineTeamBuilderRuntime.dll
+!dist/v2.1.4/OfflineTeamBuilderRuntime.dll

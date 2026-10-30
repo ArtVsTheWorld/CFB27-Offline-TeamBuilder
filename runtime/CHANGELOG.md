@@ -1,3 +1,19 @@
+# 2.1.4 — October 30 native/fbmod compatibility candidate
+
+- Add the October 30 profile with separately mapped native addresses, full
+  signature checks, matching lifecycle slots and MCR-backed transport targets.
+- Keep the relay instruction templates, job admission, preview gate, logo
+  recovery, audio handoff and Dynasty-data protections unchanged.
+- Rebase the fbmod game revision and three collector GUIDs only after comparing
+  all three vanilla APT data/constant streams and checking superbundle names.
+  Preserve the entire manifest and all authored payloads byte for byte.
+- Preserve the historical golden hashes. Reverse only reviewed address
+  relocations for those comparisons; use named current-profile symbols in the
+  executable private-memory fixtures.
+- Pass 4,309 runtime checks, 21 packaging checks and 40 live read-only checks,
+  including both capacity wrappers and the capacity accessor. Full in-game
+  loading, previews, stadiums and audio playback still need confirmation.
+
 # 2.1.3 — user-verified reload-logo fix
 
 - User confirmed the reload-logo candidate works. The release retains the exact

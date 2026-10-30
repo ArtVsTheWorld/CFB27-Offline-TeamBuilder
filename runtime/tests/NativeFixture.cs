@@ -40,16 +40,16 @@ internal sealed class NativeFixture : IDisposable
         Commit(image+(ulong)GameProfile.Current.Rva("ServiceGlobal"),8);
         Q(image+(ulong)GameProfile.Current.Rva("ServiceGlobal"),service);
         Bind();Q(context+0x1D0,selected);D(selected+0xF78,1801);
-        Q(manager,image+0xB38B3B8);Q(manager+0x130,vector);Q(manager+0x138,vector+9*8);
+        Q(manager,A("Rva_0B38B3B8"));Q(manager+0x130,vector);Q(manager+0x138,vector+9*8);
         Q(manager+0x180,vector);Q(manager+0x1A0,vector);Q(manager+0x1C8,records);Q(manager+0x1D0,records);
-        for(int n=0;n<9;n++){ulong node=Obj(0x200);Q(node,image+0xB494B90);D(node+0x10,slots[n]);Q(vector+(ulong)n*8,node);}
-        Commit(image+0xE350900,8);Q(image+0xE350900,manager);
-        Commit(image+0xB38B3B8,0x28);Q(image+0xB38B3B8+0x20,image+0x317B260);
-        Jump(image+0x317B260,Keep(new Builder((owner,slot,unused,capture)=> {
+        for(int n=0;n<9;n++){ulong node=Obj(0x200);Q(node,A("Rva_0B494B90"));D(node+0x10,slots[n]);Q(vector+(ulong)n*8,node);}
+        Commit(A("Rva_0E350900"),8);Q(A("Rva_0E350900"),manager);
+        Commit(A("Rva_0B38B3B8"),0x28);Q(A("Rva_0B38B3B8")+0x20,A("Rva_0317B260"));
+        Jump(A("Rva_0317B260"),Keep(new Builder((owner,slot,unused,capture)=> {
             Program.Assert(Address(owner)==manager&&unused==0&&pending.Count==0,"native builder ABI and one job at a time");
             byte[] bytes=Read(Address(capture),32);pending.Enqueue(bytes);builds.Add(slot);Q(manager+0x1A0,vector+8);
         })));
-        Jump(image+0x2AE3150,Keep(new Destroy(payload=>destroyed++)));
+        Jump(A("Rva_02AE3150"),Keep(new Destroy(payload=>destroyed++)));
         ulong hub=Keep(new Hub(p=> { Marshal.WriteByte(p,0x7B1,1);Marshal.WriteByte(p,0x7B4,0);return 7; }));
         ulong key=Keep(new Hub(p=>1801));
         ulong load=Keep(new Load((p,slot,unused)=>Program.Assert(slot==1801&&unused==0,"stock load slot ABI")));
@@ -63,6 +63,7 @@ internal sealed class NativeFixture : IDisposable
         enter=(Hub)Marshal.GetDelegateForFunctionPointer(new IntPtr((long)remote),typeof(Hub));
         dispatch=(Dispatch)Marshal.GetDelegateForFunctionPointer(new IntPtr((long)remote+0x2000),typeof(Dispatch));
     }
+    private ulong A(string name){return image+(ulong)GameProfile.Current.Rva(name);}
     private void Bind(){Q(service+0x468,career);Q(service+0x470,context);Marshal.WriteByte(new IntPtr((long)service),0x7B1,1);}
     private ulong Obj(int size){IntPtr p=Marshal.AllocHGlobal(size);objects.Add(p);Write(Address(p),new byte[size]);return Address(p);}
     private ulong Keep(Delegate d){delegates.Add(d);return Address(Marshal.GetFunctionPointerForDelegate(d));}
@@ -187,20 +188,20 @@ internal sealed class NativeFixture : IDisposable
     private void SelectionLogos(bool reloaded=false,bool selectedHub=false)
     {
         LoadPass();
-        Q(manager+0x20,image+0xB36D3D0);Q(manager+0x118,image+0xB38B380);Q(manager+0x128,manager+0x20);
+        Q(manager+0x20,A("Rva_0B36D3D0"));Q(manager+0x118,A("Rva_0B38B380"));Q(manager+0x128,manager+0x20);
         ulong[] libraries=new ulong[9];
-        for(int i=0;i<9;i++){libraries[i]=Obj(0x50);Q(libraries[i],image+0xB36D3E0);Q(manager+0x38+(ulong)i*8,libraries[i]);}
+        for(int i=0;i<9;i++){libraries[i]=Obj(0x50);Q(libraries[i],A("Rva_0B36D3E0"));Q(manager+0x38+(ulong)i*8,libraries[i]);}
         for(int i=0;i<9;i++) {
             ulong node=BitConverter.ToUInt64(Read(vector+(ulong)i*8,8),0),blobs=Obj(16);
             Marshal.WriteByte(new IntPtr((long)node),0x70,(byte)(slots[i]-1801));
             Q(node+0xD8,blobs);Q(node+0xE0,blobs+16);
             for(int n=0;n<2;n++) {
                 ulong blob=Obj(0x30),data=Obj(128);Q(blobs+(ulong)n*8,blob);
-                Q(blob,image+0xB27EE08);D(blob+0x14,128);D(blob+0x20,128);Q(blob+0x18,data);
+                Q(blob,A("Rva_0B27EE08"));D(blob+0x14,128);D(blob+0x20,128);Q(blob+0x18,data);
                 Write(data,GameProfile.Hex("444453207c000000"));
             }
         }
-        Commit(image+0x3186240,16);Write(image+0x3186240,GameProfile.Hex("488bc4554154415641574883ec484c8b"));
+        Commit(A("Rva_03186240"),16);Write(A("Rva_03186240"),GameProfile.Hex("488bc4554154415641574883ec484c8b"));
         int registrations=0;bool publish=true;
         var entries=new Dictionary<string,ulong>();
         ulong register=Keep(new LogoRegister((registry,group,style,slot,data,length,variant)=> {
@@ -210,16 +211,16 @@ internal sealed class NativeFixture : IDisposable
             if(publish&&!entries.ContainsKey(key)){entries.Add(key,Address(data));D(libraries[style]+0x2C,U32(libraries[style]+0x2C)+1);}
             if(registrations==1)dispatch(); // nested dispatch must respect native logo-busy guard
         }));
-        Commit(image+0x3052B80,40);
-        Write(image+0x3052B80,GameProfile.Hex("48895c240848896c2410488974241848897c242048b8")
+        Commit(A("Rva_03052B80"),40);
+        Write(A("Rva_03052B80"),GameProfile.Hex("48895c240848896c2410488974241848897c242048b8")
             .Concat(BitConverter.GetBytes(register)).Concat(GameProfile.Hex("ffe0")).ToArray());
         // The real selection menu has a current Career and valid cached DDS
         // images, but NO selected school and no new coach event.
         Q(context+0x1D0,0);D(status+0xCC,0);D(status+0x100,0);
         ulong jobs=0,head=0;byte[] savedQueue=null,savedHead=null;
         if(reloaded) {
-            Q(context,image+0xBD73D78);
-            jobs=Obj(56);head=Obj(0x60);Q(jobs,head);Q(head,image+0xB38CA08);D(head+8,1);
+            Q(context,A("CareerContextVtable"));
+            jobs=Obj(56);head=Obj(0x60);Q(jobs,head);Q(head,A("Rva_0B38CA08"));D(head+8,1);
             Q(head+0x18,status);Q(status+0x90,30);Q(head+0x20,19);
             Q(head+0x50,BitConverter.ToUInt64(Read(vector+16,8),0));D(head+0x40,1810);
             for(int i=1;i<7;i++){ulong job=Obj(0x10);Q(job,image+0xB38D050);Q(jobs+(ulong)i*8,job);}
@@ -238,9 +239,9 @@ internal sealed class NativeFixture : IDisposable
         Q(manager+0x138,vector+8);excluded("changed metadata vector");Q(manager+0x138,vector+72);
         D(status+0x4C,1);excluded("failed asset pass");D(status+0x4C,0);
         if(reloaded) {
-            Q(context,image+0xBD73D79);excluded("unrecognized deferred Career context");Q(context,image+0xBD73D78);
+            Q(context,A("CareerContextVtable")+1);excluded("unrecognized deferred Career context");Q(context,A("CareerContextVtable"));
             Q(context+0x1D0,selected);D(selected+0xF78,1807);excluded("changed deferred selected school");D(selected+0xF78,1801);Q(context+0x1D0,0);
-            Q(head,image+0xB38D050);excluded("non-plugin queue head");Q(head,image+0xB38CA08);
+            Q(head,image+0xB38D050);excluded("non-plugin queue head");Q(head,A("Rva_0B38CA08"));
             D(head+8,0);excluded("unstarted queue head");D(head+8,2);excluded("completing queue head");D(head+8,1);
             Q(head+0x18,status+8);excluded("foreign callback owner");Q(head+0x18,status);
             Q(head+0x20,30);excluded("current-epoch queued work");Q(head+0x20,31);excluded("future callback epoch");Q(head+0x20,19);

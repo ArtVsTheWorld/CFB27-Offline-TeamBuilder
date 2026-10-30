@@ -4,7 +4,7 @@
 2. Check `runtime.log` and `status.json`. Identify the failed native signature,
    vtable role or fbmod loading step before changing addresses.
 3. Update the matching symbols, signatures and relay code in
-   `runtime/Profiles/cfb27-2026-10-19.json` and the relevant source files.
+   the embedded profile under `runtime/Profiles` and the relevant source files.
    Confirm the function's arguments and object layout, not just its address.
    Do not apply one offset change to every function.
 4. Build with your local MMC references and run the tests. Keep the golden

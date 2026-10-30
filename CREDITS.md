@@ -2,8 +2,8 @@
 
 JDHalfRack / Ace / Timberline Tex.
 
-This repository contains the current unified plugin source and the verified
-2.1.3 release. Earlier internal names remain for compatibility and regression
+This repository contains the unified plugin source and versioned release files.
+Earlier internal names remain for compatibility and regression
 tests. The fbproject is reconstructed from the working mod's active resources;
 it is not the original author's project.
 

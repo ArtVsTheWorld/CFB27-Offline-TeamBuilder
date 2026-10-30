@@ -92,6 +92,8 @@ internal static class Program
     }
     private static void Golden()
     {
+        var baseline=new JavaScriptSerializer {MaxJsonLength=1024*1024}.Deserialize<GameProfile>(File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"baseline-profile.json")));
+        baseline.Validate();
         var rows=new JavaScriptSerializer().Deserialize<GoldenCase[]>(File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"golden-relays.json")));
         foreach(var row in rows) {
             var method=typeof(RuntimeAction).Assembly.GetType(row.type).GetMethod(row.method,BindingFlags.NonPublic|BindingFlags.Public|BindingFlags.Static);
@@ -105,6 +107,20 @@ internal static class Program
                 string template=row.method=="BuildCareerRelay"?"Career":"Dispatcher";
                 Assert(code.Length>row.length&&code.Length<0x2000,"bounded admission stub "+row.method);
                 code=GameProfile.Current.templates[template].Emit(GameProfile.Current,args.Cast<ulong>().ToArray());
+            }
+            string name=row.method=="BuildCareerRelay"?"Career":row.method=="BuildDispatcherRelay"?"Dispatcher":row.method=="BuildNewsPreviewRelay"?"News":null;
+            if(name!=null) {
+                // Keep the historical hashes. Only reverse the reviewed address
+                // relocations so a title update cannot hide a relay code change.
+                var current=GameProfile.Current;
+                Assert(current.templates[name].code==baseline.templates[name].code,"historical relay instructions unchanged "+name);
+                foreach(var relocation in current.templates[name].relocations.Where(r=>r.target!=null)) {
+                    var original=baseline.templates[name].relocations.Single(r=>r.offset==relocation.offset);
+                    Assert(relocation.arg==original.arg&&relocation.target==original.target&&relocation.anchor==original.anchor&&relocation.add==original.add,"historical relocation contract unchanged "+name);
+                    ulong value=BitConverter.ToUInt64(code,relocation.offset);
+                    byte[] restored=BitConverter.GetBytes(unchecked(value-(ulong)(relocation.Add(current)-original.Add(baseline))));
+                    Buffer.BlockCopy(restored,0,code,relocation.offset,8);
+                }
             }
             using(var sha=SHA256.Create())Assert(code.Length==row.length&&BitConverter.ToString(sha.ComputeHash(code)).Replace("-","").ToLowerInvariant()==row.sha256,"v24 byte-exact native generator "+row.method);
         }

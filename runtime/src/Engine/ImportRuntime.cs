@@ -5876,7 +5876,7 @@ internal static class CFB27TeamBuilderBatchQueuePreMcrProbe
 		if (capacity == null || !BuildCompatibility.MayValidateModule(moduleSize))
 		{
 			error = 31201;
-			L("FAIL stock-lifecycle proof: this repair is defined only for the current 0x11ECF000 game image.");
+			L("FAIL stock-lifecycle proof: missing capacity proof or native profile outside the loaded image bounds.");
 			return false;
 		}
 		long num = moduleBase + OfflineTeamBuilderRuntime.GameProfile.Current.Rva("ServiceVtable");

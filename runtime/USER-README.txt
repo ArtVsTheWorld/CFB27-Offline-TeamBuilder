@@ -1,4 +1,4 @@
-OFFLINE TEAMBUILDER 2.1.3
+OFFLINE TEAMBUILDER 2.1.4
 JDHalfRack / Ace / Timberline Tex
 
 Use downloaded TeamBuilder teams in offline Dynasty, with uniforms, stadiums,
@@ -25,5 +25,5 @@ status.json from MMC\Plugins\OfflineTeamBuilderRuntime. Review logs for personal
 paths before posting. Don't delete your team-asset cache while troubleshooting.
 A news card may occasionally need you to select another tile and return.
 
-For College Football 27's October 19, 2026 update and MMC 1.1.0.6.
+For College Football 27's October 30, 2026 update.
 Offline only. Future game updates may require a new version. Unofficial mod.

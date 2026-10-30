@@ -9,5 +9,6 @@
     <Reference Include="FrostySdk"><HintPath>$(MmcRoot)/FrostySdk.dll</HintPath></Reference>
     <Reference Include="System.Web.Extensions" />
     <None Include="golden-relays.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../Profiles/cfb27-2026-10-19.json" Link="baseline-profile.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

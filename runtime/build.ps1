@@ -22,7 +22,7 @@ foreach ($name in @('README.md','CHANGELOG.md','TROUBLESHOOTING.md','NOTICE.md',
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot $name) -Destination $release
 }
 $sha = (Get-FileHash -LiteralPath $dll -Algorithm SHA256).Hash
-@{name='Offline TeamBuilder Runtime';version=$version;authors='JDHalfRack / Ace / Timberline Tex';profile='cfb27-2026-10-19';files=@(@{name='OfflineTeamBuilderRuntime.dll';sha256=$sha})} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $release 'release.json') -Encoding UTF8
+@{name='Offline TeamBuilder Runtime';version=$version;authors='JDHalfRack / Ace / Timberline Tex';profile='cfb27-2026-10-30';files=@(@{name='OfflineTeamBuilderRuntime.dll';sha256=$sha})} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $release 'release.json') -Encoding UTF8
 & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot 'tests\PackagingChecks.ps1') -ReleaseDirectory $release
 if ($LASTEXITCODE -ne 0) { throw 'Packaging safety checks failed. No release ZIP created.' }
 Compress-Archive -Path (Join-Path $release '*') -DestinationPath "$release.zip"

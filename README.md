@@ -5,9 +5,10 @@ stadiums, logos and custom stadium sounds, without resetting Dynasty progress.
 
 ## Download
 
-[Download version 2.1.3](dist/v2.1.3/OfflineTeamBuilder-2.1.3.zip).
+[Download version 2.1.4](dist/v2.1.4/OfflineTeamBuilder-2.1.4.zip).
 The ZIP includes the plugin, fbmod, editable fbproject and installation guide.
-The DLL is the same build tested in-game on October 22, 2026.
+This is the October 30 compatibility update. Native checks against the running
+game and local tests pass. A full in-game loading test is still pending.
 
 ## Install
 
@@ -30,8 +31,9 @@ or practice-mode trick is needed. Offline only.
 - [Editable fbmod and fbproject](assets/)
 - [Known issues and logs](runtime/TROUBLESHOOTING.md)
 
-Last tested with the October 19, 2026 game update and MMC 1.1.0.6. A later game
-update may require changes. There is no game EXE hash requirement.
+Targets the October 30, 2026 game update. Later game updates may require changes.
+There is no game EXE hash requirement. The previous game-tested version remains
+available under the v2.1.3 tag for older game builds.
 
 If something stops loading, restart the game. For bug reports, include the game
 update, plugin version, what happened, and the relevant log message. Logs are in

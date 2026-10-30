@@ -1,6 +1,6 @@
 # Maintaining native compatibility
 
-The embedded `Profiles/cfb27-2026-10-19.json` is the native layout boundary.
+The embedded `Profiles/cfb27-2026-10-30.json` is the native layout boundary.
 It groups RVAs, expected entry bytes, lifecycle slots, transport contracts and
 relocatable relay templates. `GameProfile.cs` validates it before the engines run.
 It is not an editable end-user override or an EXE-hash whitelist.
@@ -29,6 +29,11 @@ There is deliberately no exact game-image-size gate or EXE checksum gate.
 Minimum/maximum image bounds and concrete native contracts remain mandatory.
 Unsupported contracts stop installation with a diagnostic; do not add a forced
 compatibility bypass.
+
+The October 19 profile remains as an immutable test baseline. The golden tests
+reverse only named address relocations before comparing historical hashes;
+instruction bytes and relocation contracts must still match. Native fixtures
+use named symbols so the updated addresses are exercised in private memory.
 
 ## One assembly, two responsibilities
 
