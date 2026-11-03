@@ -1,3 +1,18 @@
+# 2.1.5 — built-in coach asset restoration
+
+- Start TeamBuilder asset restoration when the active coach controls a built-in
+  school. Previously the selected-school check stopped the pass before any job
+  could start.
+- Keep coach identity separate from the TeamBuilder descriptor slots used for
+  package loading. The stock import path, news/audio templates, logo registrar,
+  callback epochs and native queue safeguards are unchanged.
+- Add native regression cases for built-in coaches, a single cached team,
+  reloads, residency loss, both directions of coach switching and invalid IDs.
+- Existing 2.1.4 users can keep their fbmod. The release bundle updates only
+  its displayed version, with unchanged game payloads. No extra mod is needed.
+- Passed 4,907 local runtime checks and 21 packaging checks. User confirmed the
+  tested DLL works in-game on November 2, 2026; the release keeps those exact bytes.
+
 # 2.1.4 — October 30 compatibility update, confirmed working in-game
 
 - Add the October 30 profile with separately mapped native addresses, full

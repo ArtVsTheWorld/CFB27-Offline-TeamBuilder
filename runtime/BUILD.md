@@ -78,6 +78,9 @@ Main, news and audio generated code remains byte-exact with the baseline.
 - `src/GameProfile.cs`, `Profiles/*.json`: native compatibility and relay relocation.
 - `src/AssetRuntimeSupport.cs`: owned news/audio hooks and read-only health counters.
 - `src/NativeWorkAdmission.cs`: bounded native queue-admission detours.
+- `src/CoachContextScope.cs`: separates selected-school identity from TeamBuilder
+  asset-slot validation. Frozen templates remain intact; four selected-school
+  lower-bound operands change in emitted Career/Dispatcher code.
 - `src/LogoRegistryRepair.cs`: bounded logo-only recovery without a selected coach.
 - `src/TeamReadiness.cs`: read-only, context-checked per-team/queue observations.
 - `src/Diagnostics.cs`: bounded central logs and change-only status snapshots.

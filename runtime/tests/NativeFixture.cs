@@ -26,7 +26,7 @@ internal sealed class NativeFixture : IDisposable
     private readonly List<uint> slots=new List<uint>{1807,1811,1810,1808,1806,1805,1804,1803,1801};
     private readonly List<uint> builds=new List<uint>();
     private readonly Queue<byte[]> pending=new Queue<byte[]>();
-    private int destroyed,loaded;
+    private int destroyed,loaded,stockLoads;
     private readonly Hub enter;
     private readonly Dispatch dispatch;
     private NativeFixture()
@@ -51,8 +51,8 @@ internal sealed class NativeFixture : IDisposable
         })));
         Jump(A("Rva_02AE3150"),Keep(new Destroy(payload=>destroyed++)));
         ulong hub=Keep(new Hub(p=> { Marshal.WriteByte(p,0x7B1,1);Marshal.WriteByte(p,0x7B4,0);return 7; }));
-        ulong key=Keep(new Hub(p=>1801));
-        ulong load=Keep(new Load((p,slot,unused)=>Program.Assert(slot==1801&&unused==0,"stock load slot ABI")));
+        ulong key=Keep(new Hub(p=>U32(selected+0xF78)&0xFFFF));
+        ulong load=Keep(new Load((p,slot,unused)=>{stockLoads++;Program.Assert(slot==1801&&unused==0,"stock load slot ABI");}));
         ulong reload=Keep(new Reload(p=>Marshal.WriteByte(p,0x7B4,1)));
         Write(remote+0x10000,GameProfile.Current.Emit("MainCareer",remote+0x16000,hub,key,load,reload));
         Write(remote,GameProfile.Current.Emit("Career",status,remote+0x10000,image+(ulong)GameProfile.Current.Rva("CareerManagerVtable"),
@@ -133,8 +133,9 @@ internal sealed class NativeFixture : IDisposable
         Q(manager+0x180,0);Q(manager+0x1A0,0);enter(new IntPtr((long)service));
         Program.Assert(builds.Count==1&&U32(status+4)==1,"unallocated empty native queue does not prevent initial loading");
     }
-    private void AdmissionRace(bool initial,string change)
+    private void AdmissionRace(bool initial,string change,bool builtin=false)
     {
+        if(builtin)D(selected+0xF78,1116);
         if(!initial){enter(new IntPtr((long)service));Complete();}
         ulong cursor=BitConverter.ToUInt64(Read(status+0x38,8),0);
         ulong target,value;
@@ -296,6 +297,60 @@ internal sealed class NativeFixture : IDisposable
         for(int n=0;n<9;n++){Complete();dispatch();}
         Program.Assert(builds.Count==18&&U32(status+8)==16&&U32(status+0x48)==9,"coach refresh restores every team, not just selected school");
     }
+    private void BuiltinCoach(uint school, bool singleTeam=false)
+    {
+        D(selected+0xF78,school);
+        if(singleTeam) { slots.RemoveRange(1,slots.Count-1);Q(manager+0x138,vector+8); }
+        Program.Assert(enter(new IntPtr((long)service))==school,"built-in coach retains chained lifecycle return ABI");
+        Program.Assert(stockLoads==0&&builds.Count==1&&builds[0]==slots[0],
+            "built-in coach starts only TeamBuilder runtime work; no stock Load/reimport");
+        for(int n=0;n<slots.Count;n++) { Complete();dispatch(); }
+        Program.Assert(builds.SequenceEqual(slots)&&U32(status+8)==16&&U32(status+0x48)==slots.Count&&U32(status+0xD8)==school,
+            "built-in coach completes team pass while retaining its own school identity");
+        Program.Assert(builds.All(s=>s>=1801&&s<=1899),"built-in ID never reaches package builder");
+        dispatch();dispatch();loaded=0;Q(manager+0x1D0,records);
+        int count=builds.Count;
+        for(int n=0;n<20&&builds.Count==count;n++)dispatch();
+        Program.Assert(builds.Count==count+1&&builds.Last()==slots[0],"built-in coach residency invalidation restarts assets");
+        for(int n=0;n<slots.Count;n++) { Complete();dispatch(); }
+        Marshal.WriteByte(new IntPtr((long)service),0x7B1,0);Q(service+0x468,0);dispatch();
+        Bind();loaded=0;Q(manager+0x1D0,records);enter(new IntPtr((long)service));
+        Program.Assert(builds.Count==2*count+1&&builds.Last()==slots[0],"built-in coach reload starts a fresh pass");
+        for(int n=0;n<slots.Count;n++) { Complete();dispatch(); }
+        Program.Assert(U32(status+8)==16&&U32(status+0x48)==slots.Count&&stockLoads==0,
+            "built-in reload finishes without broad import calls");
+    }
+    private void CoachBetweenKinds(bool startBuiltin)
+    {
+        if(startBuiltin)D(selected+0xF78,1116);
+        LoadPass();dispatch();dispatch();
+        uint next=startBuiltin?1807U:1116U;
+        D(selected+0xF78,next);loaded=0;Q(manager+0x1D0,records);
+        for(int n=0;n<20&&builds.Count==9;n++)dispatch();
+        Program.Assert(builds.Count==10&&builds.Last()==slots[0],"switch between built-in and TeamBuilder coach restarts TeamBuilder assets");
+        for(int n=0;n<9;n++) { Complete();dispatch(); }
+        Program.Assert(U32(status+8)==16&&U32(status+0x48)==9&&U32(status+0xD8)==next,
+            "mixed coach switch completes while keeping selected-school ownership");
+    }
+    private void InvalidSchool(uint school)
+    {
+        D(selected+0xF78,school);enter(new IntPtr((long)service));
+        for(int n=0;n<5;n++)dispatch();
+        Program.Assert(builds.Count==0&&stockLoads==0,"invalid selected-school identity never starts assets: "+school);
+    }
+    private void BuiltinEmptyMetadata()
+    {
+        D(selected+0xF78,1116);Q(manager+0x138,vector);
+        enter(new IntPtr((long)service));for(int n=0;n<8;n++)dispatch();
+        Program.Assert(builds.Count==0&&stockLoads==0,"built-in coach without cached TeamBuilder descriptors creates no jobs");
+    }
+    private void BuiltinInvalidMetadata(uint slot)
+    {
+        D(selected+0xF78,1116);Q(manager+0x138,vector+8);
+        D(BitConverter.ToUInt64(Read(vector,8),0)+0x10,slot);
+        enter(new IntPtr((long)service));for(int n=0;n<8;n++)dispatch();
+        Program.Assert(builds.Count==0&&stockLoads==0,"non-TeamBuilder descriptor cannot become a package job: "+slot);
+    }
     private void Recovery()
     {
         enter(new IntPtr((long)service));byte[] old=pending.Dequeue();Q(manager+0x1A0,vector);
@@ -376,11 +431,24 @@ internal sealed class NativeFixture : IDisposable
         foreach(bool initial in new[]{false,true})
             foreach(string change in new[]{"selected pointer","Career owner","selected slot","converter","vector end","vector begin","cursor alignment"})
                 using(var fixture=new NativeFixture())fixture.AdmissionRace(initial,change);
+        foreach(bool initial in new[]{false,true})
+            foreach(string change in new[]{"selected pointer","Career owner","selected slot","converter","vector end","vector begin","cursor alignment"})
+                using(var fixture=new NativeFixture())fixture.AdmissionRace(initial,change,true);
         using(var fixture=new NativeFixture())fixture.Residency();
         using(var fixture=new NativeFixture())fixture.SelectionLogos();
         using(var fixture=new NativeFixture())fixture.SelectionLogos(true);
         using(var fixture=new NativeFixture())fixture.SelectionLogos(true,true);
         using(var fixture=new NativeFixture())fixture.Coach();
+        foreach(uint school in new uint[]{1,1000,1116,1799})
+            using(var fixture=new NativeFixture())fixture.BuiltinCoach(school);
+        using(var fixture=new NativeFixture())fixture.BuiltinCoach(1116,true);
+        foreach(bool startBuiltin in new[]{false,true})
+            using(var fixture=new NativeFixture())fixture.CoachBetweenKinds(startBuiltin);
+        foreach(uint school in new uint[]{0,1900,65535})
+            using(var fixture=new NativeFixture())fixture.InvalidSchool(school);
+        using(var fixture=new NativeFixture())fixture.BuiltinEmptyMetadata();
+        foreach(uint slot in new uint[]{0,1116,1900,65535})
+            using(var fixture=new NativeFixture())fixture.BuiltinInvalidMetadata(slot);
         using(var fixture=new NativeFixture())fixture.Recovery();
         using(var fixture=new NativeFixture())fixture.Installer();
     }

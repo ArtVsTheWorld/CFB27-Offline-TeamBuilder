@@ -1,5 +1,22 @@
 # Troubleshooting
 
+## Built-in coach with TeamBuilder teams
+
+2.1.4 and earlier only started the uniform/stadium asset pass when the selected
+school itself was TeamBuilder. 2.1.5 fixes controlling a built-in school in a
+save containing TeamBuilder teams. Keep your existing compatible
+fbmod and replace only the DLL after closing the game and MMC.
+
+In this case the stock lifecycle log can still say "no validated replacement
+slot": that stock path intentionally does not treat a built-in school as a
+TeamBuilder slot. Check the separate `submissions`, `callbacks` and runtime
+records in `status.json` to see whether the asset-only pass ran. Cached metadata
+can include downloaded teams outside the active Dynasty; `expectedTeams` is a
+cached-descriptor count, not a count parsed from the save. Records alone do not
+prove visible textures or audio playback.
+
+## Diagnostics
+
 Check `MMC folder\Plugins\OfflineTeamBuilderRuntime\status.json` first, then
 `runtime.log`. The central log rotates at about 2 MiB with two retained copies.
 Status is refreshed only when its data changes; an old timestamp with unchanged

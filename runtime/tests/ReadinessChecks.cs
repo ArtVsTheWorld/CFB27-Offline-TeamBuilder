@@ -54,6 +54,11 @@ internal sealed class ReadinessChecks
     {
         var fixture=new ReadinessChecks();var before=fixture.bytes.ToArray();var s=fixture.Capture();
         Check(s.observation=="StableSample"&&s.currentCareerOwned,"validated current-career sample");
+        fixture.Put(Selected+0xF78,BitConverter.GetBytes((ushort)1116));fixture.D(Status+0xD8,1116);
+        var builtin=fixture.Capture();
+        Check(builtin.currentCareerOwned&&!builtin.teams.Any(t=>t.activeTeam)&&builtin.expectedTeams==3,
+            "built-in coach owns the pass without becoming a TeamBuilder slot");
+        fixture=new ReadinessChecks();
         Check(s.expectedTeams==3&&s.teams.Count==3&&s.runtimeRecordsPresent==2,"distinct team count, not callback count");
         Check(s.teams.Single(t=>t.slot==1811).runtimeRecord=="Missing"&&s.teams.Single(t=>t.slot==1801).activeTeam,"missing record and selected team are explicit");
         Check(s.nativeQueueCount==3&&s.olderEpochPluginJobs==1,"old native ownership survives epoch retirement");

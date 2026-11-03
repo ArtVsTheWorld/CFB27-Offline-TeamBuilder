@@ -22,6 +22,7 @@
 - `runtime/src/GameProfile.cs` and `runtime/Profiles`: native compatibility.
 - `runtime/src/Engine`: import service and team-asset loading.
 - `runtime/src/NativeWorkAdmission.cs`: native job admission.
+- `runtime/src/CoachContextScope.cs`: built-in/TeamBuilder coach identity checks.
 - `runtime/src/LogoRegistryRepair.cs`: logo restoration.
 - `runtime/src/AssetRuntimeSupport.cs`: news/audio hooks and diagnostics.
 - `runtime/tests`: regression fixtures and reference relay hashes.

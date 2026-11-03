@@ -1,6 +1,15 @@
-# Offline TeamBuilder Runtime 2.1.4
+# Offline TeamBuilder Runtime 2.1.5
 
 Authors: **JDHalfRack / Ace / Timberline Tex**
+
+2.1.5 fixes asset restoration when the user controls a built-in school in a
+Dynasty containing TeamBuilder teams. The selected school identifies the coach;
+it no longer has to be a TeamBuilder replacement. Package jobs still accept only
+validated TeamBuilder descriptors in slots 1801..1899. Reload, coach-change,
+queue-admission and residency checks remain active. The fbmod's game payloads
+are unchanged; only its displayed version is updated in the release package.
+The user confirmed this fix works in-game on November 2, 2026. The release
+keeps the exact tested DLL. Passed 4,907 local checks and 21 packaging checks.
 
 2.1.4 updates the native profile and fbmod compatibility for the October 30 game
 update. Native contracts and local tests pass, and the user confirmed it works

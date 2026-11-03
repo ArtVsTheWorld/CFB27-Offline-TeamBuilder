@@ -5,10 +5,11 @@ stadiums, logos and custom stadium sounds, without resetting Dynasty progress.
 
 ## Download
 
-[Download version 2.1.4](dist/v2.1.4/OfflineTeamBuilder-2.1.4.zip).
+[Download version 2.1.5](dist/v2.1.5/OfflineTeamBuilder-2.1.5.zip).
 The ZIP includes the plugin, fbmod, editable fbproject and installation guide.
-This is the October 30 compatibility update, confirmed working in-game on
-October 30, 2026.
+Fixes TeamBuilder assets not loading when you control a built-in school.
+Confirmed working in-game on November 2, 2026. Still targets the October 30
+game update. Existing 2.1.4 users only need to replace the DLL.
 
 ## Install
 
@@ -18,11 +19,15 @@ October 30, 2026.
    `OfflineTeamBuilderReentry.dll` out of that folder.
 3. Import and enable `OfflineTeamBuilder.fbmod` in MMC. Disable older copies
    of the Offline TeamBuilder fbmod.
-4. Launch through MMC and keep MMC open. Load your offline Dynasty or create
+4. Launch through MMC and keep MMC open or minimized. Load your offline Dynasty or create
    one and add your downloaded teams. Allow a moment for the assets to load.
 
 The fbproject is for editing in MMC Editor, not for installation. No Play Now
 or practice-mode trick is needed. Offline only.
+
+Why leave MMC open? It acts as a helper that hands the game your TeamBuilder
+files when needed and helps keep the plugin working. Closing MMC removes that
+support, even if uniforms already loaded still look fine.
 
 ## Source and updates
 

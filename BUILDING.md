@@ -29,6 +29,6 @@ python scripts/verify_repo.py
 GitHub runs these same release-integrity checks on pushes and pull requests.
 They check the shipped files, project structure, version and credits. They do
 not compile the DLL or test the game. Full runtime tests require the MMC
-references above; the 2.1.4 suite contains 4,309 local checks.
+references above; the 2.1.5 suite contains 4,907 local checks.
 
 For complete packaging commands, see [runtime/BUILD.md](runtime/BUILD.md).

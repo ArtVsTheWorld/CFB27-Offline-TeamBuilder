@@ -18,7 +18,7 @@ internal static class Program
     private static int Main()
     {
         try {
-            Metadata();Profile();TransportStartup();Golden();AdmissionContracts();Store();Diagnostics();ReadinessChecks.CheckAll();NativeFixture.CheckAll();
+            Metadata();Profile();TransportStartup();Golden();CoachScopeContracts();AdmissionContracts();Store();Diagnostics();ReadinessChecks.CheckAll();NativeFixture.CheckAll();
             Console.WriteLine("PASS "+Checks+" checks. Private allocations/temporary files only; no game process opened.");return 0;
         } catch(Exception ex) { Console.Error.WriteLine(ex);return 1; }
     }
@@ -145,13 +145,43 @@ internal static class Program
             Assert(!safe.Contains("secret-value"),"sensitive URL redaction");
         } finally { Directory.Delete(root,true); }
     }
+    private static void CoachScopeContracts()
+    {
+        var p=GameProfile.Current;
+        foreach(string name in new[]{"Career","Dispatcher"}) {
+            byte[] raw=GameProfile.Hex(p.templates[name].code);
+            byte[] changed=CoachContextScope.Apply(name,raw,p);
+            byte[] restored=(byte[])changed.Clone();
+            byte[] marker=GameProfile.Hex("0fb790780f000081fa01000000");
+            int[] sites=Enumerable.Range(0,changed.Length-marker.Length+1)
+                .Where(n=>marker.Select((b,i)=>changed[n+i]==b).All(v=>v)).ToArray();
+            Assert(sites.Length==2,"both selected-school checks accept built-in identity: "+name);
+            foreach(int at in sites) {
+                Assert(raw[at+13]==0x0F&&raw[at+14]==0x82&&
+                    raw.Skip(at+19).Take(6).SequenceEqual(GameProfile.Hex("81fa6b070000")),
+                    "selected-school unsigned branch and upper bound preserved: "+name);
+                Buffer.BlockCopy(BitConverter.GetBytes(1801),0,restored,at+9,4);
+                Assert(p.templates[name].relocations.All(r=>r.offset+8<=at+9||r.offset>=at+13),
+                    "coach scope never overwrites relocation: "+name);
+            }
+            Assert(restored.SequenceEqual(raw),"only selected-school minimum changes; job/news/audio bytes unchanged: "+name);
+            byte[] broken=(byte[])raw.Clone();broken[sites[0]]^=1;
+            Reject(()=>CoachContextScope.Apply(name,broken,p),"unknown coach-scope boundary rejected: "+name);
+            broken=(byte[])raw.Clone();broken[sites[0]+21]^=1;
+            Reject(()=>CoachContextScope.Apply(name,broken,p),"changed coach-scope upper bound rejected: "+name);
+        }
+        foreach(string name in p.templates.Keys.Where(n=>n!="Career"&&n!="Dispatcher")) {
+            byte[] raw=GameProfile.Hex(p.templates[name].code);
+            Assert(CoachContextScope.Apply(name,raw,p).SequenceEqual(raw),"coach scope excludes "+name);
+        }
+    }
     private static void AdmissionContracts()
     {
         var p=GameProfile.Current;const ulong image=0x140000000,remote=0x200000000,status=remote+0x4000;
         foreach(string name in new[]{"Career","Dispatcher"}) {
             ulong[] args=name=="Career"?new[]{status,remote+0x10000,image+(ulong)p.Rva("CareerManagerVtable"),image+(ulong)p.Rva("Add"),image+(ulong)p.Rva("Needs"),image+(ulong)p.Rva("Enter")}:
                 new[]{status,image+(ulong)p.Rva("DispatcherContinuation")};
-            byte[] raw=p.templates[name].Emit(p,args),emitted=p.Emit(name,args);
+            byte[] raw=CoachContextScope.Apply(name,p.templates[name].Emit(p,args),p),emitted=p.Emit(name,args);
             byte[] marker=GameProfile.Hex(name=="Career"?"488b46384c8b46404c39c0":"41c783840000000000000041c7430401000000");
             int at=Enumerable.Range(0,raw.Length-marker.Length+1).Single(n=>marker.Select((b,i)=>raw[n+i]==b).All(v=>v));
             int count=name=="Career"?8:11;
