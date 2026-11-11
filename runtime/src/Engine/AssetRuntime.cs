@@ -325,7 +325,7 @@ internal sealed partial class TeamBuilderReentryRepair : IDisposable
 				CloseHandleOnly();
 				return false;
 			}
-			_careerSlotAddress = _vtable + 1240;
+			_careerSlotAddress = OfflineTeamBuilderRuntime.CareerHubCompatibility.Storage(_processHandle,_base,_vtable+1240);
 			_originalCareer = ReadU64(_careerSlotAddress);
 			if (!SanePointer(_originalCareer))
 			{
@@ -383,7 +383,7 @@ internal sealed partial class TeamBuilderReentryRepair : IDisposable
 			_watchThread.Name = "Offline TeamBuilder Runtime asset monitor";
 			_watchThread.Start();
 			Log("PLAYNOW_ASSET_PROBE ARMED base=" + H(_base) + " service=" + H(_service) + " careerRelay=" + H(_careerRelay) + " dispatcherRelay=" + H(_dispatcherRelay));
-			Log("ASSET_RUNTIME_READY multi-team visuals, logos, gated news previews and stadium audio; normal hub loading.");
+			Log("ASSET_RUNTIME_READY multi-team visuals, logos and stadium audio; stock preview completion timing.");
 			return true;
 		}
 		catch (Exception ex)

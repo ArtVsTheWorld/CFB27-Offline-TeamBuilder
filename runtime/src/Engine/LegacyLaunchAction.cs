@@ -58,10 +58,10 @@ public sealed class TeamBuilderOfflineExecutionAction : ExecutionAction
 		{
 			if (ProfilesLibrary.IsLoaded(ProfileVersion.CollegeFootball27))
 			{
-				string path = Path.Combine(Path.GetDirectoryName(typeof(TeamBuilderOfflineExecutionAction).Assembly.Location), OfflineTeamBuilderRuntime.RuntimePaths.OptionsFileName);
+				string path = OfflineTeamBuilderRuntime.RuntimePaths.OptionsPath;
 				if (File.Exists(path))
 				{
-					RepairOptions repairOptions = RepairJson.Decode<RepairOptions>(File.ReadAllBytes(path));
+					RepairOptions repairOptions = OfflineTeamBuilderRuntime.RuntimePaths.ReadOptions();
 					if (repairOptions.CareerCopies != null && repairOptions.CareerCopies.Length != 0)
 					{
 						if (Process.GetProcessesByName("CollegeFB27").Length != 0)
@@ -70,7 +70,7 @@ public sealed class TeamBuilderOfflineExecutionAction : ExecutionAction
 						}
 						else
 						{
-							string storeDirectory = (string.IsNullOrWhiteSpace(repairOptions.StoreDirectory) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "OfflineTeamBuilder", "local-assets-v111") : repairOptions.StoreDirectory);
+							string storeDirectory = repairOptions.StoreDirectory;
 							CareerCopyJob[] careerCopies = repairOptions.CareerCopies;
 							foreach (CareerCopyJob careerCopyJob in careerCopies)
 							{
@@ -90,6 +90,7 @@ public sealed class TeamBuilderOfflineExecutionAction : ExecutionAction
 								{
 									try
 									{
+										OfflineTeamBuilderRuntime.UserRuntimeStore.RejectInstallWrite(careerCopyJob.Destination,OfflineTeamBuilderRuntime.RuntimePaths.PluginDirectory);
 										CareerBindingReport careerBindingReport = CareerUrlBinding.CreateLocalCopy(careerCopyJob.Source, careerCopyJob.Destination, storeDirectory);
 										Log(logger, "CAREER URL COPY PREPARED: " + careerCopyJob.Destination + " changed URL fields=" + careerBindingReport.Changes.Count + ". Native acceptance of absolute URLs still requires testing.");
 									}
@@ -176,7 +177,7 @@ public sealed class TeamBuilderOfflineExecutionAction : ExecutionAction
 			return false;
 		}
 		launchTokenCancelled = token.IsCancellationRequested;
-		string text = Path.Combine(directoryName, "Output");
+		string text = OfflineTeamBuilderRuntime.RuntimePaths.EngineDirectory;
 		string text2 = Path.Combine(text, "OfflineTeamBuilder");
 		string text3 = Path.Combine(text2, "OfflineTeamBuilder_bootstrap.log");
 		try

@@ -21,6 +21,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Web.Script.Serialization;
+using System.Diagnostics;
 public sealed class TeamReadinessCapture : IDisposable {
     private IntPtr handle;
     private TeamReadinessCapture(int pid) {
@@ -45,7 +46,14 @@ public sealed class TeamReadinessCapture : IDisposable {
         using(var memory=new TeamReadinessCapture(pid)) {
             ulong service=memory.Q(image+rva("ServiceGlobal"));
             if(memory.Q(service)!=image+rva("ServiceVtable"))throw new IOException("Service contract mismatch.");
-            ulong relay=memory.Q(image+rva("ServiceVtable")+0x4D8);
+            var compatibility=asm.GetType("OfflineTeamBuilderRuntime.CareerHubCompatibility",true);
+            object partner;
+            using(var process=Process.GetProcessById(pid))partner=compatibility.GetMethod("FindModule",flags).Invoke(null,new object[]{process});
+            object contract=compatibility.GetMethod("Inspect",flags).Invoke(null,new object[]{new Func<ulong,int,byte[]>(memory.Read),image,profile,partner,false});
+            var contractType=contract.GetType();
+            if(!(bool)contractType.GetField("Ready",flags).GetValue(contract))throw new IOException("Shared CareerHub unavailable: "+contractType.GetField("Reason",flags).GetValue(contract));
+            ulong storage=(ulong)contractType.GetField("StorageSlot",flags).GetValue(contract);
+            ulong relay=memory.Q(storage);
             byte[] prefix=memory.Read(relay,12);
             byte[] expected={0x53,0x55,0x56,0x48,0x83,0xEC,0x60,0x48,0x8B,0xD9,0x48,0xBE};
             for(int n=0;n<expected.Length;n++)if(prefix[n]!=expected[n])throw new IOException("Expected installed asset Career relay was not found. Prefix="+BitConverter.ToString(prefix));

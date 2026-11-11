@@ -1,12 +1,17 @@
 {
-  "version": "2.1.5",
-  "authors": "JDHalfRack / Ace / Timberline Tex",
-  "nativeProfile": "cfb27-2026-10-30",
-  "verification": "4907 local runtime and 21 packaging checks passed; built-in coach fix user-confirmed working in-game on 2026-11-02; exact tested DLL retained",
+  "knownIssue": "Broadcast Universe 0.7-beta1/AIO 1.4.1 loading hang remains unresolved",
+  "version": "2.1.7",
   "files": {
-    "assets/OfflineTeamBuilder.fbmod": "F2DFBED09CBA9CBAF2E2FB1F6EE6D707B66459313F9D9E98B4733E13894841AA",
-    "assets/OfflineTeamBuilder.fbproject": "744C5E0469A43E1DE84F7E1ABED91319A541EB5EDC2C99C4EBF4AB4F96A81DE7",
-    "dist/v2.1.5/OfflineTeamBuilderRuntime.dll": "EBCA83CA934B9ADFA699707DB8CD8F8AE0F4E7F2C3153138757C503E5C95969E",
-    "dist/v2.1.5/OfflineTeamBuilder-2.1.5.zip": "356B0F13839B982708D14D28DE194C39FD43FF211438CFF2E6E63D3073B4DDA2"
-  }
+    "assets/OfflineTeamBuilder.fbmod": "528E82EBFE12EFAEB906E493CCD0C159AF47E96642DF5F9EEF90C565D48C5C74",
+    "assets/OfflineTeamBuilder.fbproject": "B319318975850A15521F1CBA75D8F7056572251CE7F6EC89B4351B233ADC7134",
+    "dist/v2.1.7/OfflineTeamBuilderRuntime.dll": "41502CC6F76E38E75357764A5163B5898563B38183B59ABEB9A8A5C329B1E561",
+    "dist/v2.1.7/OfflineTeamBuilderNative.dll": "966DD356A6D52B152822EFD88AD4BBACDB24EE81E2970D805C9AC25C80E5EF8E",
+    "dist/v2.1.7/OfflineTeamBuilder-2.1.7.zip": "F09DDD6FB3E86A8A881E8FFD7116A02DB2EE75DAAF8B4306CA0A9C09754C6681",
+    "dist/v2.1.7/OfflineTeamBuilder-2.1.7-source.zip": "FC7022B970434EA3EF2941B733706302837A274FDCC019BF6D91CDFFC6E4BB9A",
+    "runtime/Native/native-helper-manifest.json": "756B586279646610AFFBE611A0BC80B39C08523E6B9B8D0AC9F9C14D5E060871"
+  },
+  "verification": "5410 runtime checks, write-denied ACL/migration and support collector checks, MMC/project/archive checks; source ZIP rebuild matches shipped DLL. Previous startup fix tester-confirmed; no new 2.1.7 live-game certification.",
+  "nativeProfile": "cfb27-2026-10-30",
+  "authors": "JDHalfRack / Ace / Timberline Tex",
+  "userData": "%LOCALAPPDATA%\\Ace\\OfflineTeamBuilder"
 }

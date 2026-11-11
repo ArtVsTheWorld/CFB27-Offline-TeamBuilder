@@ -1,34 +1,35 @@
-# Build from source
+# Build 2.1.7
 
-You need Windows x64, .NET Framework 4.8, .NET SDK 8 or newer, and your own
-MMC installation containing `FrostyCore.dll` and `FrostySdk.dll`.
-
-From the repository folder:
+Use Windows x64, PowerShell 7, a .NET SDK supporting net48, .NET Framework 4.8
+and your own compatible MMC SDK. Run from runtime/ (or the source ZIP root):
 
 ```powershell
-.\runtime\build.ps1 -MmcRoot 'C:\path\to\MMC'
+.\build.ps1 -MmcRoot 'C:\path\to\MMC' -OutputDirectory 'C:\new\checked-build'
+.\tests\SupportChecks.ps1 -Collector .\collect-diagnostics.ps1
 ```
 
-This builds the plugin, runs the local tests, and creates runtime/source ZIPs
-in `runtime/artifacts`. It does not install anything or open the game.
-Use a new `-OutputDirectory` when rebuilding a release.
+The build verifies the native input against its manifest, embeds it in the
+managed DLL, compiles/runs private tests and stages the player layout. Output
+checkpoints are not overwritten. It does not install or start the game. Native
+C++ source/checks are included. The repository supplies the verified build input
+under dist/v2.1.7/; the source ZIP supplies Native/bin/Release/. To rebuild the
+native helper with MSVC x64 Build Tools/Windows SDK, pass -RebuildNative. This
+updates the native manifest before compiling C#. Do not swap arbitrary helpers.
 
-The source targets .NET Framework 4.8. Do not copy test-runner dependencies
-into MMC's Plugins folder. MMC/Frosty assemblies are not included here.
-
-The `dist` folders preserve versioned packages, not automatic build
-outputs. A different compiler or MMC reference version can change a rebuilt
-DLL's hash. Test new binaries before replacing a published release.
-
-## Repository checks
+To reproduce the player/source packages after building, Python 3 is also needed:
 
 ```powershell
-python scripts/verify_repo.py
+.\package-release.ps1 -MmcRoot 'C:\path\to\MMC' -BuildDirectory 'C:\new\checked-build' -WorkingFbmod 'C:\path\to\OfflineTeamBuilder.fbmod' -ExpectedFbmodHash 'BASELINE_SHA256' -CacheIndex 'C:\path\to\cache-index.json' -OutputDirectory 'C:\new\package'
 ```
 
-GitHub runs these same release-integrity checks on pushes and pull requests.
-They check the shipped files, project structure, version and credits. They do
-not compile the DLL or test the game. Full runtime tests require the MMC
-references above; the 2.1.5 suite contains 4,907 local checks.
+The cache metadata needs head and the ordered superbundles array only. A trimmed
+copy is included in the source ZIP. The baseline mod remains read-only. Packaging
+preserves every game resource/payload while updating display metadata, checks
+MMC reader parity, exports/verifies an editable project, checks both ZIPs and
+includes a matching source archive. Native SDKs and user data are excluded.
 
-For complete packaging commands, see [runtime/BUILD.md](runtime/BUILD.md).
+Native game/owner/helper fingerprints remain mandatory. Preserve the per-user
+storage boundary when adding outputs. Tests use private Temp fixtures, including
+an ACL-denied fake installation; never apply those ACLs to a real MMC folder.
+The runtime tests inject private user-data storage to avoid reading/writing real
+user settings. Keep all live-game tests separate and report them explicitly.

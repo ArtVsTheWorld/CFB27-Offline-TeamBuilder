@@ -22,6 +22,7 @@ internal sealed class NativeObserver : IDisposable
         if(!ReadProcessMemory(handle,new IntPtr(unchecked((long)image+rva)),data,new UIntPtr((uint)length),out got)||got.ToUInt64()!=(ulong)length)return null;
         return data;
     }
+    internal byte[] ReadAddress(ulong address,int length) { return CareerHubCompatibility.Read(handle,address,length); }
     public void Dispose() { if(handle!=IntPtr.Zero){CloseHandle(handle);handle=IntPtr.Zero;} }
     [DllImport("kernel32.dll",SetLastError=true)] private static extern IntPtr OpenProcess(uint access,bool inherit,int pid);
     [DllImport("kernel32.dll",SetLastError=true)] private static extern bool ReadProcessMemory(IntPtr process,IntPtr address,[Out]byte[] data,UIntPtr length,out UIntPtr got);

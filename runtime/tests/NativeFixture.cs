@@ -14,9 +14,10 @@ internal sealed class NativeFixture : IDisposable
 {
     [UnmanagedFunctionPointer(CallingConvention.Winapi)] private delegate uint Hub(IntPtr service);
     [UnmanagedFunctionPointer(CallingConvention.Winapi)] private delegate void Dispatch();
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)] private delegate void Builder(IntPtr manager,uint slot,ulong unused,IntPtr capture);
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)] private delegate void Builder(IntPtr manager,uint slot,byte reuseResident,IntPtr capture);
     [UnmanagedFunctionPointer(CallingConvention.Winapi)] private delegate void Callback(IntPtr result,IntPtr capture);
     [UnmanagedFunctionPointer(CallingConvention.Winapi)] private delegate void Destroy(IntPtr payload);
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)] private delegate void StockPreview(IntPtr capture);
     [UnmanagedFunctionPointer(CallingConvention.Winapi)] private delegate void Load(IntPtr service,uint slot,ulong unused);
     [UnmanagedFunctionPointer(CallingConvention.Winapi)] private delegate void Reload(IntPtr service);
     [UnmanagedFunctionPointer(CallingConvention.Winapi)] private delegate void LogoRegister(IntPtr registry,uint group,uint style,uint slot,IntPtr data,uint length,uint variant);
@@ -45,14 +46,14 @@ internal sealed class NativeFixture : IDisposable
         for(int n=0;n<9;n++){ulong node=Obj(0x200);Q(node,A("Rva_0B494B90"));D(node+0x10,slots[n]);Q(vector+(ulong)n*8,node);}
         Commit(A("Rva_0E350900"),8);Q(A("Rva_0E350900"),manager);
         Commit(A("Rva_0B38B3B8"),0x28);Q(A("Rva_0B38B3B8")+0x20,A("Rva_0317B260"));
-        Jump(A("Rva_0317B260"),Keep(new Builder((owner,slot,unused,capture)=> {
-            Program.Assert(Address(owner)==manager&&unused==0&&pending.Count==0,"native builder ABI and one job at a time");
+        Jump(A("Rva_0317B260"),Keep(new Builder((owner,slot,reuseResident,capture)=> {
+            Program.Assert(Address(owner)==manager&&reuseResident==0&&pending.Count==0,"native builder retains original full-build argument and one job at a time");
             byte[] bytes=Read(Address(capture),32);pending.Enqueue(bytes);builds.Add(slot);Q(manager+0x1A0,vector+8);
         })));
         Jump(A("Rva_02AE3150"),Keep(new Destroy(payload=>destroyed++)));
         ulong hub=Keep(new Hub(p=> { Marshal.WriteByte(p,0x7B1,1);Marshal.WriteByte(p,0x7B4,0);return 7; }));
         ulong key=Keep(new Hub(p=>U32(selected+0xF78)&0xFFFF));
-        ulong load=Keep(new Load((p,slot,unused)=>{stockLoads++;Program.Assert(slot==1801&&unused==0,"stock load slot ABI");}));
+        ulong load=Keep(new Load((p,slot,unused)=>{stockLoads++;Program.Assert(slot==(U32(selected+0xF78)&0xFFFF)&&unused==0,"stock load uses current selected school ABI");}));
         ulong reload=Keep(new Reload(p=>Marshal.WriteByte(p,0x7B4,1)));
         Write(remote+0x10000,GameProfile.Current.Emit("MainCareer",remote+0x16000,hub,key,load,reload));
         Write(remote,GameProfile.Current.Emit("Career",status,remote+0x10000,image+(ulong)GameProfile.Current.Rva("CareerManagerVtable"),
@@ -165,7 +166,7 @@ internal sealed class NativeFixture : IDisposable
         byte[] mutation=GameProfile.Hex("9c5048b8").Concat(BitConverter.GetBytes(target))
             .Concat(GameProfile.Hex("c700")).Concat(BitConverter.GetBytes((uint)value))
             .Concat(GameProfile.Hex("c74004")).Concat(BitConverter.GetBytes((uint)(value>>32)))
-            .Concat(GameProfile.Hex("589dff2500000000")).Concat(BitConverter.GetBytes(relay+(ulong)raw.Length)).ToArray();
+            .Concat(GameProfile.Hex("589dff2500000000")).Concat(BitConverter.GetBytes(unchecked((ulong)((long)patch+5+BitConverter.ToInt32(original,1))))).ToArray();
         Write(trampoline,mutation);
         Write(patch,new byte[]{0xE9}.Concat(BitConverter.GetBytes(checked((int)((long)trampoline-(long)patch-5)))).ToArray());
         int before=builds.Count;
@@ -284,6 +285,53 @@ internal sealed class NativeFixture : IDisposable
         for(int n=0;n<9;n++){Complete();dispatch();}
         Program.Assert(builds.Count==18&&U32(status+8)==16&&U32(status+0x48)==9,"all teams return after residency invalidation");
     }
+    private void MissingOpponentRepair()
+    {
+        LoadPass();
+        // Reproduce the captured sequence: the initial pass completes, then
+        // a native queue operation removes only Seattle (second descriptor).
+        Write(records+0x78,Read(records+2*0x78,7*0x78));
+        loaded=8;Q(manager+0x1D0,records+8*0x78);
+        for(int n=0;n<30&&builds.Count==9;n++)dispatch();
+        Program.Assert(builds.Count==10&&builds.Last()==1811&&U32(status+ResidencyRepairScope.ResidentSkips)==1,
+            "missing Seattle repair skips resident first team and submits only opponent");
+        Complete();dispatch();
+        Program.Assert(builds.Count==10&&pending.Count==0&&U32(status+8)==16&&U32(status+0x48)==9&&
+            U32(status+ResidencyRepairScope.ResidentSkips)==8,
+            "repair visits all slots with one native job and eight resident skips");
+        // Match entry keeps only its teams. That intentional trim must not
+        // trigger another pass building non-matchup teams during transition.
+        Write(records+0x78,Read(records+8*0x78,0x78));loaded=2;
+        Q(manager+0x1D0,records+2*0x78);
+        byte[] kept=Read(records,2*0x78);
+        for(int n=0;n<1000;n++)dispatch();
+        Program.Assert(builds.Count==10&&pending.Count==0&&kept.SequenceEqual(Read(records,2*0x78)),
+            "matchup trimming after stabilization does not restart full recovery or alter records");
+        // A genuine new hub load still gets its ordinary initial pass and a
+        // fresh stabilization budget, without restarting the game process.
+        loaded=0;Q(manager+0x1D0,records);enter(new IntPtr((long)service));
+        Program.Assert(builds.Count==11&&builds.Last()==slots[0],"real hub reload starts a fresh native pass after exhausted repair");
+        for(int n=0;n<9;n++){Complete();dispatch();}
+        Program.Assert(U32(status+8)==16&&U32(status+0xB4)==0,"hub reload completes and resets stabilization budget");
+    }
+    private void MatchupTrim()
+    {
+        LoadPass();Q(manager+0x1D0,records+2*0x78);
+        byte[] kept=Read(records,2*0x78);ulong nativeEnd=BitConverter.ToUInt64(Read(manager+0x1D0,8),0);
+        // A busy native queue blocks recovery. Losing the Career while it is
+        // busy must retire our pass, never restart it after that queue drains.
+        Q(manager+0x1A0,vector+8);
+        for(int n=0;n<1000;n++)dispatch();
+        Program.Assert(builds.Count==9&&pending.Count==0&&U32(status+8)==16,
+            "normal recovery waits for stock queue ownership after native residency trim");
+        Program.Assert(kept.SequenceEqual(Read(records,2*0x78))&&BitConverter.ToUInt64(Read(manager+0x1D0,8),0)==nativeEnd,
+            "busy-queue recovery leaves retained records and their native vector untouched");
+        Q(service+0x468,0);Marshal.WriteByte(new IntPtr((long)service),0x7B1,0);dispatch();
+        Q(manager+0x1A0,vector);
+        for(int n=0;n<1000;n++)dispatch();
+        Program.Assert(U32(status+8)==0&&BitConverter.ToUInt64(Read(status+0x50,8),0)==0&&builds.Count==9,
+            "draining stock queue after Career loss never starts a late recovery pass");
+    }
     private void Coach()
     {
         LoadPass();dispatch();dispatch();
@@ -379,12 +427,23 @@ internal sealed class NativeFixture : IDisposable
             foreach(var h in p.hooks)if(h!=bad)Program.Assert(Read(image+(ulong)p.Rva(h.target),GameProfile.Hex(h.expected).Length).SequenceEqual(GameProfile.Hex(h.expected)),"no partial hook before all signatures pass");
             Marshal.WriteByte(new IntPtr((long)at),value);
         }
+        var stock=new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<NativeCheck[]>(System.IO.File.ReadAllText(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"stock-preview-entries.json")));
+        foreach(var h in stock){ulong at=image+(ulong)p.Rva(h.target);byte[] expected=GameProfile.Hex(h.expected);Commit(at,expected.Length+32);Write(at,expected);}
+        Program.Assert(p.hooks.Length==1&&p.hooks[0].name=="audioDecodedTeam","only stadium audio native entry remains patched; generic preview completions stay stock");
+        ulong completed=Obj(8),payload=Obj(0x58),capture=Obj(8);Q(capture,payload);
+        var callback=stock.Single(h=>h.name=="callback");ulong callbackAt=image+(ulong)p.Rva(callback.target);
+        Write(callbackAt+(ulong)GameProfile.Hex(callback.expected).Length,GameProfile.Hex("49ba").Concat(BitConverter.GetBytes(completed)).Concat(GameProfile.Hex("41ff024883c438c3")).ToArray());
         Invoke(repair,"InstallNewsPreview");
-        foreach(var h in p.hooks)Program.Assert(Read(image+(ulong)p.Rva(h.target),2).SequenceEqual(new byte[]{0xFF,0x25}),"news/audio hook installed "+h.name);
+        foreach(var h in stock)Program.Assert(Read(image+(ulong)p.Rva(h.target),GameProfile.Hex(h.expected).Length).SequenceEqual(GameProfile.Hex(h.expected)),"native preview entry untouched after install: "+h.name);
+        D(status+8,0);D(status+4,1);Q(manager+0x1A0,vector+8);
+        var complete=(StockPreview)Marshal.GetDelegateForFunctionPointer(new IntPtr((long)callbackAt),typeof(StockPreview));complete(new IntPtr((long)capture));
+        Program.Assert(U32(completed)==1&&U32(remote+0x8000+8)==0,"stock completion executes immediately while private asset readiness is false; no held callback is created");
+        Q(manager+0x1A0,vector);D(status+4,0);
+        foreach(var h in p.hooks)Program.Assert(Read(image+(ulong)p.Rva(h.target),2).SequenceEqual(new byte[]{0xFF,0x25}),"audio hook installed "+h.name);
         ulong changed=image+(ulong)p.Rva(p.hooks[0].target);Marshal.WriteByte(new IntPtr((long)changed),0x90);
         Invoke(repair,"RestoreNewsPreview");
         Program.Assert(Read(changed,1)[0]==0x90,"cleanup preserves another owner's hook");
-        foreach(var h in p.hooks.Skip(1))Program.Assert(Read(image+(ulong)p.Rva(h.target),GameProfile.Hex(h.expected).Length).SequenceEqual(GameProfile.Hex(h.expected)),"owned hook restored "+h.name);
+        foreach(var h in stock)Program.Assert(Read(image+(ulong)p.Rva(h.target),GameProfile.Hex(h.expected).Length).SequenceEqual(GameProfile.Hex(h.expected)),"stock preview entry untouched after cleanup: "+h.name);
         Invoke(repair,"RestoreNewsPreview");
         Set(repair,"_installed",true);Set(repair,"_careerRelay",remote);Set(repair,"_originalCareer",remote+0x10000);
         Program.Assert(repair.OwnsMainChain(remote,remote+0x10000),"exact own chained hook recognized");
@@ -435,6 +494,8 @@ internal sealed class NativeFixture : IDisposable
             foreach(string change in new[]{"selected pointer","Career owner","selected slot","converter","vector end","vector begin","cursor alignment"})
                 using(var fixture=new NativeFixture())fixture.AdmissionRace(initial,change,true);
         using(var fixture=new NativeFixture())fixture.Residency();
+        using(var fixture=new NativeFixture())fixture.MissingOpponentRepair();
+        using(var fixture=new NativeFixture())fixture.MatchupTrim();
         using(var fixture=new NativeFixture())fixture.SelectionLogos();
         using(var fixture=new NativeFixture())fixture.SelectionLogos(true);
         using(var fixture=new NativeFixture())fixture.SelectionLogos(true,true);

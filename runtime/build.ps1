@@ -1,44 +1,43 @@
+#requires -Version 7.0
 [CmdletBinding()]
-param(
-    [Parameter(Mandatory=$true)][string]$MmcRoot,
-    [string]$OutputDirectory = (Join-Path $PSScriptRoot 'artifacts')
-)
-$ErrorActionPreference = 'Stop'
-$manager = (Resolve-Path -LiteralPath $MmcRoot).Path
-& dotnet build (Join-Path $PSScriptRoot 'tests\RuntimeChecks.csproj') -c Release --nologo "-p:MmcRoot=$manager"
-if ($LASTEXITCODE -ne 0) { throw 'Build failed.' }
-& (Join-Path $PSScriptRoot 'tests\bin\Release\net48\RuntimeChecks.exe')
-if ($LASTEXITCODE -ne 0) { throw 'Runtime checks failed. No release packaged.' }
-$dll = Join-Path $PSScriptRoot 'bin\Release\net48\OfflineTeamBuilderRuntime.dll'
-$version = [Diagnostics.FileVersionInfo]::GetVersionInfo($dll).ProductVersion
-if ($version -notmatch '^\d+\.\d+\.\d+$') { throw 'Expected semantic release version.' }
-$output = [IO.Path]::GetFullPath($OutputDirectory)
-New-Item -ItemType Directory -Path $output -Force | Out-Null
-$release = Join-Path $output "OfflineTeamBuilderRuntime-$version"
-if (Test-Path -LiteralPath $release) { throw "Release folder exists; select a fresh OutputDirectory: $release" }
-New-Item -ItemType Directory -Path $release | Out-Null
-Copy-Item -LiteralPath $dll -Destination $release
-foreach ($name in @('README.md','CHANGELOG.md','TROUBLESHOOTING.md','NOTICE.md','install.ps1','collect-diagnostics.ps1','OfflineTeamBuilderRuntime.settings.example.json')) {
-    Copy-Item -LiteralPath (Join-Path $PSScriptRoot $name) -Destination $release
+param([Parameter(Mandatory=$true)][string]$MmcRoot,
+      [string]$OutputDirectory=(Join-Path $PSScriptRoot 'artifacts'),[switch]$RebuildNative)
+$ErrorActionPreference='Stop'
+$manager=(Resolve-Path -LiteralPath $MmcRoot).Path
+$out=[IO.Path]::GetFullPath($OutputDirectory)
+if(Test-Path -LiteralPath $out){throw 'Use a fresh output directory; preserve prior checkpoints.'}
+if($RebuildNative){& (Join-Path $PSScriptRoot 'Native\BuildNative.ps1');if($LASTEXITCODE -ne 0){throw 'Native build failed.'}}
+$native=Join-Path $PSScriptRoot 'Native\bin\Release\OfflineTeamBuilderNative.dll'
+if(-not(Test-Path -LiteralPath $native)) {
+    $distributed=Join-Path $PSScriptRoot '..\dist\v2.1.7\OfflineTeamBuilderNative.dll'
+    if(-not(Test-Path -LiteralPath $distributed)){throw 'Native build input missing. Use -RebuildNative with MSVC, or supply the checked source-package helper.'}
+    New-Item -ItemType Directory -Path (Split-Path $native -Parent) -Force|Out-Null
+    Copy-Item -LiteralPath $distributed -Destination $native
 }
-$sha = (Get-FileHash -LiteralPath $dll -Algorithm SHA256).Hash
-@{name='Offline TeamBuilder Runtime';version=$version;authors='JDHalfRack / Ace / Timberline Tex';profile='cfb27-2026-10-30';files=@(@{name='OfflineTeamBuilderRuntime.dll';sha256=$sha})} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $release 'release.json') -Encoding UTF8
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot 'tests\PackagingChecks.ps1') -ReleaseDirectory $release
-if ($LASTEXITCODE -ne 0) { throw 'Packaging safety checks failed. No release ZIP created.' }
-Compress-Archive -Path (Join-Path $release '*') -DestinationPath "$release.zip"
-$source = Join-Path $output "OfflineTeamBuilderRuntime-$version-source"
-New-Item -ItemType Directory -Path $source | Out-Null
-foreach ($name in @('src','Profiles')) { Copy-Item -LiteralPath (Join-Path $PSScriptRoot $name) -Destination $source -Recurse }
-New-Item -ItemType Directory -Path (Join-Path $source 'tools') | Out-Null
-Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'tools\rebrand_fbmod.py') -Destination (Join-Path $source 'tools')
-Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'tools\capture-readiness.ps1') -Destination (Join-Path $source 'tools')
-foreach($name in @('export-fbproject.ps1','verify_fbproject.py')) { Copy-Item -LiteralPath (Join-Path $PSScriptRoot "tools\$name") -Destination (Join-Path $source 'tools') }
-New-Item -ItemType Directory -Path (Join-Path $source 'tests') | Out-Null
-foreach ($file in Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'tests') -File) { Copy-Item -LiteralPath $file.FullName -Destination (Join-Path $source 'tests') }
-foreach ($name in @('OfflineTeamBuilderRuntime.csproj','build.ps1','package-release.ps1','install.ps1','collect-diagnostics.ps1','OfflineTeamBuilderRuntime.settings.example.json','USER-README.txt','README.md','BUILD.md','UPDATING.md','TROUBLESHOOTING.md','CHANGELOG.md','NOTICE.md')) {
-    Copy-Item -LiteralPath (Join-Path $PSScriptRoot $name) -Destination $source
-}
-Compress-Archive -Path (Join-Path $source '*') -DestinationPath "$source.zip"
-Write-Host "Release: $release.zip"
-Write-Host "Source: $source.zip"
-Write-Host "Plugin SHA256 (package integrity only, not game EXE identity): $sha"
+$manifestPath=Join-Path $PSScriptRoot 'Native\native-helper-manifest.json'
+$manifest=Get-Content -LiteralPath $manifestPath -Raw|ConvertFrom-Json
+if((Get-FileHash -LiteralPath $native).Hash -ine $manifest.sha256){throw 'Native helper does not match its embedded manifest.'}
+New-Item -ItemType Directory -Path $out|Out-Null
+& dotnet build (Join-Path $PSScriptRoot 'tests\RuntimeChecks.csproj') -c Release --nologo "-p:MmcRoot=$manager" 2>&1|Tee-Object -FilePath (Join-Path $out 'build.log')
+if($LASTEXITCODE -ne 0){throw 'Managed build failed.'}
+$checkOutput=& (Join-Path $PSScriptRoot 'tests\bin\Release\net48\RuntimeChecks.exe') 2>&1
+$checkExit=$LASTEXITCODE
+$checkOutput|Tee-Object -FilePath (Join-Path $out 'checks.log')
+if($checkExit -ne 0 -or ($checkOutput -join "`n") -notmatch 'PASS (\d+) checks\.'){throw 'Runtime checks failed.'}
+$checks=[int]$Matches[1]
+& (Join-Path $PSScriptRoot 'tests\SupportChecks.ps1') -Collector (Join-Path $PSScriptRoot 'collect-diagnostics.ps1')
+$dll=Join-Path $PSScriptRoot 'bin\Release\net48\OfflineTeamBuilderRuntime.dll'
+$version=[Diagnostics.FileVersionInfo]::GetVersionInfo($dll).ProductVersion
+if($version -notmatch '^\d+\.\d+\.\d+$'){throw 'Expected semantic release version.'}
+$release=Join-Path $out ('OfflineTeamBuilderRuntime-'+$version)
+New-Item -ItemType Directory -Path (Join-Path $release 'Plugins') -Force|Out-Null
+Copy-Item -LiteralPath $dll -Destination (Join-Path $release 'Plugins\OfflineTeamBuilderRuntime.dll')
+Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'USER-README.txt') -Destination (Join-Path $release 'README.txt')
+Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'TESTING.txt') -Destination $release
+Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'collect-diagnostics.ps1') -Destination (Join-Path $release 'Collect-Support.ps1')
+$files=@(Get-ChildItem -LiteralPath $release -Recurse -File|ForEach-Object{@{path=[IO.Path]::GetRelativePath($release,$_.FullName).Replace('\','/');sha256=(Get-FileHash -LiteralPath $_.FullName).Hash.ToLowerInvariant()}})
+@{version=$version;status='Distribution; single installation DLL; per-user runtime data';managedChecks=$checks;nativeSha256=$manifest.sha256;files=$files}|ConvertTo-Json -Depth 5|Set-Content -LiteralPath (Join-Path $release 'release.json') -Encoding UTF8
+& (Join-Path $PSScriptRoot 'tests\PackagingChecks.ps1') -ReleaseDirectory $release
+@{version=$version;managedChecks=$checks;supportCollectorChecks=$true;managedSha256=(Get-FileHash -LiteralPath $dll).Hash.ToLowerInvariant();nativeSha256=$manifest.sha256;runtimeDirectory=$release;inGameAcceptance='Tester confirmed 2.1.6 startup fix. 2.1.7 data paths/logging have private ACL/migration checks; no new live game test claimed.'}|
+    ConvertTo-Json|Set-Content -LiteralPath (Join-Path $out 'build-validation.json') -Encoding UTF8
+Write-Output ('Checked runtime staged: '+$release)

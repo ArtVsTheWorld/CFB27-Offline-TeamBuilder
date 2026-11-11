@@ -1,98 +1,35 @@
-# Build from source
+# Build 2.1.7
 
-Requirements: Windows x64, .NET 8 SDK or newer supporting `net48`, .NET Framework
-4.8 installed for the test executable, and your own MMC installation containing
-`FrostyCore.dll` and `FrostySdk.dll`. Initial restore may download framework
-reference assemblies from NuGet. MMC dependencies are not redistributed here.
-
-From the extracted source folder:
+Use Windows x64, PowerShell 7, a .NET SDK supporting net48, .NET Framework 4.8
+and your own compatible MMC SDK. Run from runtime/ (or the source ZIP root):
 
 ```powershell
-.\build.ps1 -MmcRoot 'C:\path\to\MMC'
+.\build.ps1 -MmcRoot 'C:\path\to\MMC' -OutputDirectory 'C:\new\checked-build'
+.\tests\SupportChecks.ps1 -Collector .\collect-diagnostics.ps1
 ```
 
-This builds the single plugin and test runner, executes the private-process checks,
-and packages runtime/source ZIPs in `artifacts`. Use a fresh `-OutputDirectory`
-for subsequent releases; existing release directories are never silently replaced.
-Tests allocate memory only inside their own process and temporary files only in
-their own directories. They do not attach to the game or require game binaries.
+The build verifies the native input against its manifest, embeds it in the
+managed DLL, compiles/runs private tests and stages the player layout. Output
+checkpoints are not overwritten. It does not install or start the game. Native
+C++ source/checks are included. The repository supplies the verified build input
+under dist/v2.1.7/; the source ZIP supplies Native/bin/Release/. To rebuild the
+native helper with MSVC x64 Build Tools/Windows SDK, pass -RebuildNative. This
+updates the native manifest before compiling C#. Do not swap arbitrary helpers.
 
-Build only:
+To reproduce the player/source packages after building, Python 3 is also needed:
 
 ```powershell
-dotnet build .\OfflineTeamBuilderRuntime.csproj -c Release '-p:MmcRoot=C:\path\to\MMC'
+.\package-release.ps1 -MmcRoot 'C:\path\to\MMC' -BuildDirectory 'C:\new\checked-build' -WorkingFbmod 'C:\path\to\OfflineTeamBuilder.fbmod' -ExpectedFbmodHash 'BASELINE_SHA256' -CacheIndex 'C:\path\to\cache-index.json' -OutputDirectory 'C:\new\package'
 ```
 
-Output: `bin\Release\net48\OfflineTeamBuilderRuntime.dll`.
-Do not copy the test runner's Frosty DLL dependencies into Plugins.
+The cache metadata needs head and the ordered superbundles array only. A trimmed
+copy is included in the source ZIP. The baseline mod remains read-only. Packaging
+preserves every game resource/payload while updating display metadata, checks
+MMC reader parity, exports/verifies an editable project, checks both ZIPs and
+includes a matching source archive. Native SDKs and user data are excluded.
 
-## User bundle (DLL, matching fbmod/fbproject and plain-text README)
-
-Requires Python 3 for the metadata-only fbmod rewrite, in addition to the build
-requirements above. Supply the independently selected working fbmod and its
-package hash (not the game EXE):
-
-```powershell
-.\package-release.ps1 -MmcRoot 'C:\path\to\MMC' -WorkingFbmod 'C:\path\to\working.fbmod' -ExpectedFbmodHash 'KNOWN_WORKING_FBMOD_SHA256' -ExpectedDllHash 'GAME_TESTED_PLUGIN_SHA256' -CacheIndex 'C:\path\to\cache-index.json' -OutputDirectory 'C:\path\to\new-release'
-```
-
-The script builds/tests the plugin, changes only the fbmod's six display fields,
-checks the resource table and entire manifest/payload tail are byte-identical,
-then checks it with MMC's own reader. It verifies every ZIP entry against its
-source. The built DLL must match the selected game-tested plugin hash; this is
-package integrity, never a game EXE checksum. It reconstructs a v18 editable
-project through MMC's reader (including decoded FMENC chunks), verifies all active
-collector links, then independently parses the project and validates its payloads
-through EOF. The cache-index JSON supplies only `head` and the ordered
-`superbundles` name array; a trimmed copy with those two fields is sufficient.
-User ZIP contains exactly four files; developer tools/source are separate.
-No installed DLL, mod, save or cache is changed. Source does not redistribute the
-baseline fbmod; supply it to reproduce a complete user bundle.
-
-## Reproducibility
-
-The full C# source and embedded native templates are included. Normal builds need
-no old plugin binaries, decompiler, Python, binary patcher, game executable, game
-assets or memory dump. The source snapshot was recovered from the known-working
-v24 pair, then consolidated; historical class names remain internal for parity
-tests. This is no longer a workflow that edits compiled DLLs to make each release.
-
-Builds use deterministic compiler output and a stable source path mapping.
-Byte-identical rebuilds require the same SDK/compiler, MMC reference assemblies,
-configuration, and sources. A different SDK/reference version may change output.
-`tests/golden-relays.json` contains reference hashes of generated native relay
-bytes from the frozen working v24 pair at multiple relocation bases. These are
-not hashes of the game EXE. Golden vectors are checked, not regenerated by build.
-For 2.1.x, Career/Dispatcher golden checks verify the frozen underlying template;
-the bounded admission detours are separately exercised as native code in the
-private-process fixtures, including queue contention, stale callbacks and deferred
-startup. 2.1.1 also injects private context mutations exactly at the admission
-boundary, after earlier checks, and verifies deferral and exact-slot recovery.
-Main, news and audio generated code remains byte-exact with the baseline.
-
-## Layout
-
-- `src/RuntimeAction.cs`: sole MMC entry point; ordered install/cleanup coordinator.
-- `src/Engine`: import service and asset engines, compiled together.
-- `src/Store`: local asset protocol, validation, storage and diagnostics helpers.
-- `src/GameProfile.cs`, `Profiles/*.json`: native compatibility and relay relocation.
-- `src/AssetRuntimeSupport.cs`: owned news/audio hooks and read-only health counters.
-- `src/NativeWorkAdmission.cs`: bounded native queue-admission detours.
-- `src/CoachContextScope.cs`: separates selected-school identity from TeamBuilder
-  asset-slot validation. Frozen templates remain intact; four selected-school
-  lower-bound operands change in emitted Career/Dispatcher code.
-- `src/LogoRegistryRepair.cs`: bounded logo-only recovery without a selected coach.
-- `src/TeamReadiness.cs`: read-only, context-checked per-team/queue observations.
-- `src/Diagnostics.cs`: bounded central logs and change-only status snapshots.
-- `src/PluginIdentity.cs`: display name, version and author credit.
-- `tests`: standalone managed/native regression checks.
-
-Set the public semantic version in `PluginIdentity.cs`; keep its four-part
-assembly version in sync. Preserve exact credit: JDHalfRack / Ace / Timberline Tex.
-
-The optional source tool `tools/capture-readiness.ps1` uses Windows PowerShell
-and a read/query-only process handle to exercise the same readiness reader
-against a running game. It never installs the candidate or changes game memory.
-It is deliberately not part of the private regression runner. It needs an
-already-installed asset relay and refuses unknown entry prefixes. A game still
-starting at the main menu may not have that relay yet.
+Native game/owner/helper fingerprints remain mandatory. Preserve the per-user
+storage boundary when adding outputs. Tests use private Temp fixtures, including
+an ACL-denied fake installation; never apply those ACLs to a real MMC folder.
+The runtime tests inject private user-data storage to avoid reading/writing real
+user settings. Keep all live-game tests separate and report them explicitly.

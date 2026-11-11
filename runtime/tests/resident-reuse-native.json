@@ -1,0 +1,9 @@
+{
+  "provenance": "Initialized game PID2248, read-only capture 2026-11-10; October30 native layout",
+  "builderSha256": "d94f9cfdd2a7cfbddd61e223168f4b45d1e9df4ff70357dd862f3228d6f6149b",
+  "jobStartSha256": "e5f73dab3cb2422f135f34ab12e6b69348ca93dcaea4c4fce1293443ab685e91",
+  "producer": "0fb6457785c08945d70f9445d4",
+  "configure": "8b42088941400fb6420c8841440fb6420d8841450fb6420e8841468b4210894148c3",
+  "residentSearch": "488b4168488bf98b5140488b4808488b18483bd974123953580f843d0100004883c378483bd975ee",
+  "residentBranch": "807f45007410c687800000000148895f78e9b6feffff"
+}

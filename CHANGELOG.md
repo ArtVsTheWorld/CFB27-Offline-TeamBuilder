@@ -1,22 +1,205 @@
-# Changelog
+# Offline TeamBuilder 2.1.7
 
-## 2.1.4 — October 30 compatibility update
+JDHalfRack / Ace / Timberline Tex
 
-- Map the native hooks, globals, vtables and transport hooks to the new game.
-- Rebase the fbmod revision and its three collector links. The existing menu
-  scripts and all embedded payloads are unchanged.
-- Preserve the uniform, preview, logo, audio and Dynasty-data safeguards.
-- Keep the historical relay hashes and make native tests use profile symbols.
-- Pass 4,309 local checks, 21 packaging checks and 40 read-only checks against
-  the running game. Confirmed working in-game on October 30, 2026.
+- Move logs, status, verified helper extraction, engine output and plugin settings
+  to `%LOCALAPPDATA%\Ace\OfflineTeamBuilder`. No normal plugin-generated writes
+  target the MMC installation, including a Program Files/readonly Plugins folder.
+- Copy legacy settings/configuration without deleting originals or replacing
+  current user settings. Archive conflicts and old logs separately from current
+  status. Preserve the existing per-user asset store and original saves.
+- Add readable `status.txt`, actionable diagnostic codes, exception/Win32 details,
+  session IDs, startup environment and installed-DLL inventory, selected-pack/built
+  mod context, a five-second status heartbeat and last-failure retention.
+- Add a support collector with an explicit file allow-list and bounded native-log
+  tails. Configuration, migration copies, saves, caches, DLLs and memory dumps are
+  excluded. Diagnostics may contain personal paths; review before sharing.
+- Retain single-DLL installation and the tester-confirmed target-process Windows
+  export resolver. Existing target entry points/instrumentation are honored.
+- Include the native capacity/registry guards, resident reuse, limited recovery
+  and verified Midgame Save 0.2.2/0.2.4 hook sharing developed after public 2.1.5.
+  Native helper bytes, game signatures and hook ownership checks are unchanged.
 
-## 2.1.3
+## Validation and limits
 
-- Restore cached TeamBuilder logos after reloading a Dynasty, including the
-  team-selection menu.
-- Keep the working multi-team uniforms, news previews and custom stadium audio.
-- Preserve Dynasty progress instead of reimporting original team metadata.
-- Include the tested DLL, matching fbmod, editable project and simple README.
+Private runtime checks include real deny-write ACLs on a temporary MMC fixture,
+readonly-install migration/deployment, conflict preservation, failure reporting,
+resource integrity and Windows export lookup. Source-ZIP reproducibility,
+metadata-only fbmod preservation, editable-project payloads and archive hashes
+are checked separately. No default test starts or patches the live game.
 
-The repository upload does not change the released DLL or fbmod payloads.
-Earlier technical notes are in [runtime/CHANGELOG.md](runtime/CHANGELOG.md).
+The external tester confirmed the preceding 2.1.6 startup fix works. The 2.1.7
+path/log changes have private filesystem tests, not a new live-game certification.
+Earlier tests of the underlying core passed loads/reloads with Broadcast off,
+and a prior Midgame Save 0.2.2 combined run passed resume/stat carry, a completed
+match and week advancement. Full 0.2.4 resume and Expanded Practice gameplay
+remain separate acceptance items.
+
+Broadcast Universe 0.7-beta1 with AIO 1.4.1 and the affected dynasty still caused
+loading hangs on public 2.1.5 and the newer core without the other runtime plugins.
+This release does not claim to fix that interaction. A runtime record or Ready
+state does not establish GPU texture/world readiness. Capacity waits remain
+bounded and forward normally on timeout.
+
+See README.txt, BUILD.md and TESTING.txt. The user package includes one plugin DLL;
+the source includes the checked native build input and C++ source. SDK binaries,
+user data and diagnostic captures are not distributed.
+
+# 2.1.5 — built-in coach asset restoration
+
+- Start TeamBuilder asset restoration when the active coach controls a built-in
+  school. Previously the selected-school check stopped the pass before any job
+  could start.
+- Keep coach identity separate from the TeamBuilder descriptor slots used for
+  package loading. The stock import path, news/audio templates, logo registrar,
+  callback epochs and native queue safeguards are unchanged.
+- Add native regression cases for built-in coaches, a single cached team,
+  reloads, residency loss, both directions of coach switching and invalid IDs.
+- Existing 2.1.4 users can keep their fbmod. The release bundle updates only
+  its displayed version, with unchanged game payloads. No extra mod is needed.
+- Passed 4,907 local runtime checks and 21 packaging checks. User confirmed the
+  tested DLL works in-game on November 2, 2026; the release keeps those exact bytes.
+
+# 2.1.4 — October 30 compatibility update, confirmed working in-game
+
+- Add the October 30 profile with separately mapped native addresses, full
+  signature checks, matching lifecycle slots and MCR-backed transport targets.
+- Keep the relay instruction templates, job admission, preview gate, logo
+  recovery, audio handoff and Dynasty-data protections unchanged.
+- Rebase the fbmod game revision and three collector GUIDs only after comparing
+  all three vanilla APT data/constant streams and checking superbundle names.
+  Preserve the entire manifest and all authored payloads byte for byte.
+- Preserve the historical golden hashes. Reverse only reviewed address
+  relocations for those comparisons; use named current-profile symbols in the
+  executable private-memory fixtures.
+- Pass 4,309 runtime checks, 21 packaging checks and 40 live read-only checks,
+  including both capacity wrappers and the capacity accessor. The user confirmed
+  version 2.1.4 works in-game on October 30, 2026.
+
+# 2.1.3 — user-verified reload-logo fix
+
+- User confirmed the reload-logo candidate works. The release retains the exact
+  tested DLL, working fbmod payloads and shared author credit. Includes a matching
+  v18 editable fbproject and simplified installation README; no additional native
+  loading changes were made during packaging.
+
+- Add logo-only registration for the captured deferred-pass reload state without
+  relaxing uniform-job admission. Current Career/context/metadata ownership and
+  valid cached DDS images remain mandatory.
+- Restrict the queue exception to a pending package read owned by this plugin
+  from an older epoch, with a descriptor in the current metadata vector and
+  only unstarted jobs behind it. Normal completed-pass queue exclusion remains.
+- Preserve native queue/job bytes, loading-pass flags, callback ownership and
+  uniform submission counts. No cancellation, forced completion or importer call.
+- Add private regressions for selector and selected-school hub contexts, foreign
+  or current/future-epoch requests, active tail jobs, changed contexts/mappings,
+  metadata retirement, retry bounds, existing-image preservation and recursion.
+- Add logoDeferredPassAttempts to diagnostics; it reports guarded attempts, not
+  rendered logos or repaired native I/O. Uniform/news/audio code is unchanged.
+- 2.1.2 was reported to help first load but fail on reload. The user confirmed
+  only logos were visibly affected; incomplete runtime records do not prove a
+  visible uniform/stadium failure. The user subsequently confirmed 2.1.3 works.
+
+# 2.1.2 — logo-recovery candidate, partially game-verified; reload failure reported
+
+- Recover empty native logo libraries after a completed asset pass without
+  requiring a new coach event or a selected-school object. The team-selector
+  capture had nine empty libraries despite valid cached DDS images for all teams.
+- Retain current-Career/service/manager ownership, converter/import/map exclusion,
+  native queue exclusion and existing typed metadata/DDS/native registrar guards.
+- Reuse the frozen dual-image logo validator and nonclearing registration helper;
+  no full logo-store/clear call, importer, uniform job or UI native call is added.
+- Observe later library clears, fill both image variants/all nine styles and
+  preserve already-registered entries. Limit unsuccessful attempts to three,
+  spaced by dispatcher ticks, rearming on a new epoch or restored interval.
+- Add logo attempt/batch/result counters. Existing readiness fields continue to
+  mark texture/consumer readiness Unverified; registration is not rendered UI.
+- Preserve 2.1.1 admission checks, main engine, news gating and custom audio.
+- This does not yet fix a widget that cached a placeholder, partially missing
+  keys in entirely nonempty libraries, or a screen before any successful asset
+  pass. Return-to-hub clear/repopulate and image rebind remain separate trace leads.
+
+# 2.1.1 — transition-admission candidate, not yet game-verified
+
+- Recheck Career ownership/vtable, selected-school pointer/slot and absence of
+  an active converter at the final admission boundary of each loading relay.
+- Recheck the metadata vector's live end, bounded/aligned extent and cursor
+  before consuming another slot. A failed check leaves work deferred.
+- Reproduce the old submission gap with a private-process mutation injected
+  after the relay's earlier checks. Exercise initial and deferred admission,
+  preserving the next team and resuming when valid context returns.
+- Keep the frozen main/news/audio code, importer suppression, callbacks and
+  native queue ownership unchanged. No forced retirement or native cancellation.
+- 2.1.0 passed the user's controlled nine-team reload/coach/week session and one
+  custom-stadium match. The capture showed repair overlapping match-prep asset
+  unloading; it did not reproduce or establish the cause of the old stuck read.
+- This narrows a pre-submission race, not all match-preparation repair. Existing
+  in-flight reads still belong to the game; a true hub/match scope gate and a
+  safe native cancellation contract remain unresolved.
+
+# 2.1.0 — reliability candidate
+
+- Defer the initial asset job and subsequent jobs while the shared native queue
+  is busy, including when an old plugin job survives pass/epoch invalidation.
+- Defer subsequent asset work during native import/saved-map processing.
+- Resume on the native dispatcher without a second CareerHub notification,
+  without skipping the first team, and without recursive callback submission.
+- Leave native job ownership, payload destruction, original calls/returns and
+  sequential callback handling intact. No forced cancellation or success flags.
+- Read-only, bounded per-team runtime-record and queued-job observations, with
+  epoch/context consistency checks and suspected queue-stall diagnostics.
+- Explicitly distinguish runtime records from unverified stadium, texture, logo
+  and playback readiness; this is not yet a match-entry streaming gate.
+- Fix ordinary `teamFailures=0` status lines being mislabeled as warnings.
+- The fbmod, broad-import suppression, main engine, news capture/readiness code
+  and audio restoration code are unchanged. No early-start or EXE hash gate.
+- Stable packaged releases and the exact installed DLL are preserved separately.
+
+# 2.0.2
+
+- New diagnostics and session files go under `Plugins\OfflineTeamBuilderRuntime`
+  beside the installed DLL; no new AppData log folder or fallback is used.
+- Support exports and automatic installer backups default to the same data folder.
+  Backups use `.backup` filenames so MMC cannot load them as extra plugins.
+- Preserve existing asset cache and historical logs without moving/deleting them.
+- User release bundles one DLL, the working fbmod with updated display metadata,
+  and a plain-text installation guide. Both components use the same author trio.
+- Native loading, news, audio, compatibility profile and fbmod payloads unchanged.
+
+# 2.0.1
+
+- Fix managed startup overflow: compact profile transport signatures now use the
+  same byte parser as native profile validation. 2.0.0 passed live compatibility
+  checks but crashed before installing its transport hooks.
+- Add regression coverage that reproduces the exact startup exception in 2.0.0,
+  constructs all three real transport hook definitions, and validates their bytes,
+  RVAs, patch lengths and kinds.
+- Validate transport profile entries during profile loading, before startup.
+- Import fatal exceptions now reach the central runtime log even with verbose
+  logging off. Detailed import sessions now live under the documented Engine path.
+- Do not misreport an exited temporary startup process as an unsupported layout.
+- No native relay, game signature, fbmod, metadata or asset-loading changes.
+
+# 2.0.0
+
+Authors: JDHalfRack / Ace / Timberline Tex
+
+- Replaces the legacy pair with one `OfflineTeamBuilderRuntime.dll` and one MMC
+  execution action, while retaining the working v24 asset/news/audio native code.
+- Explicit import-before-assets startup and reverse cleanup; exact owned-chain
+  validation prevents the import watchdog mistaking its own asset hook for a
+  foreign hook.
+- Full standalone C# build, central embedded native profile, semantic versioning,
+  frozen native byte-parity vectors and a private-process regression runner.
+- Native signature/vtable compatibility checks before hook installation, with
+  actionable failure reports. No game EXE hash or exact image-size requirement.
+- Rotating central logs, change-only status snapshots and read-only health counters.
+- Single-DLL installer with verified backup/rollback and whitelisted support ZIP.
+- Does not change the fbmod, introduce early loading, rewrite Dynasty metadata,
+  or claim fixes for remaining minor menu refresh/header issues.
+
+Validation: 243 standalone checks, 17 installer/support packaging checks, plus
+13 development regressions (multi-team
+coach/queue/logo behavior, native audio guards and relay ABI/disassembly). Native
+relay generation is byte-exact with v24 at multiple relocation bases. A first
+in-game smoke test of the unified DLL remains necessary.

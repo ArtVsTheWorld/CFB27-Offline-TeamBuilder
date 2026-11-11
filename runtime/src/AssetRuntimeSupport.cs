@@ -37,7 +37,7 @@ internal sealed partial class TeamBuilderReentryRepair
             GetType().GetField("_news_"+h.name+"_patch",flags).SetValue(this,patch);
             GetType().GetField("_news_"+h.name+"_owned",flags).SetValue(this,true);
         }
-        Log("NEWS_AUDIO_READY profile="+profile.id+"; v24 native contracts; no broad reimport or early-start path.");
+        Log("NEWS_AUDIO_READY profile="+profile.id+"; stadium audio enabled; preview callbacks use stock completion timing (no deferred callback hooks).");
     }
     private void RestoreProfileHooks()
     {
@@ -67,6 +67,7 @@ internal sealed partial class TeamBuilderReentryRepair
             {"currentSlot",ReadU32(_status+0x20)}, {"epoch",ReadU64(_status+0x90)},
             {"submissions",ReadU32(_status+0x68)}, {"callbacks",ReadU32(_status+0x80)},
             {"staleCallbacks",ReadU32(_status+0x98)}, {"recoveryRetries",ReadU32(_status+0xA4)},
+            {"residentRepairSkips",ReadU32(_status+ResidencyRepairScope.ResidentSkips)},
             {"newsPending",ReadU32(news+8)}, {"newsReleased",ReadU32(news+0x34)},
             {"newsTimeouts",ReadU32(news+0x40)}, {"newsOverflow",ReadU32(news+0x3C)},
             {"audioHandoffs",ReadU32(audio+8)}, {"audioWriterInvocations",ReadU32(audio+0xC)},

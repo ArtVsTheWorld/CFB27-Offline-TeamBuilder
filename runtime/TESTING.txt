@@ -1,0 +1,24 @@
+OFFLINE TEAMBUILDER 2.1.7 - BUG REPORTS AND REGRESSION TESTS
+
+Install only Plugins/OfflineTeamBuilderRuntime.dll and enable the fbmod. Preserve
+existing caches/settings. Restart both game and MMC after replacing the DLL.
+
+Open %LOCALAPPDATA%\Ace\OfflineTeamBuilder\status.txt before testing gameplay.
+Check version 2.1.7 and Ready, or read the reported blocking stage/action. Confirm
+settings migrated without changing originals, and that no generated plugin files
+appear in MMC/Plugins. The native helper is generated under user data.
+
+For a focused gameplay baseline, leave Broadcast Universe beta off and retain
+AIO and its matching compatibility mod if the save requires them. Test a fresh
+load and main-menu reloads without F9/Edit Uniform, check custom versus placeholder
+uniforms, stadium/logos/crowd and play several snaps. Also test a stock-school coach
+with TeamBuilder opponents, complete a game and advance/load the next week.
+Test Midgame Save resume/stat carry and practice features separately if used.
+
+At the first failure, record the matchup, fresh launch/reload and visible symptom.
+Run Collect-Support.ps1 and share the resulting ZIP after reviewing personal paths.
+It contains current logs/status/context and bounded native tails, not settings,
+saves, cached teams, DLLs or dumps. Nothing is uploaded automatically.
+
+Broadcast-related hangs on the affected dynasty remain a separate known issue;
+Ready means runtime hooks are active, not that textures are proven rendered.

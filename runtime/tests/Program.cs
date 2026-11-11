@@ -18,7 +18,9 @@ internal static class Program
     private static int Main()
     {
         try {
-            Metadata();Profile();TransportStartup();Golden();CoachScopeContracts();AdmissionContracts();Store();Diagnostics();ReadinessChecks.CheckAll();NativeFixture.CheckAll();
+            string privateData=Path.Combine(Path.GetTempPath(),"otb-test-user-data-"+Guid.NewGuid().ToString("N"));
+            typeof(RuntimePaths).GetField("current",BindingFlags.Static|BindingFlags.NonPublic).SetValue(null,new UserRuntimeStore(privateData));
+            Metadata();Profile();TransportStartup();Golden();CoachScopeContracts();AdmissionContracts();NativeBuildModeChecks.CheckAll();Store();UserDataChecks.CheckAll();Diagnostics();ReadinessChecks.CheckAll();CareerHubCompatibilityChecks.CheckAll();NativeFixture.CheckAll();NativeGuardChecks.CheckAll();
             Console.WriteLine("PASS "+Checks+" checks. Private allocations/temporary files only; no game process opened.");return 0;
         } catch(Exception ex) { Console.Error.WriteLine(ex);return 1; }
     }
@@ -32,7 +34,8 @@ internal static class Program
         Assert((string)attrs.Single(a=>a.AttributeType.Name=="PluginAuthorAttribute").ConstructorArguments[0].Value==PluginIdentity.Authors,"author credit");
         Assert((string)attrs.Single(a=>a.AttributeType.Name=="PluginVersionAttribute").ConstructorArguments[0].Value==PluginIdentity.Version,"MMC version");
         Assert(!assembly.GetReferencedAssemblies().Any(a=>a.Name=="OfflineTeamBuilder"||a.Name=="OfflineTeamBuilderReentry"),"no old DLL reference");
-        Assert(assembly.GetManifestResourceNames().All(n=>!n.EndsWith(".dll",StringComparison.OrdinalIgnoreCase)),"no hidden legacy DLL payload");
+        var nativeResources=assembly.GetManifestResourceNames().Where(n=>n.EndsWith(".dll",StringComparison.OrdinalIgnoreCase)).ToArray();
+        Assert(nativeResources.Length==1&&nativeResources[0]==NativeHelperDeployment.ResourceName,"only declared native guard embedded; no legacy managed DLL payload");
         Assert(RuntimeAction.FindLegacyNames(new[]{"OfflineTeamBuilder","offlineteambuilderreentry","Unrelated"}).Length==2,"duplicate legacy detection");
         Assert(RuntimeAction.FindLegacyNames(new[]{"OfflineTeamBuilderRuntime","Unrelated"}).Length==0,"unrelated plugins allowed");
     }
@@ -181,7 +184,7 @@ internal static class Program
         foreach(string name in new[]{"Career","Dispatcher"}) {
             ulong[] args=name=="Career"?new[]{status,remote+0x10000,image+(ulong)p.Rva("CareerManagerVtable"),image+(ulong)p.Rva("Add"),image+(ulong)p.Rva("Needs"),image+(ulong)p.Rva("Enter")}:
                 new[]{status,image+(ulong)p.Rva("DispatcherContinuation")};
-            byte[] raw=CoachContextScope.Apply(name,p.templates[name].Emit(p,args),p),emitted=p.Emit(name,args);
+            byte[] raw=ResidencyRepairScope.Apply(name,CoachContextScope.Apply(name,p.templates[name].Emit(p,args),p),p),emitted=p.Emit(name,args);
             byte[] marker=GameProfile.Hex(name=="Career"?"488b46384c8b46404c39c0":"41c783840000000000000041c7430401000000");
             int at=Enumerable.Range(0,raw.Length-marker.Length+1).Single(n=>marker.Select((b,i)=>raw[n+i]==b).All(v=>v));
             int count=name=="Career"?8:11;
@@ -196,8 +199,8 @@ internal static class Program
     }
     private static void Diagnostics()
     {
-        Assert(RuntimePaths.Root==Path.Combine(RuntimePaths.PluginDirectory,"OfflineTeamBuilderRuntime"),"logs live beside the installed plugin");
-        Assert(RuntimePaths.DataDirectory(@"D:\portable MMC\Plugins")==@"D:\portable MMC\Plugins\OfflineTeamBuilderRuntime","portable plugin data path, including spaces");
+        Assert(!UserRuntimeStore.Inside(RuntimePaths.Root,RuntimePaths.PluginDirectory),"runtime data stays outside the installed plugin folder");
+        Assert(RuntimePaths.DataDirectory(@"D:\User Data\Local")==@"D:\User Data\Local\Ace\OfflineTeamBuilder","per-user data path, including spaces");
         string root=Path.Combine(Path.GetTempPath(),"tbr-logs-"+Guid.NewGuid().ToString("N"));Directory.CreateDirectory(root);
         try {
             var log=new RuntimeDiagnostics(null,root);log.Write("INFO","private fixture");log.Status(0,"Ready",new { teams=9 });
@@ -210,9 +213,20 @@ internal static class Program
             Assert(lines.Contains("[INFO] ASSET_STATUS teamFailures=0"),"zero failure counter is informational");
             Assert(lines.Contains("[WARNING] ASSET_STATUS teamFailures=2"),"real asset failures remain warnings");
             Assert(lines.Contains("[WARNING] ASSET_READINESS_WARNING"),"readiness warning reaches central diagnostics");
+            log.Status(0,"Ready",new {teams=9});
             string path=Path.Combine(root,"status.json"),before=File.ReadAllText(path);
+            Assert(before.Contains("ASSET_READINESS_WARNING"),"latest engine issue is included in status snapshots");
             Assert(before.Contains(PluginIdentity.Version)&&before.Contains("Ready")&&before.Contains("teams"),"readable support status");
             log.Status(0,"Ready",new {teams=9});Assert(File.ReadAllText(path)==before,"unchanged status is not rewritten");
+            Assert(File.ReadAllText(Path.Combine(root,"status.txt")).Contains("Runtime hooks are active"),"readable status distinguishes active hooks from visual asset readiness");
+            log.Failure(42,"BlockedNativeGuards",new System.ComponentModel.Win32Exception(5,"private process access fixture"));
+            string failed=File.ReadAllText(path);
+            Assert(failed.Contains("NATIVE_PROCESS_ACCESS_DENIED")&&failed.Contains("win32Error"),"native access failure has a diagnostic code and Windows error");
+            log.Status(0,"WaitingForGame",null);
+            Assert(File.ReadAllText(path).Contains("private process access fixture"),"last failure remains available after game exit");
+            Assert(RuntimeDiagnostics.Safe("Authorization: Bearer private-secret https://test/?token=secret-value").Contains("[redacted]")&&!RuntimeDiagnostics.Safe("Authorization: Bearer private-secret https://test/?token=secret-value").Contains("private-secret"),"central diagnostics redact authorization secrets");
+            var stalled=new Dictionary<string,object>{{"readiness",new TeamReadinessSnapshot {queueStallSuspected=true}}};
+            Assert((string)RuntimeDiagnostics.Diagnosis("Ready",stalled)["code"]=="ACTIVE_PACKAGE_QUEUE_STALLED","active hooks with stalled native queue have a distinct status");
             File.WriteAllText(Path.Combine(root,"runtime.log"),new string('x',2*1024*1024+1));log.Write("INFO","rotation fixture");
             Assert(File.Exists(Path.Combine(root,"runtime.log.1")),"bounded diagnostic rotation");
         } finally { Directory.Delete(root,true); }

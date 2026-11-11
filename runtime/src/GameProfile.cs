@@ -61,7 +61,7 @@ internal sealed class GameProfile
         return size>=required && size<=0x40000000;
     }
     internal byte[] Emit(string name,params ulong[] args) {
-        return LogoRegistryRepair.Apply(name,NativeWorkAdmission.Apply(name,CoachContextScope.Apply(name,templates[name].Emit(this,args),this),this,args),this,args);
+        return LogoRegistryRepair.Apply(name,NativeWorkAdmission.Apply(name,ResidencyRepairScope.Apply(name,CoachContextScope.Apply(name,templates[name].Emit(this,args),this),this),this,args),this,args);
     }
     internal void Validate()
     {

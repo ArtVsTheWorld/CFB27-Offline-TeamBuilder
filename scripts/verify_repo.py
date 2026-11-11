@@ -4,6 +4,7 @@ import importlib.util
 import json
 from pathlib import Path, PurePosixPath
 import re
+import struct
 import sys
 import zipfile
 
@@ -33,10 +34,14 @@ def verify_archive(root, version):
         'OfflineTeamBuilder.fbmod': 'assets/OfflineTeamBuilder.fbmod',
         'OfflineTeamBuilder.fbproject': 'assets/OfflineTeamBuilder.fbproject',
         'Plugins/OfflineTeamBuilderRuntime.dll': f'dist/v{version}/OfflineTeamBuilderRuntime.dll',
+        'README.txt': 'runtime/USER-README.txt',
+        'TESTING.txt': 'runtime/TESTING.txt',
+        'VALIDATION.txt': 'runtime/VALIDATION.txt',
+        'Collect-Support.ps1': 'runtime/collect-diagnostics.ps1',
     }
     with zipfile.ZipFile(root / f'dist/v{version}/OfflineTeamBuilder-{version}.zip') as archive:
         entries = [entry.filename for entry in archive.infolist() if not entry.is_dir()]
-        if len(entries) != 4 or set(entries) != set(expected) | {'README.txt'}:
+        if len(entries) != len(expected)+1 or set(entries) != set(expected) | {'release.json'}:
             raise ValueError('Unexpected release ZIP contents')
         for name, source in expected.items():
             if archive.read(name) != (root / source).read_bytes():
@@ -44,6 +49,63 @@ def verify_archive(root, version):
         readme = archive.read('README.txt').decode('utf-8-sig')
         if AUTHORS not in readme or version not in readme:
             raise ValueError('Release README identity mismatch')
+        record=json.loads(archive.read('release.json').decode('utf-8-sig'))
+        if record['version']!=version or record['authors']!=AUTHORS:
+            raise ValueError('Player manifest identity mismatch')
+        if {item['path'] for item in record['files']}!=set(expected):
+            raise ValueError('Player manifest file allow-list mismatch')
+        for item in record['files']:
+            if hashlib.sha256(archive.read(item['path'])).hexdigest().lower()!=item['sha256'].lower():
+                raise ValueError('Player manifest payload mismatch')
+        if [name for name in entries if name.endswith('.dll')]!=['Plugins/OfflineTeamBuilderRuntime.dll']:
+            raise ValueError('Player package must contain one installation DLL')
+
+
+def clr_resources(image):
+    pe=struct.unpack_from('<I',image,0x3c)[0]
+    if image[:2]!=b'MZ' or image[pe:pe+4]!=b'PE\0\0':
+        raise ValueError('Invalid managed PE image')
+    count,optional_size=struct.unpack_from('<H',image,pe+6)[0],struct.unpack_from('<H',image,pe+20)[0]
+    optional=pe+24
+    if struct.unpack_from('<H',image,optional)[0]!=0x20b:
+        raise ValueError('Expected AMD64 PE32+ plugin')
+    sections=optional+optional_size
+    def raw(rva,size):
+        for i in range(count):
+            p=sections+i*40
+            virtual_size,va,raw_size,offset=struct.unpack_from('<IIII',image,p+8)
+            if va<=rva and rva+size<=va+raw_size:
+                start=offset+rva-va
+                if start+size>len(image):raise ValueError('PE resource exceeds file')
+                return image[start:start+size]
+        raise ValueError('PE resource RVA not backed by file bytes')
+    cli_rva,cli_size=struct.unpack_from('<II',image,optional+112+14*8)
+    cli=raw(cli_rva,72)
+    resources_rva,resources_size=struct.unpack_from('<II',cli,24)
+    return raw(resources_rva,resources_size)
+
+
+def verify_native_and_source(root,version):
+    native=(root/f'dist/v{version}/OfflineTeamBuilderNative.dll').read_bytes()
+    manifest_bytes=(root/'runtime/Native/native-helper-manifest.json').read_bytes()
+    manifest=json.loads(manifest_bytes.decode('utf-8-sig'))
+    if hashlib.sha256(native).hexdigest()!=manifest['sha256'].lower():
+        raise ValueError('Native build input differs from manifest')
+    resources=clr_resources((root/f'dist/v{version}/OfflineTeamBuilderRuntime.dll').read_bytes())
+    if struct.pack('<I',len(native))+native not in resources or struct.pack('<I',len(manifest_bytes))+manifest_bytes not in resources:
+        raise ValueError('Checked native payload/manifest not present in CLR resources')
+    with zipfile.ZipFile(root/f'dist/v{version}/OfflineTeamBuilder-{version}-source.zip') as archive:
+        names=[item.filename for item in archive.infolist() if not item.is_dir()]
+        if len(names)!=len(set(names)) or any(PurePosixPath(n).is_absolute() or '..' in PurePosixPath(n).parts or ':' in n or '\\' in n for n in names):
+            raise ValueError('Unsafe source archive paths')
+        binaries=[n for n in names if n.endswith(('.dll','.exe','.pdb','.dmp','.log'))]
+        if binaries!=['Native/bin/Release/OfflineTeamBuilderNative.dll']:
+            raise ValueError('Unexpected source archive binary/capture')
+        if archive.read(binaries[0])!=native:raise ValueError('Source native build input differs')
+        for name in names:
+            path=root/'runtime'/name
+            if name.startswith(('src/','Profiles/','tests/','tools/','Native/')) and path.is_file() and archive.read(name)!=path.read_bytes():
+                raise ValueError('Source ZIP/repository mismatch: '+name)
 
 
 def load_module(name, path):
@@ -76,6 +138,7 @@ def check(root=ROOT):
         raise ValueError('Project identity mismatch')
     project.verify((root / 'assets/OfflineTeamBuilder.fbproject').read_bytes(), report)
     verify_archive(root, version)
+    verify_native_and_source(root,version)
     return version
 
 

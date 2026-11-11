@@ -1,0 +1,20 @@
+[
+  {
+    "name": "callback",
+    "offset": 0,
+    "expected": "4883ec38488b110fbe422f4c8d4220",
+    "target": "Rva_0791DBA0"
+  },
+  {
+    "name": "root",
+    "offset": 848,
+    "expected": "48895c241848897424205741564157",
+    "target": "Rva_07AA6030"
+  },
+  {
+    "name": "captureComplete",
+    "offset": 2176,
+    "expected": "405356574883ec504c8b05b146e80a",
+    "target": "Rva_029E93A0"
+  }
+]

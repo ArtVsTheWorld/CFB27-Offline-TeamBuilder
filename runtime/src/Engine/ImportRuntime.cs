@@ -3393,16 +3393,7 @@ internal static class CFB27TeamBuilderBatchQueuePreMcrProbe
 		LocalMcrService localMcrService = null;
 		try
 		{
-			RepairOptions repairOptions = new RepairOptions();
-			string path = Path.Combine(Path.GetDirectoryName(typeof(CFB27TeamBuilderBatchQueuePreMcrProbe).Assembly.Location), OfflineTeamBuilderRuntime.RuntimePaths.OptionsFileName);
-			if (File.Exists(path))
-			{
-				repairOptions = RepairJson.Decode<RepairOptions>(File.ReadAllBytes(path));
-			}
-			if (string.IsNullOrWhiteSpace(repairOptions.StoreDirectory))
-			{
-				repairOptions.StoreDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "OfflineTeamBuilder", "local-assets-v111");
-			}
+			RepairOptions repairOptions = OfflineTeamBuilderRuntime.RuntimePaths.ReadOptions();
 			localMcrService = new LocalMcrService(outputDirectory, repairOptions);
 			localMcrService.Start();
 			B("LOCAL_ASSET_STORE " + localMcrService.StoreDirectory);
@@ -5886,7 +5877,7 @@ internal static class CFB27TeamBuilderBatchQueuePreMcrProbe
 			L("FAIL stock-lifecycle proof: capacity-proven TeamBuilder vtable did not match current build RVA 0x" + OfflineTeamBuilderRuntime.GameProfile.Current.Rva("ServiceVtable").ToString("X", CultureInfo.InvariantCulture) + ".");
 			return false;
 		}
-		long num2 = capacity.Vtable + 1240;
+		long num2 = (long)OfflineTeamBuilderRuntime.CareerHubCompatibility.Storage(handle,(ulong)moduleBase,(ulong)capacity.Vtable+1240);
 		long num3 = capacity.Vtable + 2160;
 		long address = capacity.Vtable + 2440;
 		long address2 = capacity.Vtable + 2448;
@@ -6026,7 +6017,7 @@ internal static class CFB27TeamBuilderBatchQueuePreMcrProbe
 			return "UNKNOWN_VTABLE " + H(num);
 		}
 		patch.Vtable = num;
-		patch.CareerSlotAddress = num + 1240;
+		patch.CareerSlotAddress = (long)OfflineTeamBuilderRuntime.CareerHubCompatibility.Storage(handle,(ulong)moduleBase,(ulong)num+1240);
 		patch.AssetKeySlotAddress = num + 2160;
 		if (!ReadU64(handle, patch.AssetKeySlotAddress, out var value3, out error) || !ReadU64(handle, patch.CareerSlotAddress, out var value4, out error))
 		{
@@ -6468,6 +6459,7 @@ internal static class CFB27TeamBuilderBatchQueuePreMcrProbe
 
 	internal static int RunEmbeddedSession(Process process, string outputRoot)
 	{
+		OfflineTeamBuilderRuntime.UserRuntimeStore.RejectInstallWrite(outputRoot,OfflineTeamBuilderRuntime.RuntimePaths.PluginDirectory);
 		PersistentCancelRequested = false;
 		LastSessionReachedReady = false;
 		Console.WriteLine("===============================================================================");

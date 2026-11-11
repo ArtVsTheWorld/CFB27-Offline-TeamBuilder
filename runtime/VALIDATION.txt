@@ -1,0 +1,19 @@
+OFFLINE TEAMBUILDER 2.1.7 - VALIDATION
+
+Normal distribution package. See release.json for the exact managed-check count
+and file hashes. The build is checked for warnings/errors. Private checks cover
+native contracts, Windows exports, helper integrity/deployment/concurrency,
+readonly-install ACLs, copy-only migration and diagnostic error/state reporting.
+The support collector is tested for an allow-list, bounded native tails and
+exclusion of configuration, saves and binaries. No test patches a live game.
+
+The native helper remains byte-identical to the exercised core. The tester
+confirmed the previous Windows-export startup fix. The 2.1.7 filesystem/logging
+changes have private tests; no new live-game compatibility claim is made.
+The fbmod retains byte-identical game resources/payloads apart from display
+metadata. MMC reader, editable-project payloads, ZIP readback and source rebuild
+checks are required before shipping.
+
+Broadcast Universe 0.7-beta1/AIO 1.4.1 loading hangs remain unresolved. Earlier
+Midgame Save 0.2.2 resume/stat carry and week advancement passed, while full 0.2.4
+resume and Expanded Practice gameplay remain separate acceptance items.
