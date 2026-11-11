@@ -20,7 +20,18 @@ the checked native helper is embedded and deployed automatically to user data.
    Retain required AIO and matching compatibility mods for AIO dynasties.
 4. Restart MMC, launch normally and keep MMC running. No F9 step is required.
 
-The player ZIP contains only the runtime DLL, fbmod and installation README.
+The player ZIP includes the runtime DLL, fbmod, installation README and an
+optional `compatibility patches` folder. Use only the patch matching AIO Dynasty
+1.4.1, Playoff Customizer 1.3.0, Conference Customizer 1.0.2 or Dynasty Customizer
+1.1.0, and give it highest precedence over the originals.
+
+Popup Remover 1.2.0 needs no extra patch, including with AIO. Its fixes load
+early. Put Popup Remover below AIO/the customizer, with the normal TeamBuilder
+compatibility patch highest, to keep the customizer's other menu changes too.
+With just Popup Remover and TeamBuilder, give TeamBuilder higher precedence.
+See the [patch instructions](assets/compatibility/README.txt) and
+[Popup Remover's release notes](https://github.com/ASThome00/cfb27-popup-remover/releases/tag/v1.2.0).
+
 Editable assets and support tools are available separately in this repository.
 Teams must already be downloaded.
 Targets the October 30, 2026 native layout; future game updates may need a port.
@@ -54,6 +65,10 @@ claimed fixed; disable Broadcast for a focused baseline.
 The previous startup fix was tester-confirmed. 2.1.7 has private native/runtime,
 actual write-denied filesystem, migration, diagnostic and package tests; this is
 not a new live-game certification. See [validation](runtime/VALIDATION.txt).
+
+The bundled compatibility patches have bytecode and MMC composition checks;
+they still need in-game confirmation. No runtime DLL or base-fbmod bytes changed
+when the optional patches were added.
 
 ## Development
 

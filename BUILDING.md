@@ -26,9 +26,13 @@ The cache metadata needs head and the ordered superbundles array only. A trimmed
 copy is included in the source ZIP. The baseline mod remains read-only. Packaging
 preserves every game resource/payload while updating display metadata, checks
 MMC reader parity, exports/verifies an editable project, checks both ZIPs and
-includes a matching source archive. The player ZIP contains only the DLL, fbmod
+includes a matching source archive. The base player ZIP contains the DLL, fbmod
 and installation README; editable project and verification metadata stay outside
-it. Support tools remain in the source/repository. Native SDKs and user data are excluded.
+it. To add the checked optional compatibility patches to the repository's player
+ZIP, run `python scripts/repack_player_zip.py` from the repository root after
+staging the release files under dist/v2.1.7. The patch manifest checks every
+bundled file; fbprojects remain outside the player ZIP. Support tools remain in
+the source/repository. Native SDKs and user data are excluded.
 
 Native game/owner/helper fingerprints remain mandatory. Preserve the per-user
 storage boundary when adding outputs. Tests use private Temp fixtures, including

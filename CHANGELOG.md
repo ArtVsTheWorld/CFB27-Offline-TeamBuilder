@@ -2,6 +2,12 @@
 
 JDHalfRack / Ace / Timberline Tex
 
+- November 11 packaging update: include optional AIO 1.4.1, Playoff 1.3.0,
+  Conference 1.0.2 and Dynasty 1.1.0 compatibility patches under
+  `compatibility patches`. DLL and base-fbmod bytes are unchanged. Popup Remover
+  1.2.0 uses early class definitions, so its earlier separate/combined overlays
+  are omitted; the included guide explains priority for the normal patches.
+
 - Move logs, status, verified helper extraction, engine output and plugin settings
   to `%LOCALAPPDATA%\Ace\OfflineTeamBuilder`. No normal plugin-generated writes
   target the MMC installation, including a Program Files/readonly Plugins folder.

@@ -1,9 +1,10 @@
 import hashlib
+import json
 from pathlib import Path
 import tempfile
 import unittest
 
-from verify_repo import AUTHORS, ROOT, check, verify_hashes, verify_identity
+from verify_repo import AUTHORS, ROOT, check, verify_hashes, verify_identity, compatibility_entries
 
 
 class ReleaseChecks(unittest.TestCase):
@@ -22,6 +23,20 @@ class ReleaseChecks(unittest.TestCase):
             (root / 'sample').write_bytes(b'changed')
             with self.assertRaises(ValueError):
                 verify_hashes(root, {'sample': hashlib.sha256(b'fixture').hexdigest()})
+
+    def test_compatibility_rejects_path_traversal(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);assets=root/'assets/compatibility';assets.mkdir(parents=True)
+            (assets/'manifest.json').write_text(json.dumps({'teamBuilderVersion':'2.1.7','files':{'../escape.fbmod':'0'*64}}))
+            with self.assertRaisesRegex(ValueError,'Invalid compatibility filename'):
+                compatibility_entries(root,'2.1.7')
+
+    def test_compatibility_rejects_extra_dll(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);assets=root/'assets/compatibility';assets.mkdir(parents=True)
+            (assets/'manifest.json').write_text(json.dumps({'teamBuilderVersion':'2.1.7','files':{'surprise.dll':'0'*64}}))
+            with self.assertRaisesRegex(ValueError,'Unexpected compatibility file'):
+                compatibility_entries(root,'2.1.7')
 
     def test_missing_file(self):
         with tempfile.TemporaryDirectory() as folder:

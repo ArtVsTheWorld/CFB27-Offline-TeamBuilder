@@ -1,0 +1,58 @@
+{
+  "teamBuilderVersion": "2.1.7",
+  "files": {
+    "AIO-Dynasty-OfflineTeamBuilder-Compatibility-1.1.0.fbmod": "6407aab73a14af5cfbb46cb61edb5bc3999187a9b6f0af2e750758f84fc1bd76",
+    "AIO-Dynasty-OfflineTeamBuilder-Compatibility-1.1.0.fbproject": "06a586612cd0b48e91da3d0dd4279cf4479ae2c61cf563dbc341caa603dd1089",
+    "OfflineTeamBuilder-ConferenceCustomizer-Compatibility-1.0.0.fbmod": "0f0154c10a79b541ef8d568cfac679af7e11012c2aad0fb064c93ecba1df2a48",
+    "OfflineTeamBuilder-ConferenceCustomizer-Compatibility-1.0.0.fbproject": "ff9cef796f015184867af85f2bdb48e13c6bbba46d68fb037de9dc1ae895c0c4",
+    "OfflineTeamBuilder-DynastyCustomizer-Compatibility-1.0.0.fbmod": "b42e4f3329c4234bd423e2ba911e8c00078311c09eef49af6e1ec4196adfbf2e",
+    "OfflineTeamBuilder-DynastyCustomizer-Compatibility-1.0.0.fbproject": "7e328c26da8adaf9d7caba825e2bb2695c1059878692202ab9acd42702788e18",
+    "OfflineTeamBuilder-PlayoffCustomizer-Compatibility-1.0.0.fbmod": "bc85729def28db07ab7214d192876e9ac8dcbcf10cb54817981ca421832758b4",
+    "OfflineTeamBuilder-PlayoffCustomizer-Compatibility-1.0.0.fbproject": "bc83eff6766866d674acaf551b10859eb4cf7674c7d4a2a1f7586e0d70bc377a",
+    "README.txt": "ed6f6b0476b31dde61c03f42c0d43fbb3244f5d04ff565bcefa138ac8e858090"
+  },
+  "playerFiles": [
+    "README.txt",
+    "AIO-Dynasty-OfflineTeamBuilder-Compatibility-1.1.0.fbmod",
+    "OfflineTeamBuilder-PlayoffCustomizer-Compatibility-1.0.0.fbmod",
+    "OfflineTeamBuilder-ConferenceCustomizer-Compatibility-1.0.0.fbmod",
+    "OfflineTeamBuilder-DynastyCustomizer-Compatibility-1.0.0.fbmod"
+  ],
+  "patches": [
+    {
+      "mod": "AIO Dynasty 1.4.1",
+      "file": "AIO-Dynasty-OfflineTeamBuilder-Compatibility-1.1.0.fbmod",
+      "project": "AIO-Dynasty-OfflineTeamBuilder-Compatibility-1.1.0.fbproject"
+    },
+    {
+      "mod": "Playoff Customizer 1.3.0",
+      "file": "OfflineTeamBuilder-PlayoffCustomizer-Compatibility-1.0.0.fbmod",
+      "project": "OfflineTeamBuilder-PlayoffCustomizer-Compatibility-1.0.0.fbproject"
+    },
+    {
+      "mod": "Conference Customizer 1.0.2",
+      "file": "OfflineTeamBuilder-ConferenceCustomizer-Compatibility-1.0.0.fbmod",
+      "project": "OfflineTeamBuilder-ConferenceCustomizer-Compatibility-1.0.0.fbproject"
+    },
+    {
+      "mod": "Dynasty Customizer 1.1.0",
+      "file": "OfflineTeamBuilder-DynastyCustomizer-Compatibility-1.0.0.fbmod",
+      "project": "OfflineTeamBuilder-DynastyCustomizer-Compatibility-1.0.0.fbproject"
+    }
+  ],
+  "popupRemover": {
+    "version": "1.2.0",
+    "extraPatchRequired": false,
+    "sourceSha256": "0e619d4f7b3b82fe5000862c23bdf8f44bb19239eb2f0475b998fe3a5ac58eab",
+    "requiredPriority": "Popup Remover below AIO/customizer; normal TeamBuilder compatibility overlay highest",
+    "upstreamRelease": "https://github.com/ASThome00/cfb27-popup-remover/releases/tag/v1.2.0"
+  },
+  "verification": {
+    "uiChecks": 1580,
+    "uiSdkCollectorOutputs": 122,
+    "popupChecks": 2310,
+    "popupSdkCollectorOutputs": 132,
+    "aioPreviousChecks": 457,
+    "gameplayVerified": false
+  }
+}

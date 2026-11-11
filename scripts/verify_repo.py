@@ -29,16 +29,45 @@ def verify_identity(source, version):
             raise ValueError('Runtime identity mismatch: '+name)
 
 
-def verify_archive(root, version):
+def compatibility_entries(root, version):
+    folder = root / 'assets/compatibility'
+    manifest = json.loads((folder / 'manifest.json').read_text(encoding='utf-8-sig'))
+    if manifest['teamBuilderVersion'] != version:
+        raise ValueError('Compatibility bundle version mismatch')
+    for name in manifest['files']:
+        path = PurePosixPath(name)
+        if len(path.parts) != 1 or path.name != name or ':' in name or '\\' in name:
+            raise ValueError('Invalid compatibility filename: '+name)
+        if name != 'README.txt' and path.suffix not in ('.fbmod', '.fbproject'):
+            raise ValueError('Unexpected compatibility file: '+name)
+    verify_hashes(folder, manifest['files'])
+    wanted = ['README.txt'] + [patch['file'] for patch in manifest['patches']]
+    if len(wanted) != len(set(wanted)) or manifest['playerFiles'] != wanted:
+        raise ValueError('Compatibility player-file list differs from selected patches')
+    for patch in manifest['patches']:
+        if patch['file'] not in manifest['files'] or not patch['file'].endswith('.fbmod'):
+            raise ValueError('Missing compatibility fbmod')
+        if patch['project'] not in manifest['files'] or not patch['project'].endswith('.fbproject'):
+            raise ValueError('Missing editable compatibility project')
+    return {'compatibility patches/'+name: 'assets/compatibility/'+name for name in wanted}
+
+
+def player_entries(root, version):
     expected = {
         'OfflineTeamBuilder.fbmod': 'assets/OfflineTeamBuilder.fbmod',
         'Plugins/OfflineTeamBuilderRuntime.dll': f'dist/v{version}/OfflineTeamBuilderRuntime.dll',
         'README.txt': 'runtime/USER-README.txt',
     }
+    expected.update(compatibility_entries(root, version))
+    return expected
+
+
+def verify_archive(root, version):
+    expected = player_entries(root, version)
     with zipfile.ZipFile(root / f'dist/v{version}/OfflineTeamBuilder-{version}.zip') as archive:
         entries = [entry.filename for entry in archive.infolist() if not entry.is_dir()]
         if len(entries) != len(expected) or set(entries) != set(expected):
-            raise ValueError('Player ZIP must contain only the runtime DLL, fbmod and installation README')
+            raise ValueError('Player ZIP differs from core files and checked optional compatibility patches')
         for name, source in expected.items():
             if archive.read(name) != (root / source).read_bytes():
                 raise ValueError('ZIP/source mismatch: '+name)
