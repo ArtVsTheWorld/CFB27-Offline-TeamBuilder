@@ -26,7 +26,9 @@ The cache metadata needs head and the ordered superbundles array only. A trimmed
 copy is included in the source ZIP. The baseline mod remains read-only. Packaging
 preserves every game resource/payload while updating display metadata, checks
 MMC reader parity, exports/verifies an editable project, checks both ZIPs and
-includes a matching source archive. Native SDKs and user data are excluded.
+includes a matching source archive. The player ZIP contains only the DLL, fbmod
+and installation README; editable project and verification metadata stay outside
+it. Support tools remain in the source/repository. Native SDKs and user data are excluded.
 
 Native game/owner/helper fingerprints remain mandatory. Preserve the per-user
 storage boundary when adding outputs. Tests use private Temp fixtures, including

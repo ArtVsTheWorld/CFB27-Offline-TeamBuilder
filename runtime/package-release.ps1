@@ -20,7 +20,9 @@ $fbmod=(Resolve-Path -LiteralPath $WorkingFbmod).Path
 if((Get-FileHash -LiteralPath $fbmod).Hash -ine $ExpectedFbmodHash){throw 'Baseline mod identity changed.'}
 $release=Join-Path $out ('OfflineTeamBuilder-'+$build.version)
 New-Item -ItemType Directory -Path $release -Force|Out-Null
-Get-ChildItem -LiteralPath $runtime|ForEach-Object{Copy-Item -LiteralPath $_.FullName -Destination $release -Recurse}
+New-Item -ItemType Directory -Path (Join-Path $release 'Plugins') -Force|Out-Null
+Copy-Item -LiteralPath (Join-Path $runtime 'Plugins\OfflineTeamBuilderRuntime.dll') -Destination (Join-Path $release 'Plugins\OfflineTeamBuilderRuntime.dll')
+Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'USER-README.txt') -Destination (Join-Path $release 'README.txt')
 $modOutput=Join-Path $release 'OfflineTeamBuilder.fbmod'
 $metadata=& python (Join-Path $PSScriptRoot 'tools\rebrand_fbmod.py') $fbmod $modOutput --version $build.version --expected-source $ExpectedFbmodHash
 if($LASTEXITCODE -ne 0){throw 'Metadata-only mod rewrite failed.'}
@@ -28,19 +30,19 @@ $modReport=($metadata -join "`n")|ConvertFrom-Json
 if(-not $modReport.game_compatibility_unchanged -or -not $modReport.resource_records_unchanged -or -not $modReport.manifest_and_payloads_unchanged){throw 'Mod preservation check failed.'}
 & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot 'tests\VerifyFbmod.ps1') -MmcRoot $MmcRoot -Baseline $fbmod -Candidate $modOutput -Version $build.version
 if($LASTEXITCODE -ne 0){throw 'Installed SDK rejected mod preservation check.'}
-$project=Join-Path $release 'OfflineTeamBuilder.fbproject'
+$project=Join-Path $out 'OfflineTeamBuilder.fbproject'
 $projectReport=Join-Path $out 'project-verification.json'
 & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot 'tools\export-fbproject.ps1') -MmcRoot $MmcRoot -Fbmod $modOutput -CacheIndex $CacheIndex -Destination $project -ReportPath $projectReport
 if($LASTEXITCODE -ne 0){throw 'Editable project export failed.'}
 & python (Join-Path $PSScriptRoot 'tools\verify_fbproject.py') $project $projectReport
 if($LASTEXITCODE -ne 0){throw 'Independent editable project verification failed.'}
-Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'VALIDATION.txt') -Destination $release
-$recordPath=Join-Path $release 'release.json'
+# Keep verification metadata and editable assets outside the player ZIP.
+$recordPath=Join-Path $out 'release.json'
 $files=@(Get-ChildItem -LiteralPath $release -Recurse -File|Where-Object FullName -ne $recordPath|ForEach-Object{@{path=[IO.Path]::GetRelativePath($release,$_.FullName).Replace('\','/');sha256=(Get-FileHash -LiteralPath $_.FullName).Hash.ToLowerInvariant()}})
 @{version=$build.version;authors='JDHalfRack / Ace / Timberline Tex';status='Distribution; single installation DLL; per-user data';managedChecks=$build.managedChecks;nativeSha256=$build.nativeSha256;files=$files}|ConvertTo-Json -Depth 5|Set-Content -LiteralPath $recordPath -Encoding UTF8
 $zip=Join-Path $out ('OfflineTeamBuilder-'+$build.version+'.zip')
 [IO.Compression.ZipFile]::CreateFromDirectory($release,$zip,[IO.Compression.CompressionLevel]::Optimal,$false)
-& (Join-Path $PSScriptRoot 'tests\PackagingChecks.ps1') -ReleaseDirectory $release -ZipPath $zip
+& (Join-Path $PSScriptRoot 'tests\PackagingChecks.ps1') -ReleaseDirectory $release -ZipPath $zip -PlayerPackage -RecordPath $recordPath
 $source=Join-Path $out ('OfflineTeamBuilder-'+$build.version+'-source')
 New-Item -ItemType Directory -Path $source|Out-Null
 foreach($folder in @('src','Profiles','Native','tests','tools')){
@@ -76,7 +78,7 @@ try{
         if($digest -ine (Get-FileHash -LiteralPath (Join-Path $source $entry.FullName)).Hash){throw ('Source ZIP bytes differ: '+$entry.FullName)}
     }
 }finally{$sourceArchive.Dispose()}
-@{version=$build.version;status='Distribution package';managedChecks=$build.managedChecks;managedSha256=$build.managedSha256;nativeSha256=$build.nativeSha256;userZipSha256=(Get-FileHash -LiteralPath $zip).Hash;sourceZipSha256=(Get-FileHash -LiteralPath $sourceZip).Hash;modPreservation=$modReport;sourceZipFiles=$sourceFiles.Count;userZipFiles=$files.Count+1;gameplayAcceptance=$build.inGameAcceptance;installedFilesChanged=$false}|
+@{version=$build.version;status='Distribution package';managedChecks=$build.managedChecks;managedSha256=$build.managedSha256;nativeSha256=$build.nativeSha256;userZipSha256=(Get-FileHash -LiteralPath $zip).Hash;sourceZipSha256=(Get-FileHash -LiteralPath $sourceZip).Hash;modPreservation=$modReport;sourceZipFiles=$sourceFiles.Count;userZipFiles=$files.Count;gameplayAcceptance=$build.inGameAcceptance;installedFilesChanged=$false}|
     ConvertTo-Json -Depth 6|Set-Content -LiteralPath (Join-Path $out 'package-verification.json') -Encoding UTF8
 Write-Output ('User package: '+$zip)
 Write-Output ('Matching source: '+$sourceZip)

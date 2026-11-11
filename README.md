@@ -20,7 +20,9 @@ the checked native helper is embedded and deployed automatically to user data.
    Retain required AIO and matching compatibility mods for AIO dynasties.
 4. Restart MMC, launch normally and keep MMC running. No F9 step is required.
 
-The editable fbproject is for developers. Teams must already be downloaded.
+The player ZIP contains only the runtime DLL, fbmod and installation README.
+Editable assets and support tools are available separately in this repository.
+Teams must already be downloaded.
 Targets the October 30, 2026 native layout; future game updates may need a port.
 Offline only. Native fingerprints and hook ownership checks remain required.
 
@@ -32,7 +34,8 @@ next step, Windows errors, session IDs, environment/plugin inventory and selecte
 pack/built-mod context. `Ready` means runtime hooks are active, not that textures
 are proven rendered. The last failure remains in the current session's status.
 
-Run `Collect-Support.ps1` from the ZIP for a report under that folder's `Support`
+Download [collect-diagnostics.ps1](runtime/collect-diagnostics.ps1) and run it
+for a report under that folder's `Support`
 directory. Review personal paths before sharing. Settings, saves, caches, DLLs
 and memory dumps are excluded; no automatic upload occurs.
 
@@ -40,7 +43,7 @@ Legacy settings are copied without deleting originals; existing user settings
 win and conflicts/old logs are archived under `Migration`. All MMC copies for
 one account share user data. The old Local AppData asset store is retained.
 The plugin does not write runtime files into the installation; MMC itself still
-needs normal access for its own files. See [installation/support details](runtime/USER-README.txt).
+needs normal access for its own files.
 
 ## Known limitation and validation
 

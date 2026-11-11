@@ -20,6 +20,10 @@ JDHalfRack / Ace / Timberline Tex
   and verified Midgame Save 0.2.2/0.2.4 hook sharing developed after public 2.1.5.
   Native helper bytes, game signatures and hook ownership checks are unchanged.
 
+- Keep the player ZIP to the runtime DLL, fbmod and a short installation README.
+  Support tools, editable assets and validation details remain in the repository
+  and source package.
+
 ## Validation and limits
 
 Private runtime checks include real deny-write ACLs on a temporary MMC fixture,

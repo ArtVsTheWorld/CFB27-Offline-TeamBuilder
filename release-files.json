@@ -6,8 +6,8 @@
     "assets/OfflineTeamBuilder.fbproject": "B319318975850A15521F1CBA75D8F7056572251CE7F6EC89B4351B233ADC7134",
     "dist/v2.1.7/OfflineTeamBuilderRuntime.dll": "41502CC6F76E38E75357764A5163B5898563B38183B59ABEB9A8A5C329B1E561",
     "dist/v2.1.7/OfflineTeamBuilderNative.dll": "966DD356A6D52B152822EFD88AD4BBACDB24EE81E2970D805C9AC25C80E5EF8E",
-    "dist/v2.1.7/OfflineTeamBuilder-2.1.7.zip": "F09DDD6FB3E86A8A881E8FFD7116A02DB2EE75DAAF8B4306CA0A9C09754C6681",
-    "dist/v2.1.7/OfflineTeamBuilder-2.1.7-source.zip": "FC7022B970434EA3EF2941B733706302837A274FDCC019BF6D91CDFFC6E4BB9A",
+    "dist/v2.1.7/OfflineTeamBuilder-2.1.7.zip": "0041CA2E970FAF0FEBDB93A1CC5C608FB7614905AEA0CA097EAFBDF76F255E7C",
+    "dist/v2.1.7/OfflineTeamBuilder-2.1.7-source.zip": "E57A798C4C1A0CF9A4965474F8D12CF801456D14326AC2D26705BB0574CE23B1",
     "runtime/Native/native-helper-manifest.json": "756B586279646610AFFBE611A0BC80B39C08523E6B9B8D0AC9F9C14D5E060871"
   },
   "verification": "5410 runtime checks, write-denied ACL/migration and support collector checks, MMC/project/archive checks; source ZIP rebuild matches shipped DLL. Previous startup fix tester-confirmed; no new 2.1.7 live-game certification.",

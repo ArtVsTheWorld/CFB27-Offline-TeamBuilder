@@ -32,33 +32,19 @@ def verify_identity(source, version):
 def verify_archive(root, version):
     expected = {
         'OfflineTeamBuilder.fbmod': 'assets/OfflineTeamBuilder.fbmod',
-        'OfflineTeamBuilder.fbproject': 'assets/OfflineTeamBuilder.fbproject',
         'Plugins/OfflineTeamBuilderRuntime.dll': f'dist/v{version}/OfflineTeamBuilderRuntime.dll',
         'README.txt': 'runtime/USER-README.txt',
-        'TESTING.txt': 'runtime/TESTING.txt',
-        'VALIDATION.txt': 'runtime/VALIDATION.txt',
-        'Collect-Support.ps1': 'runtime/collect-diagnostics.ps1',
     }
     with zipfile.ZipFile(root / f'dist/v{version}/OfflineTeamBuilder-{version}.zip') as archive:
         entries = [entry.filename for entry in archive.infolist() if not entry.is_dir()]
-        if len(entries) != len(expected)+1 or set(entries) != set(expected) | {'release.json'}:
-            raise ValueError('Unexpected release ZIP contents')
+        if len(entries) != len(expected) or set(entries) != set(expected):
+            raise ValueError('Player ZIP must contain only the runtime DLL, fbmod and installation README')
         for name, source in expected.items():
             if archive.read(name) != (root / source).read_bytes():
                 raise ValueError('ZIP/source mismatch: '+name)
         readme = archive.read('README.txt').decode('utf-8-sig')
-        if AUTHORS not in readme or version not in readme:
-            raise ValueError('Release README identity mismatch')
-        record=json.loads(archive.read('release.json').decode('utf-8-sig'))
-        if record['version']!=version or record['authors']!=AUTHORS:
-            raise ValueError('Player manifest identity mismatch')
-        if {item['path'] for item in record['files']}!=set(expected):
-            raise ValueError('Player manifest file allow-list mismatch')
-        for item in record['files']:
-            if hashlib.sha256(archive.read(item['path'])).hexdigest().lower()!=item['sha256'].lower():
-                raise ValueError('Player manifest payload mismatch')
-        if [name for name in entries if name.endswith('.dll')]!=['Plugins/OfflineTeamBuilderRuntime.dll']:
-            raise ValueError('Player package must contain one installation DLL')
+        if version not in readme:
+            raise ValueError('Release README version mismatch')
 
 
 def clr_resources(image):

@@ -1,19 +1,26 @@
 #requires -Version 7.0
-param([Parameter(Mandatory=$true)][string]$ReleaseDirectory,[string]$ZipPath)
+param([Parameter(Mandatory=$true)][string]$ReleaseDirectory,[string]$ZipPath,[string]$RecordPath,[switch]$PlayerPackage)
 $ErrorActionPreference='Stop'
 $root=(Resolve-Path -LiteralPath $ReleaseDirectory).Path
-$record=Get-Content -LiteralPath (Join-Path $root 'release.json') -Raw|ConvertFrom-Json
+if(-not $RecordPath){$RecordPath=Join-Path $root 'release.json'}
+$record=Get-Content -LiteralPath $RecordPath -Raw|ConvertFrom-Json
 $paths=@($record.files.path)
 if(@($paths|Group-Object|Where-Object Count -gt 1).Count){throw 'Duplicate package paths.'}
 $required=@('Plugins/OfflineTeamBuilderRuntime.dll','README.txt','TESTING.txt','Collect-Support.ps1')
-foreach($path in $required){if($paths -cnotcontains $path){throw ('Required package file missing: '+$path)}}
+if(-not $PlayerPackage){foreach($path in $required){if($paths -cnotcontains $path){throw ('Required package file missing: '+$path)}}}
 $allowed=$required+@('OfflineTeamBuilder.fbmod','OfflineTeamBuilder.fbproject','VALIDATION.txt')
+if($PlayerPackage){
+    $required=@('Plugins/OfflineTeamBuilderRuntime.dll','OfflineTeamBuilder.fbmod','README.txt')
+    $allowed=$required
+    foreach($path in $required){if($paths -cnotcontains $path){throw ('Required player file missing: '+$path)}}
+}
 foreach($file in $record.files){
     if($file.path -cnotin $allowed){throw ('Unexpected package entry: '+$file.path)}
     if((Get-FileHash -LiteralPath (Join-Path $root $file.path)).Hash -ine $file.sha256){throw ('Package bytes differ: '+$file.path)}
 }
 $actual=@(Get-ChildItem -LiteralPath $root -Recurse -File|ForEach-Object{[IO.Path]::GetRelativePath($root,$_.FullName).Replace('\','/')})
-if(@(Compare-Object ($actual|Sort-Object) (@($paths+'release.json')|Sort-Object)).Count){throw 'Unlisted files in package.'}
+$expected=if($PlayerPackage){$paths}else{@($paths+'release.json')}
+if(@(Compare-Object ($actual|Sort-Object) ($expected|Sort-Object)).Count){throw 'Unlisted files in package.'}
 $dll=Join-Path $root 'Plugins\OfflineTeamBuilderRuntime.dll'
 if([Diagnostics.FileVersionInfo]::GetVersionInfo($dll).ProductVersion -cne $record.version){throw 'Managed version differs from release manifest.'}
 if(@(Get-ChildItem -LiteralPath (Join-Path $root 'Plugins') -Recurse -File).Count -ne 1){throw 'Single-install package contains additional plugin files.'}
