@@ -12,11 +12,16 @@
     <EnableSourceControlManagerQueries>false</EnableSourceControlManagerQueries>
     <EnableSourceLink>false</EnableSourceLink>
     <NativeHelperPath Condition="'$(NativeHelperPath)' == '' And Exists('$(MSBuildProjectDirectory)/Native/bin/Release/OfflineTeamBuilderNative.dll')">$(MSBuildProjectDirectory)/Native/bin/Release/OfflineTeamBuilderNative.dll</NativeHelperPath>
-    <NativeHelperPath Condition="'$(NativeHelperPath)' == ''">$(MSBuildProjectDirectory)/../dist/v2.1.7/OfflineTeamBuilderNative.dll</NativeHelperPath>
+    <NativeHelperPath Condition="'$(NativeHelperPath)' == ''">$(MSBuildProjectDirectory)/../dist/v2.4.13/OfflineTeamBuilderNative.dll</NativeHelperPath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="src/**/*.cs" />
-    <EmbeddedResource Include="Profiles/cfb27-2026-10-30.json" LogicalName="OfflineTeamBuilderRuntime.Profile.json" />
+    <EmbeddedResource Include="SharedUi/worker.zip" LogicalName="OfflineTeamBuilderRuntime.SharedUiWorker.zip" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsBase" />
+    <EmbeddedResource Include="Host/bin/Release/net48/OfflineTeamBuilder.Host.exe" LogicalName="OfflineTeamBuilderRuntime.HostPayload.exe" />
+    <EmbeddedResource Include="Host/host-manifest.json" LogicalName="OfflineTeamBuilderRuntime.HostManifest.json" />
+    <EmbeddedResource Include="Profiles/cfb27-2026-11-19.json" LogicalName="OfflineTeamBuilderRuntime.Profile.json" />
     <EmbeddedResource Include="Native/native-helper-manifest.json" LogicalName="OfflineTeamBuilderRuntime.NativeManifest.json" />
     <EmbeddedResource Include="$(NativeHelperPath)" LogicalName="OfflineTeamBuilderRuntime.NativePayload.dll" />
     <Reference Include="FrostyCore"><HintPath>$(MmcRoot)/FrostyCore.dll</HintPath><Private>false</Private></Reference>
@@ -24,6 +29,8 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
   </ItemGroup>
   <Target Name="CheckManagerReferences" BeforeTargets="ResolveReferences">
     <Error Condition="!Exists('$(MmcRoot)/FrostyCore.dll') Or !Exists('$(MmcRoot)/FrostySdk.dll')" Text="Set MmcRoot to your MMC folder containing FrostyCore.dll and FrostySdk.dll." />

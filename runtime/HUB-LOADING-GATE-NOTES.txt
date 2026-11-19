@@ -1,0 +1,23 @@
+Hub loading gate - developer notes
+
+Working baseline: public f29ecf8 / 2.1.7. No installed files changed.
+Read-only fresh nine-team capture: native team pass began at elapsed 36.082 seconds and completed all nine at 41.072 seconds; queue then empty. The selected loading-screen type is not a visibility signal, so this capture does not certify when the overlay disappeared.
+
+Native gate hooks the validated loading adapter Show/Hide slots. A current owned TeamBuilder pass (stage 11 or 12) can defer Hide. Show cancels an old pending hide. The monitored pass must complete (stage 16), own the current career/epoch, contain every expected team record, have no pending/deferred work or failures, and show an empty native deque for 150ms. The original Hide is replayed once on its original UI thread via the native UI undefined-result helper. The helper preserves flags, volatile GPRs, XMM0..5 and the original undefined return value. Its entry patch does not clobber a register. Native GetTickCount64 supplies a 60-second fallback even if managed monitoring stops. A changed career, epoch, loading object or a new Show cancels stale work.
+
+The existing queue observer incorrectly treated a deque as a contiguous vector. The correction validates both iterators, the pointer map, block sizes, bounded job count and stable re-reads, including blocks with descending addresses. It never consumes, cancels, completes or changes jobs.
+
+Uniform/package construction, news gate, audio restore, database/importer, existing native helper and fbmod bytes are unchanged. Optional UI fingerprints and slot ownership are checked before enabling the feature; failure leaves normal TeamBuilder loading active. No executable checksum requirement.
+
+Private tests execute actual emitted AMD64 thunks in the test process. Cases cover delayed release, one-shot replay, new-show cancellation, stale career/epoch, wrong UI thread, timeout without managed monitoring, importer/map-busy/non-career bypass and GPR/XMM/flags preservation. 5,494 full-suite checks pass; support collector and packaging checks pass. This is not in-game certification.
+
+Potential acceptance failures: if the stock Hide occurs before the native TeamBuilder pass starts, it passes through rather than blocking initialization. If no matching UI native-call return occurs, release may be delayed. Confirm behavior in a normal Dynasty load before distribution. Current source is on feature/hub-readiness-20261113 and has not been pushed.
+
+
+Test 2 changes (2.2.1)
+
+The live read-only capture of a normal save reload showed zero new gate holds while nine team jobs completed (epoch 8). The one hold shown by Test 1's status belonged to a previous career/epoch. Test 1 also overwrote the last reason on every Show and counted only deferred replays, so its counters could not certify the first hold's outcome. The initial claim that a new Show canceled that hold was not established by the telemetry and was corrected in the conversation.
+
+Test 2 tracks incoming default loading views, then on the first safe native UI callback after a current owned TeamBuilder pass starts, reasserts the native loading view and arms the wait. This does not pause the game or invoke an asset builder from another thread. A pass already completed before that callback does not reopen the screen. Same-view refreshes for the same career and epoch preserve a pending wait; a different view/context cancels it. Stock Hide after a completed pass is counted separately from the deferred UI-thread replay. Default logging now retains gate events. New native tests exercise early Hide -> native startup -> UI reassertion -> completion, same-view refresh, cancellation, stock completion, and volatile register/XMM/flags preservation on the new reassertion path.
+
+5,516 full-suite private checks pass, along with support and package checks. Game appearance and handoff timing remain unverified for Test 2. A hub flash may occur before the first safe UI callback. No new native helper, asset-loader template, fbmod, importer or save-data changes. The public repository and installed files are untouched.

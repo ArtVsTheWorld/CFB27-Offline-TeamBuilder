@@ -33,6 +33,9 @@ internal sealed class ReadinessChecks
         Put(Records,new byte[2*0x78]);D(Records+0x58,1801);D(Records+0x78+0x58,1807);
         Q(Manager+0x1C8,Records);Q(Manager+0x1D0,Records+2*0x78);
         Q(Manager+0x180,Queue);Q(Manager+0x1A0,Queue+24);
+        Q(Manager+0x170,0x53100000);D(Manager+0x178,8);Q(0x53100010,Queue);
+        Q(Manager+0x188,Queue);Q(Manager+0x190,Queue+0x100);Q(Manager+0x198,0x53100010);
+        Q(Manager+0x1A8,Queue);Q(Manager+0x1B0,Queue+0x100);Q(Manager+0x1B8,0x53100010);
         for(int n=0;n<3;n++) {
             ulong job=0x58000000+(ulong)n*0x100;Put(job,new byte[0x48]);Q(Queue+(ulong)n*8,job);D(job+8,1);
             Q(job,Image+(ulong)profile.Rva(n==2?"Rva_0B38B380":"Rva_0B38CA08"));

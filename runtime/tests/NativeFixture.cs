@@ -10,7 +10,7 @@ using OfflineTeamBuilderReentry;
 
 // ALL executable buffers and mocked native objects belong to this test process.
 // No Process.GetProcessesByName, remote thread, game PID, save or cache access.
-internal sealed class NativeFixture : IDisposable
+internal sealed partial class NativeFixture : IDisposable
 {
     [UnmanagedFunctionPointer(CallingConvention.Winapi)] private delegate uint Hub(IntPtr service);
     [UnmanagedFunctionPointer(CallingConvention.Winapi)] private delegate void Dispatch();
@@ -27,7 +27,8 @@ internal sealed class NativeFixture : IDisposable
     private readonly List<uint> slots=new List<uint>{1807,1811,1810,1808,1806,1805,1804,1803,1801};
     private readonly List<uint> builds=new List<uint>();
     private readonly Queue<byte[]> pending=new Queue<byte[]>();
-    private int destroyed,loaded,stockLoads;
+    private int destroyed,loaded,stockLoads,hubCalls;
+    private bool dispatchDuringHub;
     private readonly Hub enter;
     private readonly Dispatch dispatch;
     private NativeFixture()
@@ -40,6 +41,9 @@ internal sealed class NativeFixture : IDisposable
         Q(service,image+(ulong)GameProfile.Current.Rva("ServiceVtable"));Q(career,image+(ulong)GameProfile.Current.Rva("CareerManagerVtable"));
         Commit(image+(ulong)GameProfile.Current.Rva("ServiceGlobal"),8);
         Q(image+(ulong)GameProfile.Current.Rva("ServiceGlobal"),service);
+        Commit(image+(ulong)GameProfile.Current.Rva("CardDetailsAdapterGlobal"),8);
+        Q(image+(ulong)GameProfile.Current.Rva("CardDetailsAdapterGlobal"),0);
+        Commit(A("GateMatchStatesGlobal"),8);Q(A("GateMatchStatesGlobal"),0);
         Bind();Q(context+0x1D0,selected);D(selected+0xF78,1801);
         Q(manager,A("Rva_0B38B3B8"));Q(manager+0x130,vector);Q(manager+0x138,vector+9*8);
         Q(manager+0x180,vector);Q(manager+0x1A0,vector);Q(manager+0x1C8,records);Q(manager+0x1D0,records);
@@ -48,10 +52,13 @@ internal sealed class NativeFixture : IDisposable
         Commit(A("Rva_0B38B3B8"),0x28);Q(A("Rva_0B38B3B8")+0x20,A("Rva_0317B260"));
         Jump(A("Rva_0317B260"),Keep(new Builder((owner,slot,reuseResident,capture)=> {
             Program.Assert(Address(owner)==manager&&reuseResident==0&&pending.Count==0,"native builder retains original full-build argument and one job at a time");
+            // The native builder allocates its queue on first use. Model that
+            // allocation when testing the permitted null/null empty cursors.
+            if(BitConverter.ToUInt64(Read(manager+0x180,8),0)==0)Q(manager+0x180,vector);
             byte[] bytes=Read(Address(capture),32);pending.Enqueue(bytes);builds.Add(slot);Q(manager+0x1A0,vector+8);
         })));
         Jump(A("Rva_02AE3150"),Keep(new Destroy(payload=>destroyed++)));
-        ulong hub=Keep(new Hub(p=> { Marshal.WriteByte(p,0x7B1,1);Marshal.WriteByte(p,0x7B4,0);return 7; }));
+        ulong hub=Keep(new Hub(p=> { hubCalls++;Marshal.WriteByte(p,0x7B1,1);Marshal.WriteByte(p,0x7B4,0);if(dispatchDuringHub)dispatch();return 7; }));
         ulong key=Keep(new Hub(p=>U32(selected+0xF78)&0xFFFF));
         ulong load=Keep(new Load((p,slot,unused)=>{stockLoads++;Program.Assert(slot==(U32(selected+0xF78)&0xFFFF)&&unused==0,"stock load uses current selected school ABI");}));
         ulong reload=Keep(new Reload(p=>Marshal.WriteByte(p,0x7B4,1)));
@@ -285,6 +292,45 @@ internal sealed class NativeFixture : IDisposable
         for(int n=0;n<9;n++){Complete();dispatch();}
         Program.Assert(builds.Count==18&&U32(status+8)==16&&U32(status+0x48)==9,"all teams return after residency invalidation");
     }
+    private void PlayerCardDemandRepair()
+    {
+        LoadPass();D(status+0xB4,1); // ordinary one-pass stabilization is exhausted
+        ulong adapter=Obj(0x500),flow=Obj(0x100),picker=Obj(0x50);
+        Q(adapter,A("CardDetailsAdapterVtable"));Q(adapter+0x418,flow);Q(flow,A("CardDetailsFlowVtable"));
+        Q(A("CardDetailsAdapterGlobal"),adapter);Q(career+0x1E8,picker);D(picker,1801);D(picker+4,1811);
+        D(flow+0xB4,1);
+        Action<uint> remove=slot=>{
+            var kept=Enumerable.Range(0,loaded).Select(n=>Read(records+(ulong)n*0x78,0x78)).Where(row=>BitConverter.ToUInt32(row,0x58)!=slot).ToArray();
+            Write(records,kept.SelectMany(row=>row).ToArray());loaded=kept.Length;Q(manager+0x1D0,records+(ulong)loaded*0x78);
+        };
+        remove(1811);
+        for(int i=0;i<100;i++)dispatch();
+        Program.Assert(builds.Count==9&&U32(status+CardDemandRepairScope.RepairRequests)==0,"absent player-card flow never bypasses exhausted stabilization");
+        Marshal.WriteByte(new IntPtr((long)flow),0xB1,1);
+        Q(career+0x1B0,1);for(int i=0;i<10;i++)dispatch();Q(career+0x1B0,0);
+        Program.Assert(builds.Count==9&&U32(status+CardDemandRepairScope.LastViewedSlot)==0,"card demand is blocked by match-entry converter");
+        Q(manager+0x1A0,vector+8);for(int i=0;i<10;i++)dispatch();Q(manager+0x1A0,vector);
+        Program.Assert(builds.Count==9&&U32(status+CardDemandRepairScope.LastViewedSlot)==0,"busy native queue preserves demand for later admission");
+        for(int i=0;i<30&&builds.Count==9;i++)dispatch();
+        Program.Assert(builds.Count==10&&builds.Last()==1811&&pending.Count==1&&U32(status+CardDemandRepairScope.RepairRequests)==1,"new absent viewed team rearms native saved-team loading after exhausted stabilization: builds="+builds.Count+" last="+builds.Last()+" pending="+pending.Count+" requests="+U32(status+CardDemandRepairScope.RepairRequests)+" viewed="+U32(status+CardDemandRepairScope.LastViewedSlot)+" stage="+U32(status+8));
+        Complete();for(int i=0;i<30;i++)dispatch();
+        Program.Assert(builds.Count==10&&loaded==9&&U32(status+8)==16,"viewed-team repair leaves resident teams intact and completes normally");
+        remove(1811);for(int i=0;i<500;i++)dispatch();
+        Program.Assert(builds.Count==10&&U32(status+CardDemandRepairScope.RepairRequests)==1,"same view cannot create an unbounded repair loop");
+        D(flow+0xC4,1);dispatch();
+        Program.Assert(U32(status+CardDemandRepairScope.LastViewedSlot)==0&&builds.Count==10,"leaving player-card flow clears only private viewed identity");
+        D(flow+0xC4,0);for(int i=0;i<30&&builds.Count==10;i++)dispatch();
+        Program.Assert(builds.Count==11&&builds.Last()==1811&&U32(status+CardDemandRepairScope.RepairRequests)==2,"reopening the same missing team permits a fresh bounded repair");
+        Complete();for(int i=0;i<30;i++)dispatch();
+        remove(1805);D(picker+4,1805);for(int i=0;i<30&&builds.Count==11;i++)dispatch();
+        Program.Assert(builds.Count==12&&builds.Last()==1805&&U32(status+CardDemandRepairScope.RepairRequests)==3,"different absent viewed team gets its own repair opportunity");
+        Complete();for(int i=0;i<30;i++)dispatch();
+        D(picker+4,1807);for(int i=0;i<100;i++)dispatch();
+        Program.Assert(builds.Count==12&&U32(status+CardDemandRepairScope.RepairRequests)==3,"resident viewed team is never rebuilt for demand alone");
+        Marshal.WriteByte(new IntPtr((long)flow),0xB1,0);remove(1808);D(picker+4,1808);
+        for(int i=0;i<1000;i++)dispatch();
+        Program.Assert(builds.Count==12&&pending.Count==0,"uniform select or gameplay with no active player card does not rearm recovery");
+    }
     private void MissingOpponentRepair()
     {
         LoadPass();
@@ -484,6 +530,7 @@ internal sealed class NativeFixture : IDisposable
     }
     internal static void CheckAll()
     {
+        ColdStartChecks();
         using(var fixture=new NativeFixture())fixture.Sequence();
         using(var fixture=new NativeFixture())fixture.Admission();
         using(var fixture=new NativeFixture())fixture.EmptyQueue();
@@ -494,6 +541,7 @@ internal sealed class NativeFixture : IDisposable
             foreach(string change in new[]{"selected pointer","Career owner","selected slot","converter","vector end","vector begin","cursor alignment"})
                 using(var fixture=new NativeFixture())fixture.AdmissionRace(initial,change,true);
         using(var fixture=new NativeFixture())fixture.Residency();
+        using(var fixture=new NativeFixture())fixture.PlayerCardDemandRepair();
         using(var fixture=new NativeFixture())fixture.MissingOpponentRepair();
         using(var fixture=new NativeFixture())fixture.MatchupTrim();
         using(var fixture=new NativeFixture())fixture.SelectionLogos();

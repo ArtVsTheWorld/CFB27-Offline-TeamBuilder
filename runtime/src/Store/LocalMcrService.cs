@@ -27,6 +27,7 @@ public sealed class LocalMcrService : IDisposable
 	private readonly RepairOptions options;
 
 	private readonly LocalAssetStore store;
+	private readonly TeamArtworkCatalog artwork;
 
 	private readonly string logFile;
 
@@ -83,14 +84,20 @@ public sealed class LocalMcrService : IDisposable
 
 	public string StoreDirectory => store.Root;
 
-	public LocalMcrService(string sessionDirectory, RepairOptions options)
+	public LocalMcrService(string sessionDirectory, RepairOptions options) : this(sessionDirectory,options,27875) {}
+
+    private readonly int requestedPort;
+    internal LocalMcrService(string sessionDirectory, RepairOptions options,int port)
 	{
+        if(port<0||port>65535)throw new ArgumentOutOfRangeException(nameof(port));
+        requestedPort=port;
 		this.options = options;
 		options.Validate();
 		RootDirectory = Path.Combine(sessionDirectory, "loopback-mcr");
 		Directory.CreateDirectory(RootDirectory);
 		logFile = Path.Combine(RootDirectory, "requests.jsonl");
 		store = new LocalAssetStore(options);
+		artwork = new TeamArtworkCatalog(OfflineTeamBuilderRuntime.RuntimePaths.Current,message=>Log(0,"ARTWORK_WARNING","",0,message));
 		foreach (string recoveryWarning in store.RecoveryWarnings)
 		{
 			Log(0, "RECOVERY_WARNING", "", 0, recoveryWarning);
@@ -100,7 +107,7 @@ public sealed class LocalMcrService : IDisposable
 	public void Start()
 	{
 		Exception innerException = null;
-		for (int i = 27875; i <= 27875; i++)
+		for (int i = requestedPort; i <= requestedPort; i++)
 		{
 			TcpListener tcpListener = null;
 			try
@@ -108,7 +115,7 @@ public sealed class LocalMcrService : IDisposable
 				tcpListener = new TcpListener(IPAddress.Loopback, i);
 				tcpListener.Start(8);
 				Listener = tcpListener;
-				Port = i;
+				Port = ((IPEndPoint)tcpListener.LocalEndpoint).Port;
 			}
 			catch (Exception ex) when (ex is SocketException || ex is IOException)
 			{
@@ -213,6 +220,22 @@ public sealed class LocalMcrService : IDisposable
 			httpRequest = httpProtocol.ReadHeaders(Port);
 			text2 = httpRequest.Path;
 			Log(request, "REQUEST_RECEIVED", httpRequest.TargetForDiagnostics, 0, "method=" + httpRequest.Method);
+			if (text2.StartsWith("/offline-tb/artwork/",StringComparison.Ordinal))
+			{
+				// Optional presentation failures never become a transport/native
+				// guard failure or stop the working asset service.
+				try{
+					if(httpRequest.Method!="GET"&&httpRequest.Method!="HEAD")throw new ProtocolError(405,"Artwork only supports GET and HEAD.");
+					artwork.TryReply(text2,Port,out var artworkBytes,out var artworkType);
+					httpProtocol.Reply(200,artworkBytes,artworkType,httpRequest.Method=="HEAD");
+					Log(request,text2.EndsWith("manifest.xml",StringComparison.Ordinal)?"ARTWORK_MANIFEST":"ARTWORK_IMAGE",text2,200,"bytes="+artworkBytes.Length);
+				}catch(Exception ex){
+					int code=ex is ProtocolError?((ProtocolError)ex).Status:422;
+					try{httpProtocol.Reply(code,Encoding.UTF8.GetBytes("Artwork unavailable."),"text/plain",httpRequest.Method=="HEAD");}catch{}
+					Log(request,"ARTWORK_REQUEST_FAILED",text2,code,ex.Message);
+				}
+				return;
+			}
 			if (httpRequest.Method == "GET" && (text2 == "/offline-tb/health" || text2 == "/health"))
 			{
 				httpProtocol.Reply(IsHealthy ? 200 : 503, RepairJson.Encode(Snapshot()));

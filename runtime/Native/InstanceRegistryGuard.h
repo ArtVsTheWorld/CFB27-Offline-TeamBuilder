@@ -131,7 +131,7 @@ static void ConfigureSpecs() {
     specs[10] = {"ClearAll",0x12761d0,PrefixClearAll,sizeof(PrefixClearAll),reinterpret_cast<void*>(&HookClearAll),6,0x1b,nullptr,nullptr,{},false};
     specs[11] = {"Event",0x1276f70,PrefixEvent,sizeof(PrefixEvent),reinterpret_cast<void*>(&HookEvent),-1,0x00,nullptr,nullptr,{},false};
     specs[12] = {"ClearAliases",0x1275940,PrefixClearAliases,sizeof(PrefixClearAliases),reinterpret_cast<void*>(&HookClearAliases),0,0x03,nullptr,nullptr,{},false};
-    specs[13] = {"ResidentMaintenance",0x3177c50,PrefixResidentMaintenance,sizeof(PrefixResidentMaintenance),reinterpret_cast<void*>(&HookResidentMaintenance),-1,0x00,nullptr,nullptr,{},false};
+    specs[13] = {"ResidentMaintenance",0x3177ce0,PrefixResidentMaintenance,sizeof(PrefixResidentMaintenance),reinterpret_cast<void*>(&HookResidentMaintenance),-1,0x00,nullptr,nullptr,{},false};
 }
 static bool ContractsReady(uintptr_t base) {
     ConfigureSpecs();

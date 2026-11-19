@@ -68,6 +68,11 @@ internal sealed partial class TeamBuilderReentryRepair
             {"submissions",ReadU32(_status+0x68)}, {"callbacks",ReadU32(_status+0x80)},
             {"staleCallbacks",ReadU32(_status+0x98)}, {"recoveryRetries",ReadU32(_status+0xA4)},
             {"residentRepairSkips",ReadU32(_status+ResidencyRepairScope.ResidentSkips)},
+            {"viewedTeamSlot",ReadU32(_status+CardDemandRepairScope.LastViewedSlot)},
+            {"viewedTeamRepairRequests",ReadU32(_status+CardDemandRepairScope.RepairRequests)},
+            {"coldStartRecoveries",ReadU32(_status+ColdStartBootstrapScope.Starts)},
+            {"coldStartPassActive",ReadU32(_status+ColdStartBootstrapScope.Active)},
+            {"careerCallbacksInProgress",ReadU32(_status+ColdStartBootstrapScope.CareerDepth)},
             {"newsPending",ReadU32(news+8)}, {"newsReleased",ReadU32(news+0x34)},
             {"newsTimeouts",ReadU32(news+0x40)}, {"newsOverflow",ReadU32(news+0x3C)},
             {"audioHandoffs",ReadU32(audio+8)}, {"audioWriterInvocations",ReadU32(audio+0xC)},
@@ -86,6 +91,7 @@ internal sealed partial class TeamBuilderReentryRepair
         if(readinessProgress==null)readinessProgress=new NativeQueueProgress();
         readinessProgress.Observe(snapshot,readinessClock.ElapsedMilliseconds);
         health["readiness"]=snapshot;
+        health["hubLoadGate"]=HubLoadingGateHealth();
         string warning=null;
         if(snapshot.observation=="StableSample"&&(snapshot.olderEpochPluginJobs!=0||snapshot.queueStallSuspected)) {
             var head=snapshot.jobs.FirstOrDefault();

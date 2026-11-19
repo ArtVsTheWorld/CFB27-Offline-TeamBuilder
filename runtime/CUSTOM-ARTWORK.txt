@@ -1,0 +1,51 @@
+Custom TeamBuilder artwork in Offline TeamBuilder 2.4.13
+
+1. Close the game and MMC.
+2. Press Win+R, paste %LOCALAPPDATA%\Ace\OfflineTeamBuilder and press Enter.
+   Create an Artwork folder there if you don't see one.
+3. Inside Artwork, make a folder named exactly like your school appears in
+   Dynasty, for example East Point. Put your PNGs inside that school folder.
+4. Launch through MMC. The runtime prepares the images before the game
+   starts. Close MMC and the game again before changing the files.
+
+Use these filenames and recommended sizes (width x height):
+
+  tbak.png        3840 x 2160   Dynasty hub and supported in-game menu backgrounds
+  pcb.png         1920 x 1080   Full player-card background
+  jersey.png       512 x 512    Small headshot jersey, including in-game depth chart
+  tsb_left.png     840 x 1080   Left (away) pregame team-select panel
+  tsb_right.png    840 x 1080   Right (home) pregame team-select panel
+
+A transparent PNG works best for jersey.png. It changes the 2D headshot
+clothing. The full-card 3D player and on-field players use the school's uniform.
+Each file is optional. A missing image uses the game's regular artwork for
+that spot. For the same image on either pregame side, save a copy under each
+TSB filename. Built-in schools keep their own art.
+
+Example with two schools:
+
+  Artwork\
+    East Point\
+      tbak.png
+      jersey.png
+      tsb_left.png
+      tsb_right.png
+    Montana State\
+      pcb.png
+      team.json
+
+Folder matching ignores capitalization. For a renamed school, put the current
+name on the folder and use team.json to list any alternate or original names
+the game still uses. For the example above, team.json could contain:
+
+  { "aliases": ["Montana St"] }
+
+Give each school a unique folder name and unique aliases. Make sure Windows
+saved team.json and the PNGs with the correct extensions.
+
+The first launch after changes may take longer. MMC reuses the compiled art
+on later launches. If a file is missing in game, open
+ArtworkCache\prepare-result.json in the same OfflineTeamBuilder folder and
+check the warnings, filenames and school spelling. Use real PNGs of at most
+20 MB each. The compiled artwork supports up to 16 schools and 32 name
+entries across school names and aliases.

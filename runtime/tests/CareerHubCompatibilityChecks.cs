@@ -103,6 +103,7 @@ internal static class CareerHubCompatibilityChecks
         LayoutChecks(CareerHubCompatibility.Legacy);LayoutChecks(CareerHubCompatibility.Version024);
         NativeChain(false,CareerHubCompatibility.Legacy);NativeChain(true,CareerHubCompatibility.Legacy);
         NativeChain(false,CareerHubCompatibility.Version024);NativeChain(true,CareerHubCompatibility.Version024);
+        NativeChain(false,CareerHubCompatibility.Version024,true);NativeChain(true,CareerHubCompatibility.Version024,true);
     }
 
     private static void LayoutChecks(CareerHubCompatibility.Layout layout)
@@ -139,7 +140,7 @@ internal static class CareerHubCompatibilityChecks
     // event handle stays zero, so no import or external code is called. Tiny
     // TeamBuilder stand-ins deliberately call stock twice, verifying MGS is
     // notified once per real outer entry and is retained through both cleanups.
-    private static void NativeChain(bool teamBuilderStartsFirst,CareerHubCompatibility.Layout layout)
+    private static void NativeChain(bool teamBuilderStartsFirst,CareerHubCompatibility.Layout layout,bool publishedExport=false)
     {
         var allocations=new List<IntPtr>();
         Func<ulong,uint,ulong> allocate=(size,protection)=> {
@@ -174,6 +175,12 @@ internal static class CareerHubCompatibilityChecks
             }
             q(slot,pretendImage+(ulong)profile.Rva("CareerHub"));
             var partner=new CareerHubCompatibility.Module {Base=module,Hash=layout.Hash};
+            if(publishedExport) {
+                partner.Hash="future-native-build";partner.ChainRva=0x95000;
+                ulong record=module+partner.ChainRva;put(record,new byte[56]);put(record,System.Text.Encoding.ASCII.GetBytes("MGSHUB01"));
+                put(record+8,BitConverter.GetBytes(1u));put(record+12,BitConverter.GetBytes(56u));put(record+16,BitConverter.GetBytes(1u));
+                q(record+24,slot);q(record+32,module+layout.CallbackRva);q(record+40,module+layout.NextCellRva);
+            }
             if(teamBuilderStartsFirst) {
                 var pending=CareerHubCompatibility.Inspect(read,pretendImage,profile,null,true);
                 Check(!pending.Ready&&pending.Waiting,"native TeamBuilder-first path does not replace physical slot early");

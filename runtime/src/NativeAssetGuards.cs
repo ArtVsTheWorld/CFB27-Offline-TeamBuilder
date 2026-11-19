@@ -30,7 +30,7 @@ internal sealed class NativeAssetGuards : IDisposable
     internal static string HelperPath { get { return RuntimePaths.Current.Resolve("Native/"+ExpectedHash+"/OfflineTeamBuilderNative.dll"); } }
     internal static string ExpectedHash {
         get {
-            using(var stream=typeof(RuntimeAction).Assembly.GetManifestResourceStream("OfflineTeamBuilderRuntime.NativeManifest.json"))
+            using(var stream=typeof(NativeAssetGuards).Assembly.GetManifestResourceStream("OfflineTeamBuilderRuntime.NativeManifest.json"))
             using(var reader=new StreamReader(stream??throw new InvalidDataException("Native helper manifest is missing."))) {
                 var data=new JavaScriptSerializer().Deserialize<Dictionary<string,object>>(reader.ReadToEnd());
                 if(Convert.ToInt32(data["abi"])!=1||Convert.ToInt32(data["statusSize"])!=StatusSize||
@@ -134,7 +134,7 @@ internal sealed class NativeAssetGuards : IDisposable
             }
             if(code!=1)throw new InvalidOperationException("Native guard initialization failed (code "+code+"). Restart the game before retrying; see "+NativeLogPath);
             Thread.Sleep(500);
-        } while(RuntimeAction.Alive(game)&&timer.Elapsed.TotalSeconds<90);
+        } while(RuntimeCoordinator.Alive(game)&&timer.Elapsed.TotalSeconds<90);
         throw new InvalidOperationException("Native guard code contracts did not become available; no import runtime started.");
     }
     internal static Dictionary<string,object> ParseStatus(byte[] data) {

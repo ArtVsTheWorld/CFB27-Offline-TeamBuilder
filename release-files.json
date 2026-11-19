@@ -1,6 +1,5 @@
 {
-  "knownIssue": "Broadcast Universe 0.7-beta1/AIO 1.4.1 loading hang remains unresolved",
-  "version": "2.1.7",
+  "version": "2.4.13",
   "files": {
     "assets/OfflineTeamBuilder.fbmod": "528E82EBFE12EFAEB906E493CCD0C159AF47E96642DF5F9EEF90C565D48C5C74",
     "assets/OfflineTeamBuilder.fbproject": "B319318975850A15521F1CBA75D8F7056572251CE7F6EC89B4351B233ADC7134",
@@ -8,7 +7,6 @@
     "dist/v2.1.7/OfflineTeamBuilderNative.dll": "966DD356A6D52B152822EFD88AD4BBACDB24EE81E2970D805C9AC25C80E5EF8E",
     "dist/v2.1.7/OfflineTeamBuilder-2.1.7.zip": "91F4E0B4A7FB7C8493A41552CD7C0557D1116EC199851D4A5307041037E77CD1",
     "dist/v2.1.7/OfflineTeamBuilder-2.1.7-source.zip": "4F1A33EC2E5704A7B4B2D768EF3F46F3095A058B5DEB40C70B0F1646A72D3594",
-    "runtime/Native/native-helper-manifest.json": "756B586279646610AFFBE611A0BC80B39C08523E6B9B8D0AC9F9C14D5E060871",
     "assets/compatibility/AIO-Dynasty-OfflineTeamBuilder-Compatibility-1.1.0.fbmod": "6407AAB73A14AF5CFBB46CB61EDB5BC3999187A9B6F0AF2E750758F84FC1BD76",
     "assets/compatibility/AIO-Dynasty-OfflineTeamBuilder-Compatibility-1.1.0.fbproject": "06A586612CD0B48E91DA3D0DD4279CF4479AE2C61CF563DBC341CAA603DD1089",
     "assets/compatibility/manifest.json": "7960579B9D46167971D4F436B6530787AE20D79963F140173A0B22A66FB9C357",
@@ -18,10 +16,20 @@
     "assets/compatibility/OfflineTeamBuilder-DynastyCustomizer-Compatibility-1.0.0.fbproject": "7E328C26DA8ADAF9D7CABA825E2BB2695C1059878692202AB9ACD42702788E18",
     "assets/compatibility/OfflineTeamBuilder-PlayoffCustomizer-Compatibility-1.0.0.fbmod": "BC85729DEF28DB07AB7214D192876E9AC8DCBCF10CB54817981CA421832758B4",
     "assets/compatibility/OfflineTeamBuilder-PlayoffCustomizer-Compatibility-1.0.0.fbproject": "BC83EFF6766866D674ACAF551B10859EB4CF7674C7D4A2A1F7586E0D70BC377A",
-    "assets/compatibility/README.txt": "ED6F6B0476B31DDE61C03F42C0D43FBB3244F5D04FF565BCEFA138AC8E858090"
+    "assets/compatibility/README.txt": "ED6F6B0476B31DDE61C03F42C0D43FBB3244F5D04FF565BCEFA138AC8E858090",
+    "dist/v2.4.13/OfflineTeamBuilder-2.4.13-source.zip": "4860985388bc6fb06055f2883333e087574f815aae5b573d8a89eb8c34017119",
+    "dist/v2.4.13/OfflineTeamBuilder-2.4.13.zip": "7956ef5a8bc11c1164a2f7b03ed8c3cb42ec00932c2fa4d5a1987adee7dc6764",
+    "dist/v2.4.13/OfflineTeamBuilder.ArtworkCodec.dll": "b46489b554a9bd5f7702150dde6676b4ea7bab0270888e903ad13ee3d2e2e2dc",
+    "dist/v2.4.13/OfflineTeamBuilder.fbmod": "f3b8ca1ecc23802547a4e99502c55b2d60b345f51a0a6ca356bfbb205eb9435d",
+    "dist/v2.4.13/OfflineTeamBuilderNative.dll": "faa41c7f49e432bf8814ff49d5a20079fd3c3a93a0732fbca1af18deec7d7716",
+    "dist/v2.4.13/OfflineTeamBuilderRuntime.dll": "838a38e9ad07e20f17dca74ca31ac9151ea8681d25e5045d48ff417f9aeb5db0",
+    "dist/v2.4.13/TeamBuilderSharedUi.fbmod": "4a23671297aaf3f06bf69b92c22193e48ff57f8dd6c8e196f6ae00fa11add69e",
+    "runtime/Host/host-manifest.json": "81e77dad1278b277aff4c6cce99c3c082b91813c2f447e3586676f9332c5878d",
+    "runtime/Native/native-helper-manifest.json": "884bc45fe1ce0ce28c9343910370ad1adcfcc37debbac3dd0efbc0a21aa52d5f",
+    "runtime/Profiles/cfb27-2026-11-19.json": "77c21648cc2f99be1f8dcd17b61bf5f45e7b55e4a3a5bcf9ef30e2d7342dd797",
+    "runtime/SharedUi/worker.zip": "0a55019f390dc0666d5a9c835858239ba8d4f02702f895c691d34ae7cc6f54c4"
   },
-  "verification": "5410 runtime checks, write-denied ACL/migration and support collector checks, MMC/project/archive checks; source ZIP rebuild matches shipped DLL. Previous startup fix tester-confirmed; no new 2.1.7 live-game certification.",
-  "nativeProfile": "cfb27-2026-10-30",
+  "nativeProfile": "cfb27-2026-11-19",
   "authors": "JDHalfRack / Ace / Timberline Tex",
   "userData": "%LOCALAPPDATA%\\Ace\\OfflineTeamBuilder"
 }

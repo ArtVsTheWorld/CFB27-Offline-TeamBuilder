@@ -13,6 +13,12 @@ namespace OfflineTeamBuilderRuntime;
 // A verified Midgame Save build remains the physical CareerHub owner. Its next-call
 // cell is the logical hook slot for our two layers: MGS -> assets -> saved-map
 // lifecycle -> stock. No MGS code patch, extra hub notification, or job cancel.
+//
+// Midgame Save 0.2.5 and later publish that next-call cell through a named export,
+// mgs_hub_chain (a fixed 56-byte record: "MGSHUB01", version, size, installed,
+// counter, slot, callback, next_cell). Builds with the export are found through it,
+// so no new hash or RVA table is needed for future Midgame Save releases.
+// 0.2.2 / 0.2.4 have no export and still use the verified tables below.
 internal static class CareerHubCompatibility
 {
     internal const string SupportedHash="cddcbe5e48918168bf474e69b1e903a66786830c793a21200d8e4f103b668338";
@@ -40,6 +46,7 @@ internal static class CareerHubCompatibility
     {
         internal ulong Base;
         internal string Hash;
+        internal ulong ChainRva;   // RVA of the mgs_hub_chain export; 0 = none (0.2.2 / 0.2.4 tables)
     }
     internal sealed class Contract
     {
@@ -99,8 +106,9 @@ internal static class CareerHubCompatibility
             string hash;
             using(var sha=SHA256.Create())using(var file=File.OpenRead(module.FileName))
                 hash=BitConverter.ToString(sha.ComputeHash(file)).Replace("-","").ToLowerInvariant();
-            if(LayoutFor(hash)==null)throw new InvalidDataException("Unsupported Midgame Save binary for shared CareerHub: "+hash+". Expected a verified 0.2.2 or 0.2.4 native DLL.");
-            cached=new Module {Base=address,Hash=hash};verified.Add(key,cached);return cached;
+            ulong chain=LayoutFor(hash)==null?ChainExportRva(module.FileName):0;
+            if(LayoutFor(hash)==null&&chain==0)throw new InvalidDataException("Unsupported Midgame Save binary for shared CareerHub: "+hash+". Expected a verified 0.2.2 or 0.2.4 native DLL, or a build that exports mgs_hub_chain.");
+            cached=new Module {Base=address,Hash=hash,ChainRva=chain};verified.Add(key,cached);return cached;
         }
     }
     private static ulong Q(Func<ulong,int,byte[]> read,ulong at)
@@ -118,6 +126,7 @@ internal static class CareerHubCompatibility
                 if(requested){result.Waiting=true;result.Reason="Waiting for Midgame Save's native module and hub signal.";return result;}
                 result.Ready=true;result.Reason="Exclusive stock/TeamBuilder CareerHub slot.";return result;
             }
+            if(module.ChainRva!=0)return InspectChain(read,physical,image+(ulong)profile.Rva("CareerHub"),current,module,result);
             Layout layout=LayoutFor(module.Hash);
             if(layout==null){result.Reason="Unverified Midgame Save module identity.";return result;}
             if(current!=module.Base+layout.CallbackRva) {
@@ -145,6 +154,93 @@ internal static class CareerHubCompatibility
             result.Reason="Verified Midgame Save "+layout.Version+" outer hub signal; TeamBuilder uses its next-call cell.";
         }catch(IOException ex){result.Waiting=true;result.Reason=ex.Message;}
         return result;
+    }
+    private sealed class Chain
+    {
+        internal uint Installed,Version,Size;
+        internal ulong Slot,Callback,NextCell;
+    }
+    // The 56-byte mgs_hub_chain record: magic[8] "MGSHUB01" @0, version u32 @8, size u32 @0xC, installed u32 @0x10,
+    // counter u32 @0x14, slot u64 @0x18, callback u64 @0x20, next_cell u64 @0x28, reserved @0x30. null = not a supported record.
+    private static Chain ReadChain(Func<ulong,int,byte[]> read,ulong at)
+    {
+        byte[] b=read(at,56);if(b==null||b.Length!=56)throw new IOException("Midgame Save hub chain record unavailable.");
+        if(System.Text.Encoding.ASCII.GetString(b,0,8)!="MGSHUB01"||BitConverter.ToUInt32(b,8)<1||BitConverter.ToUInt32(b,12)<56)return null;
+        return new Chain {Version=BitConverter.ToUInt32(b,8),Size=BitConverter.ToUInt32(b,12),Installed=BitConverter.ToUInt32(b,0x10),Slot=BitConverter.ToUInt64(b,0x18),Callback=BitConverter.ToUInt64(b,0x20),NextCell=BitConverter.ToUInt64(b,0x28)};
+    }
+    // Same contract as the verified tables, read from the export: wait for installed, check the slot is this game's
+    // CareerHub slot and holds Midgame Save's callback, then hand back its next-call cell. Read twice; any change = wait.
+    private static Contract InspectChain(Func<ulong,int,byte[]> read,ulong physical,ulong stock,ulong current,Module module,Contract result)
+    {
+        ulong at=module.Base+module.ChainRva;
+        Chain c=ReadChain(read,at);
+        if(c==null){result.Reason="Unsupported Midgame Save hub chain record.";return result;}
+        if(c.Installed!=1){result.Waiting=true;result.Reason="Midgame Save hub publication is not complete.";return result;}
+        if(c.Slot!=physical){result.Reason="Midgame Save hub slot does not match this game's CareerHub.";return result;}
+        if(current!=c.Callback) {
+            result.Waiting=current==stock;
+            result.Reason=result.Waiting?"Waiting for Midgame Save's completed hub hook.":"Unexpected CareerHub owner while Midgame Save is active.";
+            return result;
+        }
+        if(c.Callback<0x10000||c.Callback>=0x7FFFFFFFFFFFUL||
+            c.NextCell<0x10000||c.NextCell>0x7FFFFFFFFFF7UL||(c.NextCell&7)!=0||
+            c.NextCell==c.Callback||c.NextCell==physical||(c.NextCell>=at&&c.NextCell-at<56)) {
+            result.Reason="Invalid Midgame Save hub chain.";return result;
+        }
+        ulong next=Q(read,c.NextCell);
+        if(next<0x10000||next>=0x7FFFFFFFFFFFUL||next==current||next==c.NextCell){result.Reason="Invalid or cyclic Midgame Save hub chain.";return result;}
+        Chain again=ReadChain(read,at);
+        if(again==null||again.Version!=c.Version||again.Size!=c.Size||again.Installed!=1||again.Slot!=c.Slot||again.Callback!=c.Callback||again.NextCell!=c.NextCell||
+            Q(read,physical)!=current||Q(read,c.NextCell)!=next) {
+            result.Waiting=true;result.Reason="CareerHub chain changed during validation.";return result;
+        }
+        result.StorageSlot=c.NextCell;result.Target=next;result.Ready=true;
+        result.Reason="Midgame Save hub chain export (mgs_hub_chain); TeamBuilder uses its next-call cell.";
+        return result;
+    }
+    // The RVA of the export named exactly "mgs_hub_chain" in the module file (PE32+ export table), or 0.
+    internal static ulong ChainExportRva(string file)
+    {
+        try {
+            byte[] f=File.ReadAllBytes(file);if(f.Length<0x400||BitConverter.ToUInt16(f,0)!=0x5A4D)return 0;
+            int pe=BitConverter.ToInt32(f,0x3C);if(pe<0||pe>f.Length-24||BitConverter.ToUInt32(f,pe)!=0x4550)return 0;
+            int coff=pe+4,sections=BitConverter.ToUInt16(f,coff+2),optSize=BitConverter.ToUInt16(f,coff+16),opt=coff+20;
+            if(BitConverter.ToUInt16(f,coff)!=0x8664||sections<1||sections>96||optSize<120||optSize>4096||opt>f.Length-optSize)return 0;
+            if(BitConverter.ToUInt16(f,opt)!=0x20B||BitConverter.ToUInt32(f,opt+108)<1)return 0;
+            uint imageSize=BitConverter.ToUInt32(f,opt+56),exportRva=BitConverter.ToUInt32(f,opt+112),exportSize=BitConverter.ToUInt32(f,opt+116);
+            if(imageSize<0x1000||exportRva==0||exportSize<40||exportRva>=imageSize||exportSize>imageSize-exportRva)return 0;
+            int table=opt+optSize;
+            if(table>f.Length-sections*40)return 0;
+            Func<uint,uint,int> offset=(rva,length)=>{
+                if(rva>=imageSize||length>imageSize-rva)return -1;
+                for(int i=0;i<sections;i++){int s=table+i*40;
+                    uint va=BitConverter.ToUInt32(f,s+12),size=BitConverter.ToUInt32(f,s+16),raw=BitConverter.ToUInt32(f,s+20);
+                    if(rva>=va&&rva-va<size&&length<=size-(rva-va)){
+                        long o=(long)rva-va+raw;return o>=0&&o<=f.LongLength-length?(int)o:-1;
+                    }}
+                return -1;};
+            int dir=offset(exportRva,40);if(dir<0)return 0;
+            uint functions=BitConverter.ToUInt32(f,dir+20),count=BitConverter.ToUInt32(f,dir+24);
+            if(functions<1||functions>65536||count<1||count>65536)return 0;
+            int funcs=offset(BitConverter.ToUInt32(f,dir+28),functions*4),names=offset(BitConverter.ToUInt32(f,dir+32),count*4),ordinals=offset(BitConverter.ToUInt32(f,dir+36),count*2);
+            if(funcs<0||names<0||ordinals<0)return 0;
+            byte[] expected=System.Text.Encoding.ASCII.GetBytes("mgs_hub_chain\0");
+            for(int i=0;i<count;i++) {
+                int name=offset(BitConverter.ToUInt32(f,names+i*4),(uint)expected.Length);if(name<0)continue;
+                if(!expected.Select((value,n)=>f[name+n]==value).All(equal=>equal))continue;
+                int ordinal=BitConverter.ToUInt16(f,ordinals+i*2);
+                if(ordinal>=functions)return 0;
+                uint target=BitConverter.ToUInt32(f,funcs+ordinal*4);
+                // This is a data record, never a forwarded export string.
+                if(target>=exportRva&&target-exportRva<exportSize||target>=imageSize||56>imageSize-target)return 0;
+                for(int s=table;s<table+sections*40;s+=40){
+                    uint va=BitConverter.ToUInt32(f,s+12),size=Math.Max(BitConverter.ToUInt32(f,s+8),BitConverter.ToUInt32(f,s+16));
+                    if(target>=va&&target-va<size&&56<=size-(target-va))return target;
+                }
+                return 0;
+            }
+        }catch(IOException){}catch(UnauthorizedAccessException){}catch(ArgumentException){}
+        return 0;
     }
     internal static void BeginSession(int pid,Module module)
     {

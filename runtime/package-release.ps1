@@ -45,7 +45,7 @@ $zip=Join-Path $out ('OfflineTeamBuilder-'+$build.version+'.zip')
 & (Join-Path $PSScriptRoot 'tests\PackagingChecks.ps1') -ReleaseDirectory $release -ZipPath $zip -PlayerPackage -RecordPath $recordPath
 $source=Join-Path $out ('OfflineTeamBuilder-'+$build.version+'-source')
 New-Item -ItemType Directory -Path $source|Out-Null
-foreach($folder in @('src','Profiles','Native','tests','tools')){
+foreach($folder in @('src','Profiles','Native','Host','tests','tools')){
     $from=Join-Path $PSScriptRoot $folder
     foreach($file in Get-ChildItem -LiteralPath $from -Recurse -File){
         $relative=[IO.Path]::GetRelativePath($PSScriptRoot,$file.FullName)

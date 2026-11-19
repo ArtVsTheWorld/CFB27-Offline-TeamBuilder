@@ -64,7 +64,18 @@
     "Rva_0B38ACE0": "0xb391130",
     "BuilderResidentMode": "0x317c43d",
     "PackageJobResidentBranch": "0x3176e4c",
-    "PackageJobConfigure": "0x3185300"
+    "PackageJobConfigure": "0x3185300",
+    "HubLoadingAdapterGlobal": "0xfa59690",
+    "HubLoadingAdapterVtable": "0xbac54d0",
+    "HubLoadingShow": "0x7a2f750",
+    "HubLoadingHide": "0x7a211e0",
+    "UiArgumentMarker": "0x3f0afe0",
+    "GateMatchStatesGlobal": "0xf85f5f0",
+    "UiUndefinedValue": "0xfa63138",
+    "CardDetailsAdapterGlobal": "0xfa54540",
+    "CardDetailsAdapterVtable": "0xbab1b28",
+    "CardDetailsFlowVtable": "0xbd84fc8",
+    "CardDetailsFlowEntered": "0x794e4d0"
   },
   "templates": {
     "MainAssetKey": {
@@ -734,6 +745,12 @@
       "name": "PackageJobConfigure",
       "target": "PackageJobConfigure",
       "expected": "8b42088941400fb6420c8841440fb6420d8841450fb6420e8841468b4210894148c3"
+    },
+    {
+      "name": "playerCardFlowEntered",
+      "target": "CardDetailsFlowEntered",
+      "offset": 0,
+      "expected": "48895c2408574883ec20488bfa488bd9e8ebbc5bfc488b8b1804000080b9b100000000741783b9b4000000007e0e83b9c4000000007f0541b001eb03"
     }
   ],
   "lifecycle": [
@@ -815,5 +832,24 @@
       "expected": "48895c2408574883ec30488bf94d85c0",
       "kind": "protohttplocalurl"
     }
-  ]
+  ],
+  "hubGate": {
+    "validations": [
+      {
+        "name": "hubGateHubLoadingShow",
+        "target": "HubLoadingShow",
+        "expected": "48895c2408574883ec208bda488bf9e8"
+      },
+      {
+        "name": "hubGateHubLoadingHide",
+        "target": "HubLoadingHide",
+        "expected": "4881ecc8000000488b05521607064833"
+      },
+      {
+        "name": "hubGateUiArgumentMarker",
+        "target": "UiArgumentMarker",
+        "expected": "4c894c2420c3cccccccccccccccccccc"
+      }
+    ]
+  }
 }

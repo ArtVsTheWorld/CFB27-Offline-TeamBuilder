@@ -376,6 +376,7 @@ internal sealed partial class TeamBuilderReentryRepair : IDisposable
 			SetPointer(_careerSlotAddress, _careerRelay);
 			_careerPatched = true;
 			InstallNewsPreview();
+            Log("HUB_LOAD_GATE_DISABLED isolation control: stock loading Show/Hide and AS callback remain untouched.");
 			_installed = true;
 			_stopRequested = false;
 			_watchThread = new Thread(WatchLoop);
@@ -397,12 +398,16 @@ internal sealed partial class TeamBuilderReentryRepair : IDisposable
 	private void WatchLoop()
 	{
 		string previous = null;
+        int healthTick=0;
         while (!_stopRequested && GameAlive()) {
             try {
-                string summary = CaptureSummary();
-                if (summary != previous) { Log("ASSET_STATUS " + summary); previous = summary; }
+                TickHubLoadingGate();
+                if(healthTick++%10==0) {
+                    string summary = CaptureSummary();
+                    if (summary != previous) { Log("ASSET_STATUS " + summary); previous = summary; }
+                }
             } catch (Exception ex) { Log("ASSET_MONITOR_ERROR " + ex.Message); }
-            Thread.Sleep(1000);
+            Thread.Sleep(100);
         }
 	}
 
@@ -496,6 +501,7 @@ internal sealed partial class TeamBuilderReentryRepair : IDisposable
 		}
 		if (_processHandle != IntPtr.Zero)
 		{
+            RestoreHubLoadingGate();
 			RestoreNewsPreview();
 			if (_careerPatched && SanePointer(_vtable))
 			{

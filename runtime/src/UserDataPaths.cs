@@ -22,7 +22,7 @@ internal static class RuntimePaths
             return current;
         }
     }
-    internal static string PluginDirectory {get{return Path.GetDirectoryName(typeof(RuntimePaths).Assembly.Location);}}
+    internal static string PluginDirectory {get{return Path.GetDirectoryName(RuntimeHostIdentity.PluginPath);}}
     internal static string Root {get{return Current.Root;}}
     internal static string DataDirectory(string localAppData) {
         if(string.IsNullOrWhiteSpace(localAppData)||!Path.IsPathRooted(localAppData))throw new IOException("Windows did not provide an absolute Local AppData folder.");

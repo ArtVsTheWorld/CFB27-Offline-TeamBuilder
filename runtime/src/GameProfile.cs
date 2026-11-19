@@ -23,6 +23,7 @@ internal sealed class GameProfile
     public NativeCheck[] mainPrefixes;
     public LifecycleSlot[] lifecycle;
     public TransportSpec[] transport;
+    public HubLoadingGateProfile hubGate;
 
     private static GameProfile Load()
     {
@@ -61,7 +62,7 @@ internal sealed class GameProfile
         return size>=required && size<=0x40000000;
     }
     internal byte[] Emit(string name,params ulong[] args) {
-        return LogoRegistryRepair.Apply(name,NativeWorkAdmission.Apply(name,ResidencyRepairScope.Apply(name,CoachContextScope.Apply(name,templates[name].Emit(this,args),this),this),this,args),this,args);
+        return ColdStartBootstrapScope.Apply(name,LogoRegistryRepair.Apply(name,NativeWorkAdmission.Apply(name,CardDemandRepairScope.Apply(name,ResidencyRepairScope.Apply(name,CoachContextScope.Apply(name,templates[name].Emit(this,args),this),this),this,args),this,args),this,args),this,args);
     }
     internal void Validate()
     {

@@ -15,12 +15,17 @@ internal static class Program
     internal static void Assert(bool ok,string name) { if(!ok)throw new Exception("FAILED: "+name);Checks++; }
     internal static void Reject(Action action,string name)
     { try { action(); } catch { Checks++;return; } throw new Exception("FAILED to reject: "+name); }
-    private static int Main()
+    private static int Main(string[] args)
     {
         try {
+            if(args.Length==2&&args[0]=="--wait-target"){var stop=HostArguments.Decode(args[1]);var until=System.Diagnostics.Stopwatch.StartNew();while(!File.Exists(stop)&&until.ElapsedMilliseconds<30000)System.Threading.Thread.Sleep(20);return 0;}
+            if(args.Length==5&&args[0]=="--launch-host-probe"){
+                using(var child=System.Diagnostics.Process.Start(DetachedHostLauncher.StartInfo(HostArguments.Decode(args[1]),"--probe "+args[2]+" "+args[3]+" "+args[4]))){}return 0;
+            }
             string privateData=Path.Combine(Path.GetTempPath(),"otb-test-user-data-"+Guid.NewGuid().ToString("N"));
             typeof(RuntimePaths).GetField("current",BindingFlags.Static|BindingFlags.NonPublic).SetValue(null,new UserRuntimeStore(privateData));
-            Metadata();Profile();TransportStartup();Golden();CoachScopeContracts();AdmissionContracts();NativeBuildModeChecks.CheckAll();Store();UserDataChecks.CheckAll();Diagnostics();ReadinessChecks.CheckAll();CareerHubCompatibilityChecks.CheckAll();NativeFixture.CheckAll();NativeGuardChecks.CheckAll();
+            Metadata();Profile();TransportStartup();Golden();CoachScopeContracts();AdmissionContracts();NativeBuildModeChecks.CheckAll();Store();UserDataChecks.CheckAll();Diagnostics();ReadinessChecks.CheckAll();CareerHubCompatibilityChecks.CheckAll();CareerHubExportChecks.CheckAll();NativeFixture.CheckAll();NativeGuardChecks.CheckAll();
+            NativeJobQueueChecks.CheckAll();HubLoadingGateChecks.CheckAll();DetachedHostChecks.CheckAll();TeamArtworkChecks.CheckAll();ArtworkCompilationChecks.CheckAll();
             Console.WriteLine("PASS "+Checks+" checks. Private allocations/temporary files only; no game process opened.");return 0;
         } catch(Exception ex) { Console.Error.WriteLine(ex);return 1; }
     }
@@ -184,12 +189,15 @@ internal static class Program
         foreach(string name in new[]{"Career","Dispatcher"}) {
             ulong[] args=name=="Career"?new[]{status,remote+0x10000,image+(ulong)p.Rva("CareerManagerVtable"),image+(ulong)p.Rva("Add"),image+(ulong)p.Rva("Needs"),image+(ulong)p.Rva("Enter")}:
                 new[]{status,image+(ulong)p.Rva("DispatcherContinuation")};
-            byte[] raw=ResidencyRepairScope.Apply(name,CoachContextScope.Apply(name,p.templates[name].Emit(p,args),p),p),emitted=p.Emit(name,args);
+            byte[] raw=CardDemandRepairScope.Apply(name,ResidencyRepairScope.Apply(name,CoachContextScope.Apply(name,p.templates[name].Emit(p,args),p),p),p,args),emitted=p.Emit(name,args);
             byte[] marker=GameProfile.Hex(name=="Career"?"488b46384c8b46404c39c0":"41c783840000000000000041c7430401000000");
             int at=Enumerable.Range(0,raw.Length-marker.Length+1).Single(n=>marker.Select((b,i)=>raw[n+i]==b).All(v=>v));
             int count=name=="Career"?8:11;
             int logoAt=name=="Dispatcher"?Enumerable.Range(0,raw.Length-9).Single(n=>GameProfile.Hex("f30f6f842480000000").Select((b,i)=>raw[n+i]==b).All(v=>v)):-1;
-            Assert(Enumerable.Range(0,raw.Length).Where(n=>(n<at||n>=at+count)&&(logoAt<0||n<logoAt||n>=logoAt+9)).All(n=>raw[n]==emitted[n]),"original template unchanged outside admission and logo boundaries: "+name);
+            int coldAt=name=="Dispatcher"?Enumerable.Range(0,raw.Length-7).Single(n=>GameProfile.Hex("49837b50000f84").Select((b,i)=>raw[n+i]==b).All(v=>v)):-1;
+            int careerEnter=name=="Career"?Enumerable.Range(0,raw.Length-4).Single(n=>GameProfile.Hex("ff0648b8").Select((b,i)=>raw[n+i]==b).All(v=>v)):-1;
+            int careerExit=name=="Career"?Enumerable.Range(0,raw.Length-10).Single(n=>GameProfile.Hex("8bc54883c4605e5d5bc3").Select((b,i)=>raw[n+i]==b).All(v=>v)):-1;
+            Assert(Enumerable.Range(0,raw.Length).Where(n=>(n<at||n>=at+count)&&(logoAt<0||n<logoAt||n>=logoAt+9)&&(coldAt<0||n<coldAt||n>=coldAt+5)&&(careerEnter<0||n<careerEnter||n>=careerEnter+12)&&(careerExit<0||n<careerExit||n>=careerExit+6)).All(n=>raw[n]==emitted[n]),"original template unchanged outside admission, logo, cold-start and depth boundaries: "+name);
             Assert(emitted[at]==0xE9&&at+5+BitConverter.ToInt32(emitted,at+1)==raw.Length,"admission detour targets appended stub: "+name);
             Assert(Enumerable.Range(at+5,count-5).All(n=>emitted[n]==0x90),"whole overwritten instructions NOP padded: "+name);
             Assert(p.templates[name].relocations.All(r=>r.offset+8<=at||r.offset>=at+count),"no native relocation overwritten: "+name);
@@ -209,7 +217,10 @@ internal static class Program
             log.Engine("ASSET_STATUS teamFailures=0 stage=16");
             log.Engine("ASSET_STATUS teamFailures=2 stage=16");
             log.Engine("ASSET_READINESS_WARNING olderEpochJobs=1");
+            log.Engine("HUB_LOAD_GATE_READY private fixture");
+            log.Engine("HUB_LOAD_GATE_WAIT epoch=2");
             string lines=File.ReadAllText(Path.Combine(root,"runtime.log"));
+            Assert(lines.Contains("[INFO] HUB_LOAD_GATE_READY")&&lines.Contains("[INFO] HUB_LOAD_GATE_WAIT"),"hub gate handoff events reach default diagnostics");
             Assert(lines.Contains("[INFO] ASSET_STATUS teamFailures=0"),"zero failure counter is informational");
             Assert(lines.Contains("[WARNING] ASSET_STATUS teamFailures=2"),"real asset failures remain warnings");
             Assert(lines.Contains("[WARNING] ASSET_READINESS_WARNING"),"readiness warning reaches central diagnostics");

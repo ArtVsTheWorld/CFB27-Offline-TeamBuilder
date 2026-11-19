@@ -9,14 +9,14 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web.Script.Serialization;
-using FrostySdk.Interfaces;
+
 
 namespace OfflineTeamBuilderRuntime;
 
 internal sealed class RuntimeDiagnostics
 {
     private readonly object sync=new object();
-    private readonly ILogger logger;
+    private readonly Action<string> logger;
     private readonly string root,session,mutexName;
     private readonly Stopwatch clock=Stopwatch.StartNew();
     private string lastStatus,lastState,lastEngineIssue;
@@ -24,7 +24,7 @@ internal sealed class RuntimeDiagnostics
     private object lastFailure;
     private bool ioReported;
     internal readonly bool Verbose;
-    internal RuntimeDiagnostics(ILogger logger,string directory=null) {
+    internal RuntimeDiagnostics(Action<string> logger,string directory=null) {
         this.logger=logger;root=directory??RuntimePaths.Root;
         session=DateTime.UtcNow.ToString("yyyyMMddTHHmmss",CultureInfo.InvariantCulture)+"-"+Process.GetCurrentProcess().Id+"-"+Guid.NewGuid().ToString("N").Substring(0,8);
         mutexName="Local\\Ace.OfflineTeamBuilder.Diagnostics."+UserRuntimeStore.Hash(Encoding.UTF8.GetBytes(Path.GetFullPath(root).ToUpperInvariant()));
@@ -54,7 +54,7 @@ internal sealed class RuntimeDiagnostics
     private void ReportIo(Exception ex) {
         if(ioReported)return;ioReported=true;
         string message="[Offline TeamBuilder Runtime] DIAGNOSTIC_WRITE_FAILED "+root+": "+ex.GetType().Name+": "+ex.Message;
-        try{logger?.Log(message);}catch{}Debug.WriteLine(message);
+        try{logger?.Invoke(message);}catch{}Debug.WriteLine(message);
     }
     internal void Write(string level,string message) {
         message=Safe(message);string line=DateTime.UtcNow.ToString("O",CultureInfo.InvariantCulture)+" ["+level+"] "+message+" [session="+session+"]";
@@ -68,24 +68,24 @@ internal sealed class RuntimeDiagnostics
                 File.AppendAllText(path,line+Environment.NewLine,new UTF8Encoding(false));
             });}catch(Exception ex){ReportIo(ex);}
         }
-        try{logger?.Log("[Offline TeamBuilder Runtime] "+level+" "+message);}catch{}
+        try{logger?.Invoke("[Offline TeamBuilder Runtime] "+level+" "+message);}catch{}
     }
     internal void Startup(object migration) {
         var data=new Dictionary<string,object>{{"schemaVersion",2},{"sessionId",session},{"plugin",PluginIdentity.DisplayName},{"version",PluginIdentity.Version},
             {"profile",GameProfile.Current.id},{"dataRoot",root},{"assetStore",RuntimePaths.DefaultAssetStore},{"settings",RuntimePaths.SettingsPath},
-            {"repairConfiguration",RuntimePaths.OptionsPath},{"pluginPath",typeof(RuntimeAction).Assembly.Location},{"managerPid",Process.GetCurrentProcess().Id},
+            {"repairConfiguration",RuntimePaths.OptionsPath},{"pluginPath",RuntimeHostIdentity.PluginPath},{"managerPid",RuntimeHostIdentity.ManagerPid},{"hostPid",Process.GetCurrentProcess().Id},{"hostMode",RuntimeHostIdentity.Detached?"Detached":"MMC"},
             {"os",Environment.OSVersion.VersionString},{"clr",Environment.Version.ToString()},{"process64Bit",Environment.Is64BitProcess},
             {"os64Bit",Environment.Is64BitOperatingSystem},{"createdUtc",DateTime.UtcNow.ToString("O")},{"migration",migration}};
         try {
-            data["pluginSha256"]=UserRuntimeStore.Hash(File.ReadAllBytes(typeof(RuntimeAction).Assembly.Location));
+            data["pluginSha256"]=UserRuntimeStore.Hash(File.ReadAllBytes(RuntimeHostIdentity.PluginPath));
             data["nativeHelperSha256"]=NativeAssetGuards.ExpectedHash;
-            using(var host=Process.GetCurrentProcess()){data["managerPath"]=host.MainModule.FileName;data["managerVersion"]=host.MainModule.FileVersionInfo.FileVersion;}
+            data["managerPath"]=RuntimeHostIdentity.ManagerPath;data["managerVersion"]=FileVersionInfo.GetVersionInfo(RuntimeHostIdentity.ManagerPath).FileVersion;
             data["pluginInventory"]=Directory.GetFiles(RuntimePaths.PluginDirectory,"*.dll",SearchOption.TopDirectoryOnly).Take(128).Select(path=>new {
                 name=Path.GetFileName(path),version=FileVersionInfo.GetVersionInfo(path).ProductVersion,bytes=new FileInfo(path).Length}).ToArray();
         }catch(Exception ex){data["inventoryError"]=Safe(ex.GetType().Name+": "+ex.Message);}
         try{FileGate(()=>UserRuntimeStore.Atomic(Path.Combine(root,"environment.json"),Encoding.UTF8.GetBytes(new JavaScriptSerializer().Serialize(data))));}
         catch(Exception ex){ReportIo(ex);}
-        Write("INFO","STARTUP version="+PluginIdentity.Version+" session="+session+" data="+root+" plugin="+typeof(RuntimeAction).Assembly.Location);
+        Write("INFO","STARTUP version="+PluginIdentity.Version+" session="+session+" data="+root+" plugin="+RuntimeHostIdentity.PluginPath);
         Write("INFO","USER_DATA_READY settings="+RuntimePaths.SettingsPath+" assetStore="+RuntimePaths.DefaultAssetStore+"; legacy originals retained");
         var report=migration as IDictionary<string,object>;object errors;
         if(report!=null&&report.TryGetValue("errors",out errors)&&errors is System.Collections.IEnumerable)
@@ -137,7 +137,7 @@ internal sealed class RuntimeDiagnostics
         if(text.StartsWith("ASSET_STATUS "))error=Regex.IsMatch(text,@"\bteamFailures=[1-9][0-9]*\b");
         if(text.StartsWith("ASSET_READINESS_WARNING "))error=true;
         if(error)lastEngineIssue=Safe(text);
-        if(error||Verbose||text.StartsWith("ASSET_STATUS ")||text.StartsWith("ASSET_RUNTIME_READY")||text.StartsWith("NEWS_AUDIO_READY")||text.Contains("STATE READY"))
+        if(error||Verbose||text.StartsWith("HUB_LOAD_GATE_")||text.StartsWith("ASSET_STATUS ")||text.StartsWith("ASSET_RUNTIME_READY")||text.StartsWith("NEWS_AUDIO_READY")||text.Contains("STATE READY"))
             Write(fatal?"ERROR":error?"WARNING":"INFO",text.Replace("PLAYNOW_ASSET_PROBE","ASSET_RUNTIME"));
     }
     internal void Failure(int pid,string state,Exception exception,string nextStep=null) {
@@ -150,7 +150,7 @@ internal sealed class RuntimeDiagnostics
     internal static Dictionary<string,object> Diagnosis(string state,object details) {
         string code=state,summary="See runtime.log for the current runtime stage.",next="Collect the support ZIP and include the matchup, mod versions and fresh-launch/reload result.";
         switch(state) {
-            case "WaitingForGame":summary="Waiting for College Football 27.";next="Launch through MMC and keep MMC running.";break;
+            case "WaitingForGame":summary="Waiting for College Football 27.";next="Launch through MMC; wait for the detached helper to report Ready before closing MMC.";break;
             case "WaitingForNativeCompatibility":summary="Waiting for game code or a shared hook to become available.";next="Stay at the main menu while startup checks complete. This is not yet a terminal failure.";break;
             case "Ready":code="RUNTIME_ACTIVE";summary="Runtime hooks are active. This does not by itself verify rendered uniforms or stadium assets.";next="If assets are missing, include this status and the runtime log in a support report.";break;
             case "BlockedNativeGuards":summary="Native guard initialization failed; TeamBuilder import and asset services did not start.";break;
@@ -192,7 +192,7 @@ internal sealed class RuntimeDiagnostics
                     Write(state.StartsWith("Blocked")||state.EndsWith("Failed")?"ERROR":"INFO","STATE "+state+" pid="+pid+" "+diagnosis["summary"]);
                 }
                 var values=new Dictionary<string,object>{{"schemaVersion",2},{"plugin",PluginIdentity.DisplayName},{"version",PluginIdentity.Version},
-                    {"authors",PluginIdentity.Authors},{"sessionId",session},{"managerPid",Process.GetCurrentProcess().Id},{"pid",pid},{"state",state},
+                    {"authors",PluginIdentity.Authors},{"sessionId",session},{"managerPid",RuntimeHostIdentity.ManagerPid},{"hostPid",Process.GetCurrentProcess().Id},{"hostMode",RuntimeHostIdentity.Detached?"Detached":"MMC"},{"pid",pid},{"state",state},
                     {"profile",GameProfile.Current.id},{"compatibility","Native signatures/vtables; no executable checksum or exact-size allow-list"},
                     {"dataRoot",root},{"diagnosis",diagnosis},{"lastFailure",lastFailure},{"lastEngineIssue",lastEngineIssue},{"details",details}};
                 string fingerprint=json.Serialize(values);

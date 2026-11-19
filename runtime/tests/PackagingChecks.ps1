@@ -35,6 +35,15 @@ try{
     if($payloadHash -ine $nativeManifest.sha256 -or $payloadHash -ine $record.nativeSha256){throw 'Embedded native helper/manifest mismatch.'}
     if($nativeManifest.abi -ne 1 -or $nativeManifest.statusSize -ne 128 -or $nativeManifest.registryEntries -ne 14){throw 'Embedded native ABI mismatch.'}
 }finally{$reader.Dispose();$payload.Dispose();$sha.Dispose()}
+$hostPayload=$assembly.GetManifestResourceStream('OfflineTeamBuilderRuntime.HostPayload.exe')
+$hostManifest=$assembly.GetManifestResourceStream('OfflineTeamBuilderRuntime.HostManifest.json')
+if($null -eq $hostPayload -or $null -eq $hostManifest){throw 'Embedded managed host missing.'}
+$hr=[IO.StreamReader]::new($hostManifest);$hm=$hr.ReadToEnd()|ConvertFrom-Json;$hr.Dispose()
+$buffer=[IO.MemoryStream]::new();$hostPayload.CopyTo($buffer);$hostPayload.Dispose();$bytes=$buffer.ToArray();$buffer.Dispose()
+$hs=[Security.Cryptography.SHA256]::Create()
+try{if([BitConverter]::ToString($hs.ComputeHash($bytes)).Replace('-','') -ine $hm.sha256 -or $hm.version -cne $record.version){throw 'Embedded managed host hash/version mismatch.'}}finally{$hs.Dispose()}
+$hostAssembly=[Reflection.Assembly]::Load($bytes)
+if(@($hostAssembly.GetReferencedAssemblies()|Where-Object {$_.Name -like 'Frosty*' -or $_.Name -eq 'OfflineTeamBuilderRuntime'}).Count){throw 'Managed helper depends on MMC.'}
 if($ZipPath){
     $archive=[IO.Compression.ZipFile]::OpenRead([IO.Path]::GetFullPath($ZipPath))
     try{

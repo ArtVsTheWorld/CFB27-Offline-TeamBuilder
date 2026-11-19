@@ -95,7 +95,7 @@ internal static class TeamReadinessReader
 
             byte[] metadata = Vector(read, Q(mgr, 0x130), Q(mgr, 0x138), 8, MaxTeams);
             byte[] records = Vector(read, Q(mgr, 0x1C8), Q(mgr, 0x1D0), RecordSize, MaxRecords);
-            byte[] queue = Vector(read, Q(mgr, 0x180), Q(mgr, 0x1A0), 8, MaxJobs);
+            byte[] queue = NativeJobQueueReader.Read(read, mgr, MaxJobs);
             var expected = new HashSet<uint>();
             var nodes = new Dictionary<ulong,byte[]>();
             for (int n = 0; n < metadata.Length; n += 8) {
@@ -154,7 +154,8 @@ internal static class TeamReadinessReader
                 Same(svc, afterSvc, new[]{0,0x468,0x470}, 8) &&
                 Same(svc, afterSvc, new[]{0x7B1,0x7B3}, 1) && Same(svc, afterSvc, new[]{0x7D8}, 4) &&
                 Same(mgr, afterMgr, new[]{0,0x130,0x138,0x180,0x1A0,0x1C8,0x1D0}, 8) &&
-                Vector(read, Q(mgr, 0x180), Q(mgr, 0x1A0), 8, MaxJobs).SequenceEqual(queue) &&
+                mgr.Skip(0x170).Take(0x50).SequenceEqual(afterMgr.Skip(0x170).Take(0x50)) &&
+                NativeJobQueueReader.Read(read, afterMgr, MaxJobs).SequenceEqual(queue) &&
                 Vector(read, Q(mgr, 0x130), Q(mgr, 0x138), 8, MaxTeams).SequenceEqual(metadata) &&
                 Vector(read, Q(mgr, 0x1C8), Q(mgr, 0x1D0), RecordSize, MaxRecords).SequenceEqual(records) &&
                 nodes.All(n => Read(read,n.Key,n.Value.Length).SequenceEqual(n.Value));

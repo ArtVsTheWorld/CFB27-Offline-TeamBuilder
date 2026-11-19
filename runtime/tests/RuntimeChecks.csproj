@@ -8,6 +8,7 @@
     <Reference Include="FrostyCore"><HintPath>$(MmcRoot)/FrostyCore.dll</HintPath></Reference>
     <Reference Include="FrostySdk"><HintPath>$(MmcRoot)/FrostySdk.dll</HintPath></Reference>
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Drawing" />
     <None Include="golden-relays.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="resident-reuse-native.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="stock-preview-entries.json" CopyToOutputDirectory="PreserveNewest" />

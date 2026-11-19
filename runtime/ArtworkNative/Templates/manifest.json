@@ -1,0 +1,3127 @@
+{
+  "head": 4340124,
+  "contentHash": "7d113ad1a418dd1bd2c740648ffeca81f4c7e226",
+  "maximumTeams": 16,
+  "kinds": {
+    "tbak": {
+      "libraryName": "teambackgrounds",
+      "libraryId": 42,
+      "width": 3840,
+      "height": 2160,
+      "bundle": "win32/content/ui/imageassetlibraries/global/teambackgrounds/assets/tbak_default_assetlibrary_teambackgrounds_brt",
+      "bundleHash": 970192404,
+      "superbundle": 9,
+      "textureResType": 1809719482,
+      "textureResMeta": "0c000000010000000000000000000000",
+      "tableName": "content/ui/imageassetlibraries/global/teambackgrounds/assetlibrary_teambackgrounds_brt",
+      "tableResRid": "185540837421326407",
+      "tableResType": 1116654036,
+      "textures": [
+        {
+          "name": "content/ui/imageassetlibraries/global/teambackgrounds/assets/tbak_otba_00",
+          "id": 30001,
+          "fileGuid": "bad76b9c-46c5-5bf6-8508-8fdcc5cf3f40",
+          "instanceGuid": "02dc0fd1-249b-55e8-aba2-3f5af5097cf8",
+          "chunkGuid": "144602a6-5c53-55d0-8219-730573142901",
+          "rid": "1907642074110987621",
+          "h32": 218755762,
+          "h64": "1113079369553277618"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teambackgrounds/assets/tbak_otba_01",
+          "id": 30002,
+          "fileGuid": "a5846a78-152e-5235-a4e8-d051c3ba72d9",
+          "instanceGuid": "10a72fd4-d9d9-5312-90ce-6033c8abe585",
+          "chunkGuid": "48c8ea6a-614f-562e-b5d9-6c0d0dc44001",
+          "rid": "4976137274891692245",
+          "h32": 218755763,
+          "h64": "1113079369553277619"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teambackgrounds/assets/tbak_otba_02",
+          "id": 30003,
+          "fileGuid": "e90ff5ba-706d-5647-8a71-96177dd13c16",
+          "instanceGuid": "ff2955a3-d95a-5013-92a9-b710c88d094f",
+          "chunkGuid": "18a31d14-d406-5958-a34f-ff6816de0a01",
+          "rid": "12625653718202807363",
+          "h32": 218755760,
+          "h64": "1113079369553277616"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teambackgrounds/assets/tbak_otba_03",
+          "id": 30004,
+          "fileGuid": "4d5eccef-6ac9-58c2-ad3d-4dab8a185c35",
+          "instanceGuid": "ed37ad55-d005-5206-a54b-6bf19a443a41",
+          "chunkGuid": "a361edcf-d1ad-50c8-bcb7-e1e3cbd21901",
+          "rid": "5344905765607710493",
+          "h32": 218755761,
+          "h64": "1113079369553277617"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teambackgrounds/assets/tbak_otba_04",
+          "id": 30005,
+          "fileGuid": "5980ecd9-5f9f-5135-bd7c-376149dc1736",
+          "instanceGuid": "7047aa0f-fd85-5500-b82b-0d66ded24be5",
+          "chunkGuid": "0b5eb39e-4ecf-50bb-8a1a-432a92934501",
+          "rid": "5481580033589393243",
+          "h32": 218755766,
+          "h64": "1113079369553277622"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teambackgrounds/assets/tbak_otba_05",
+          "id": 30006,
+          "fileGuid": "6955926d-fce3-5a71-97f0-e420a5ff9d7d",
+          "instanceGuid": "d6ea0a48-c48d-53aa-9793-1015e41d0a89",
+          "chunkGuid": "77f988f4-c4da-5aa8-81ec-4eea97253601",
+          "rid": "2829708487611222597",
+          "h32": 218755767,
+          "h64": "1113079369553277623"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teambackgrounds/assets/tbak_otba_06",
+          "id": 30007,
+          "fileGuid": "e496f1f9-a554-5160-89a3-39f9275e66d9",
+          "instanceGuid": "4211c426-b20f-5fde-a07e-7aa8a782bbad",
+          "chunkGuid": "05889f51-b93c-5b7f-8b9e-1b61a74acd01",
+          "rid": "4214986708743975175",
+          "h32": 218755764,
+          "h64": "1113079369553277620"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teambackgrounds/assets/tbak_otba_07",
+          "id": 30008,
+          "fileGuid": "2855ebd9-00e2-59c4-b0a4-a01f53613d45",
+          "instanceGuid": "a8832340-be96-52e1-a025-0d41bd668761",
+          "chunkGuid": "0dc69ca8-a160-5af7-8280-05ca7853f901",
+          "rid": "5197037093741586935",
+          "h32": 218755765,
+          "h64": "1113079369553277621"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teambackgrounds/assets/tbak_otba_08",
+          "id": 30009,
+          "fileGuid": "9c3a4286-2701-5e82-b497-e06e228d67a6",
+          "instanceGuid": "ec8ed76f-68dd-5bd3-96bc-0e30efbd21df",
+          "chunkGuid": "33bc4185-bfc4-550f-bdaa-c4f39740d301",
+          "rid": "12328612768446266565",
+          "h32": 218755770,
+          "h64": "1113079369553277626"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teambackgrounds/assets/tbak_otba_09",
+          "id": 30010,
+          "fileGuid": "34b07f64-2770-50c1-9894-c393d606d4c5",
+          "instanceGuid": "9ce7cdcb-4117-50ec-bb39-89927f078161",
+          "chunkGuid": "cea57fec-24c4-5d66-952c-9dd90918bb01",
+          "rid": "13941255170067074265",
+          "h32": 218755771,
+          "h64": "1113079369553277627"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teambackgrounds/assets/tbak_otba_10",
+          "id": 30011,
+          "fileGuid": "97af6689-736e-593d-a23f-22e9cc2d1006",
+          "instanceGuid": "e7316259-eb75-53f4-a84b-507a1a0ca6ce",
+          "chunkGuid": "7128cacd-9026-5c0e-84c3-1af599519601",
+          "rid": "4552519011221132319",
+          "h32": 218755731,
+          "h64": "1113079369553277587"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teambackgrounds/assets/tbak_otba_11",
+          "id": 30012,
+          "fileGuid": "78087326-7f3c-5742-9177-1e28abb43d6a",
+          "instanceGuid": "f4bb02e6-ff44-56a2-b352-1376c4065943",
+          "chunkGuid": "7fb40fde-5045-5e5c-8c07-3ffd9dd78e01",
+          "rid": "2872670956915675913",
+          "h32": 218755730,
+          "h64": "1113079369553277586"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teambackgrounds/assets/tbak_otba_12",
+          "id": 30013,
+          "fileGuid": "77c4afd9-ce60-5d9d-850f-32d265cd5377",
+          "instanceGuid": "f489410f-3c98-582d-b2a5-91ddd4e41e0f",
+          "chunkGuid": "11703405-0653-52b4-baf9-ec4256d85301",
+          "rid": "14386429151725738497",
+          "h32": 218755729,
+          "h64": "1113079369553277585"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teambackgrounds/assets/tbak_otba_13",
+          "id": 30014,
+          "fileGuid": "f7dd8755-2384-5955-9dc3-221197b06577",
+          "instanceGuid": "e9ac622f-60f2-5e2a-96d2-4370cdfd4dac",
+          "chunkGuid": "ecdd042a-97a8-5d11-bb4e-a17972d1c501",
+          "rid": "7921865812345381879",
+          "h32": 218755728,
+          "h64": "1113079369553277584"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teambackgrounds/assets/tbak_otba_14",
+          "id": 30015,
+          "fileGuid": "2e5f6217-d7b6-5b48-bae8-aa99b5e62e4c",
+          "instanceGuid": "7df4fef9-d0e9-599a-bc7e-d249d2d00578",
+          "chunkGuid": "d80e4c19-8c79-59c2-a418-c262983bdc01",
+          "rid": "18068285673469810295",
+          "h32": 218755735,
+          "h64": "1113079369553277591"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teambackgrounds/assets/tbak_otba_15",
+          "id": 30016,
+          "fileGuid": "57447404-c591-513e-8bbe-82a71f0514ef",
+          "instanceGuid": "81397fd0-4b51-5d7d-bc6b-8f8b34cff741",
+          "chunkGuid": "049833f3-bd99-532a-929b-663a54dc6001",
+          "rid": "5896102639095172219",
+          "h32": 218755734,
+          "h64": "1113079369553277590"
+        }
+      ],
+      "tables": [
+        {
+          "count": 0,
+          "resMeta": "d0700000140000000000000000000000"
+        },
+        {
+          "count": 1,
+          "resMeta": "40710000140000000000000000000000"
+        },
+        {
+          "count": 2,
+          "resMeta": "b0710000140000000000000000000000"
+        },
+        {
+          "count": 3,
+          "resMeta": "20720000140000000000000000000000"
+        },
+        {
+          "count": 4,
+          "resMeta": "90720000140000000000000000000000"
+        },
+        {
+          "count": 5,
+          "resMeta": "00730000140000000000000000000000"
+        },
+        {
+          "count": 6,
+          "resMeta": "70730000140000000000000000000000"
+        },
+        {
+          "count": 7,
+          "resMeta": "e0730000140000000000000000000000"
+        },
+        {
+          "count": 8,
+          "resMeta": "40740000140000000000000000000000"
+        },
+        {
+          "count": 9,
+          "resMeta": "b0740000140000000000000000000000"
+        },
+        {
+          "count": 10,
+          "resMeta": "20750000140000000000000000000000"
+        },
+        {
+          "count": 11,
+          "resMeta": "90750000140000000000000000000000"
+        },
+        {
+          "count": 12,
+          "resMeta": "00760000140000000000000000000000"
+        },
+        {
+          "count": 13,
+          "resMeta": "70760000140000000000000000000000"
+        },
+        {
+          "count": 14,
+          "resMeta": "e0760000140000000000000000000000"
+        },
+        {
+          "count": 15,
+          "resMeta": "50770000140000000000000000000000"
+        },
+        {
+          "count": 16,
+          "resMeta": "b0770000140000000000000000000000"
+        }
+      ]
+    },
+    "pcb": {
+      "libraryName": "playercardbackgrounds",
+      "libraryId": 68,
+      "width": 1920,
+      "height": 1080,
+      "bundle": "win32/content/ui/imageassetlibraries/global/playercardbackgrounds/assets/pcb_default_assetlibrary_playercardbackgrounds_brt",
+      "bundleHash": 3852611033,
+      "superbundle": 9,
+      "textureResType": 1809719482,
+      "textureResMeta": "0c000000010000000000000000000000",
+      "tableName": "content/ui/imageassetlibraries/global/playercardbackgrounds/assetlibrary_playercardbackgrounds_brt",
+      "tableResRid": "12483994944501230241",
+      "tableResType": 1116654036,
+      "textures": [
+        {
+          "name": "content/ui/imageassetlibraries/global/playercardbackgrounds/assets/pcb_otba_00",
+          "id": 30001,
+          "fileGuid": "361d9b39-fa02-5353-b31e-7f1e4125fcd1",
+          "instanceGuid": "5c55f937-b82a-5adb-9ec4-4055ad82fdf1",
+          "chunkGuid": "5d67e8b4-ee14-5bfc-a824-b3e777821a01",
+          "rid": "390053659518619599",
+          "h32": 3291766021,
+          "h64": "6964875689547029765"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/playercardbackgrounds/assets/pcb_otba_01",
+          "id": 30002,
+          "fileGuid": "52b8963a-b6f5-50f8-8aba-4c01e1dd2843",
+          "instanceGuid": "6cb86d78-301d-5653-a334-c1be22dd95e0",
+          "chunkGuid": "2b24f1ee-c60f-5778-8837-0588a73f4901",
+          "rid": "2863405515174827835",
+          "h32": 3291766020,
+          "h64": "6964875689547029764"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/playercardbackgrounds/assets/pcb_otba_02",
+          "id": 30003,
+          "fileGuid": "6d5da20c-f1e1-5b5d-8214-f2239a74ecba",
+          "instanceGuid": "f35e6b54-f70a-5d21-a2a3-de371367c795",
+          "chunkGuid": "712b24ce-caa5-51be-afac-16707d21b901",
+          "rid": "16385066904025107545",
+          "h32": 3291766023,
+          "h64": "6964875689547029767"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/playercardbackgrounds/assets/pcb_otba_03",
+          "id": 30004,
+          "fileGuid": "05acfe05-d8ba-5c64-9864-5e9c6f5214bc",
+          "instanceGuid": "92073890-ce42-5069-93ac-a5ba2927f379",
+          "chunkGuid": "aeac4166-18ab-588e-82c2-9f659827f101",
+          "rid": "12157849697547362321",
+          "h32": 3291766022,
+          "h64": "6964875689547029766"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/playercardbackgrounds/assets/pcb_otba_04",
+          "id": 30005,
+          "fileGuid": "0e0aa10e-c888-5e27-9ad9-797f1ea4d691",
+          "instanceGuid": "c43ddf22-e550-5a8a-b077-996cc88dbe60",
+          "chunkGuid": "e61cbd5b-bff5-56ec-b00e-5f2d6c08d801",
+          "rid": "2613874661090335101",
+          "h32": 3291766017,
+          "h64": "6964875689547029761"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/playercardbackgrounds/assets/pcb_otba_05",
+          "id": 30006,
+          "fileGuid": "93dd3099-97ba-5d11-8aa1-3fcafb8b4d8b",
+          "instanceGuid": "f666b3f5-57ee-5de0-a454-eb9daf2f3690",
+          "chunkGuid": "29e7a9bd-f49d-5278-b773-855858f3e701",
+          "rid": "8500642217460726449",
+          "h32": 3291766016,
+          "h64": "6964875689547029760"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/playercardbackgrounds/assets/pcb_otba_06",
+          "id": 30007,
+          "fileGuid": "09acbb47-f190-5b96-a508-3fcb4755be0a",
+          "instanceGuid": "3647af55-4f76-5650-8511-36f42b441928",
+          "chunkGuid": "c188591b-c0cf-5e82-94fb-fc664428aa01",
+          "rid": "8856309145249257821",
+          "h32": 3291766019,
+          "h64": "6964875689547029763"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/playercardbackgrounds/assets/pcb_otba_07",
+          "id": 30008,
+          "fileGuid": "4cf6c6d5-f948-5b79-8777-83028058800a",
+          "instanceGuid": "e88b97a0-1f71-5f8e-89b7-37ea87a763dd",
+          "chunkGuid": "fd48de73-9c41-56dd-bd19-fe3725c5c401",
+          "rid": "11445234771189315435",
+          "h32": 3291766018,
+          "h64": "6964875689547029762"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/playercardbackgrounds/assets/pcb_otba_08",
+          "id": 30009,
+          "fileGuid": "0c3a419c-6b27-516e-a855-b24865789f19",
+          "instanceGuid": "94e46838-a98f-53a0-bc22-bedd12cbb297",
+          "chunkGuid": "60949fc2-db27-5ef3-9c37-26b3c18b2701",
+          "rid": "15658753068538210759",
+          "h32": 3291766029,
+          "h64": "6964875689547029773"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/playercardbackgrounds/assets/pcb_otba_09",
+          "id": 30010,
+          "fileGuid": "bb0ae162-da47-56ee-a631-a63249612957",
+          "instanceGuid": "48f95ce7-db28-5a70-a3ae-55b84e74fdc4",
+          "chunkGuid": "27450e4b-5bfe-529c-b583-f0c190f84901",
+          "rid": "11881080032680857267",
+          "h32": 3291766028,
+          "h64": "6964875689547029772"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/playercardbackgrounds/assets/pcb_otba_10",
+          "id": 30011,
+          "fileGuid": "1040aebe-186d-5594-ba51-e08ab9a9dcb1",
+          "instanceGuid": "796a2a7b-b100-5c5b-a1ef-fe0c20d4f7cb",
+          "chunkGuid": "17b24418-c769-5cd3-8f35-338584c25201",
+          "rid": "13904721991205557203",
+          "h32": 3291766052,
+          "h64": "6964875689547029796"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/playercardbackgrounds/assets/pcb_otba_11",
+          "id": 30012,
+          "fileGuid": "5cf9ebe6-a3a3-5814-b92e-fe03f4df8ce5",
+          "instanceGuid": "1c43b680-8f75-5c9a-81d0-15bc483b155f",
+          "chunkGuid": "f00a0dce-b5fe-5d43-b3c0-a61796c35801",
+          "rid": "13601427461669123125",
+          "h32": 3291766053,
+          "h64": "6964875689547029797"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/playercardbackgrounds/assets/pcb_otba_12",
+          "id": 30013,
+          "fileGuid": "193451e3-4c7c-5362-9d44-8da7fc17edf3",
+          "instanceGuid": "b5b64f03-dc1d-5719-98e3-897c102e90dd",
+          "chunkGuid": "2651496c-f53d-5152-a49d-fdab53e29001",
+          "rid": "1705664634401696377",
+          "h32": 3291766054,
+          "h64": "6964875689547029798"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/playercardbackgrounds/assets/pcb_otba_13",
+          "id": 30014,
+          "fileGuid": "85d724ed-16cf-52e5-ab1b-7e57b86cc568",
+          "instanceGuid": "3b59cd57-7c41-5a3b-b4c9-a116857046f4",
+          "chunkGuid": "739fedb2-b065-5d63-97ae-d809130bae01",
+          "rid": "14198468013474866249",
+          "h32": 3291766055,
+          "h64": "6964875689547029799"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/playercardbackgrounds/assets/pcb_otba_14",
+          "id": 30015,
+          "fileGuid": "4716b4ad-d4d6-52ca-a514-d1d1785dc391",
+          "instanceGuid": "f3c81879-a3ff-5367-8152-b1e175747984",
+          "chunkGuid": "dc1ce743-0cdd-5ec0-bb18-0dd7239cdd01",
+          "rid": "13114585103243620351",
+          "h32": 3291766048,
+          "h64": "6964875689547029792"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/playercardbackgrounds/assets/pcb_otba_15",
+          "id": 30016,
+          "fileGuid": "9a7b949e-826a-578e-91e8-cf6f44e4e012",
+          "instanceGuid": "b70631d1-9dec-576c-bc49-5f7ecd29b242",
+          "chunkGuid": "ce76d0a9-2d71-54e3-80c3-6116cfcc3d01",
+          "rid": "10701697047855893671",
+          "h32": 3291766049,
+          "h64": "6964875689547029793"
+        }
+      ],
+      "tables": [
+        {
+          "count": 0,
+          "resMeta": "501d0000140000000000000000000000"
+        },
+        {
+          "count": 1,
+          "resMeta": "d01d0000140000000000000000000000"
+        },
+        {
+          "count": 2,
+          "resMeta": "401e0000140000000000000000000000"
+        },
+        {
+          "count": 3,
+          "resMeta": "b01e0000140000000000000000000000"
+        },
+        {
+          "count": 4,
+          "resMeta": "201f0000140000000000000000000000"
+        },
+        {
+          "count": 5,
+          "resMeta": "901f0000140000000000000000000000"
+        },
+        {
+          "count": 6,
+          "resMeta": "10200000140000000000000000000000"
+        },
+        {
+          "count": 7,
+          "resMeta": "80200000140000000000000000000000"
+        },
+        {
+          "count": 8,
+          "resMeta": "f0200000140000000000000000000000"
+        },
+        {
+          "count": 9,
+          "resMeta": "60210000140000000000000000000000"
+        },
+        {
+          "count": 10,
+          "resMeta": "d0210000140000000000000000000000"
+        },
+        {
+          "count": 11,
+          "resMeta": "50220000140000000000000000000000"
+        },
+        {
+          "count": 12,
+          "resMeta": "c0220000140000000000000000000000"
+        },
+        {
+          "count": 13,
+          "resMeta": "30230000140000000000000000000000"
+        },
+        {
+          "count": 14,
+          "resMeta": "a0230000140000000000000000000000"
+        },
+        {
+          "count": 15,
+          "resMeta": "10240000140000000000000000000000"
+        },
+        {
+          "count": 16,
+          "resMeta": "80240000140000000000000000000000"
+        }
+      ]
+    },
+    "jersey": {
+      "group": "jersey",
+      "libraryId": 92,
+      "libraryName": "teamjerseys",
+      "width": 512,
+      "height": 512,
+      "superbundle": 9,
+      "bundleHash": 2786612209,
+      "textureResType": 1809719482,
+      "textureResMeta": "0c000000010000000000000000000000",
+      "selectorId": 100,
+      "marker": 1409286144,
+      "bundleLookupIndex": 481,
+      "textures": [
+        {
+          "name": "content/ui/imageassetlibraries/global/teamjerseys/assets/teamjerseys/tjer_teamjerseys_otba_00",
+          "id": 30001,
+          "fileGuid": "6dbea134-9822-5db0-bbbd-353b16a99a4e",
+          "instanceGuid": "5dd04597-5d7a-5768-89e6-27698119c791",
+          "chunkGuid": "0b85a37c-f0c1-5e21-8adf-6bc3003be501",
+          "rid": "6867907700095145031",
+          "h32": 3391457771,
+          "h64": "5809177050596346347"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamjerseys/assets/teamjerseys/tjer_teamjerseys_otba_01",
+          "id": 30002,
+          "fileGuid": "c2569100-a22b-5200-a85b-514c13b91585",
+          "instanceGuid": "8445037b-fec9-503c-bfe4-fe367fb3bd7a",
+          "chunkGuid": "a0b35f77-a380-5195-b5a2-f0af23629e01",
+          "rid": "8651748545139973669",
+          "h32": 3391457770,
+          "h64": "5809177050596346346"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamjerseys/assets/teamjerseys/tjer_teamjerseys_otba_02",
+          "id": 30003,
+          "fileGuid": "cd3c2243-8c9a-5c55-b87f-5dedb5415308",
+          "instanceGuid": "52864c61-264a-5ecf-b815-3918ba681aea",
+          "chunkGuid": "914cc7c3-ccc1-554a-ae81-587c47b10101",
+          "rid": "1760743776129149473",
+          "h32": 3391457769,
+          "h64": "5809177050596346345"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamjerseys/assets/teamjerseys/tjer_teamjerseys_otba_03",
+          "id": 30004,
+          "fileGuid": "1a47bf20-ba52-5eb9-bcae-6b19f17e5ed8",
+          "instanceGuid": "3eb0bd20-37f8-5607-8d32-680d16e61f75",
+          "chunkGuid": "7a6dfcd3-0556-561a-a7a9-5fcd7b9b5e01",
+          "rid": "10378897291054817257",
+          "h32": 3391457768,
+          "h64": "5809177050596346344"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamjerseys/assets/teamjerseys/tjer_teamjerseys_otba_04",
+          "id": 30005,
+          "fileGuid": "6e6dd189-704e-5488-a0ab-b6683f9c582f",
+          "instanceGuid": "6ae8a28b-1735-5d44-b3b9-a2c57a5758b1",
+          "chunkGuid": "b94005a8-88d4-5fdf-9b5a-d29b44fd2601",
+          "rid": "17374940182535871493",
+          "h32": 3391457775,
+          "h64": "5809177050596346351"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamjerseys/assets/teamjerseys/tjer_teamjerseys_otba_05",
+          "id": 30006,
+          "fileGuid": "1a529770-f0fe-5ab7-a370-b8eb1c95490f",
+          "instanceGuid": "63ab273a-5a96-5971-9710-20bad79dd389",
+          "chunkGuid": "dcd56d54-56a8-5dce-a0dd-6feca533a301",
+          "rid": "4396132100258569065",
+          "h32": 3391457774,
+          "h64": "5809177050596346350"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamjerseys/assets/teamjerseys/tjer_teamjerseys_otba_06",
+          "id": 30007,
+          "fileGuid": "2790c6b7-810d-590b-9c8e-749dd4e83b5c",
+          "instanceGuid": "a623c239-6efa-5fec-a7a8-f63914af8143",
+          "chunkGuid": "62a793be-169d-511b-a222-4f76f235a601",
+          "rid": "7618583982267303013",
+          "h32": 3391457773,
+          "h64": "5809177050596346349"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamjerseys/assets/teamjerseys/tjer_teamjerseys_otba_07",
+          "id": 30008,
+          "fileGuid": "5efa5a44-4caf-59f0-89ef-c1f0e7292a99",
+          "instanceGuid": "cc4a75fc-2922-5e45-838d-d186bb40a5a9",
+          "chunkGuid": "64247e24-bbf9-5031-9382-8c13a7cda401",
+          "rid": "5358863676925425155",
+          "h32": 3391457772,
+          "h64": "5809177050596346348"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamjerseys/assets/teamjerseys/tjer_teamjerseys_otba_08",
+          "id": 30009,
+          "fileGuid": "db245adb-6751-5b99-837e-62d5da03ca99",
+          "instanceGuid": "1c74ab6a-b423-58e3-ab95-99fbe6f989b7",
+          "chunkGuid": "a3b7e128-6db7-5ae4-b926-5a3959f0a201",
+          "rid": "6572888289304360533",
+          "h32": 3391457763,
+          "h64": "5809177050596346339"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamjerseys/assets/teamjerseys/tjer_teamjerseys_otba_09",
+          "id": 30010,
+          "fileGuid": "012ff3ba-7730-5661-95fb-056aed7ddef3",
+          "instanceGuid": "6429fda4-9658-535b-b0d8-dd017a0ced15",
+          "chunkGuid": "da7a5eba-5941-540e-baf3-208820808001",
+          "rid": "1409148219051286667",
+          "h32": 3391457762,
+          "h64": "5809177050596346338"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamjerseys/assets/teamjerseys/tjer_teamjerseys_otba_10",
+          "id": 30011,
+          "fileGuid": "650f07e5-a74c-521c-936d-e790df2661e7",
+          "instanceGuid": "6b13d961-af1e-5726-919e-f9af3930aa5a",
+          "chunkGuid": "b28dc3da-ace5-5f05-9f3b-3b72e2915c01",
+          "rid": "6646235280262070079",
+          "h32": 3391457674,
+          "h64": "5809177050596346250"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamjerseys/assets/teamjerseys/tjer_teamjerseys_otba_11",
+          "id": 30012,
+          "fileGuid": "497f8b86-cc4f-58ac-837f-9d69909da0d4",
+          "instanceGuid": "dd670a7f-d95a-551f-891b-34ecc966918a",
+          "chunkGuid": "07a5afa4-42b4-5988-b156-2bfff0979501",
+          "rid": "7288418682537623701",
+          "h32": 3391457675,
+          "h64": "5809177050596346251"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamjerseys/assets/teamjerseys/tjer_teamjerseys_otba_12",
+          "id": 30013,
+          "fileGuid": "a11998e9-b46f-5dda-942d-0cd994092d43",
+          "instanceGuid": "c3f4cb91-67b2-5475-9fbf-860c447d4910",
+          "chunkGuid": "daa99522-42bd-5cf5-a39b-0122fe91e601",
+          "rid": "4489281981323418259",
+          "h32": 3391457672,
+          "h64": "5809177050596346248"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamjerseys/assets/teamjerseys/tjer_teamjerseys_otba_13",
+          "id": 30014,
+          "fileGuid": "7ed663f0-f8c7-5361-bfae-4fc8848d6f93",
+          "instanceGuid": "25558779-3c46-5995-8716-32e2832d790e",
+          "chunkGuid": "ccff8766-d674-5889-bb0a-5ec1ce6f4f01",
+          "rid": "10931688051156509003",
+          "h32": 3391457673,
+          "h64": "5809177050596346249"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamjerseys/assets/teamjerseys/tjer_teamjerseys_otba_14",
+          "id": 30015,
+          "fileGuid": "c26dd3e0-7c90-5f78-bd2b-d6aaf934d70c",
+          "instanceGuid": "30053a5b-5bf3-5ea8-905d-32f4130e6787",
+          "chunkGuid": "5f8bfcb3-88b1-54ac-9741-849ab6dea001",
+          "rid": "11576259900801567131",
+          "h32": 3391457678,
+          "h64": "5809177050596346254"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamjerseys/assets/teamjerseys/tjer_teamjerseys_otba_15",
+          "id": 30016,
+          "fileGuid": "48d9c77e-36f5-52ad-8524-fdb7a72d6a94",
+          "instanceGuid": "e387b24d-728b-53bb-bbb2-92d0de1ab8b1",
+          "chunkGuid": "bd0afb73-1894-5613-8836-433f86417d01",
+          "rid": "7058905510577695713",
+          "h32": 3391457679,
+          "h64": "5809177050596346255"
+        }
+      ]
+    },
+    "tsb_left": {
+      "group": "tsb",
+      "libraryId": 7,
+      "width": 840,
+      "height": 1080,
+      "marker": 1426063360,
+      "superbundle": 9,
+      "bundleHash": 4159746265,
+      "textureResType": 1809719482,
+      "textureResMeta": "0c000000010000000000000000000000",
+      "bundleLookupIndex": 112,
+      "textures": [
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/left/tsb_left_otba_00",
+          "id": 31001,
+          "fileGuid": "5615cbd2-55c6-5d2a-90d6-35afa26f3512",
+          "instanceGuid": "834d2da0-a914-5b09-9b7f-8e35e5fd7074",
+          "chunkGuid": "e25bc44e-2094-55dd-b1b9-2bc38cebad01",
+          "rid": "3762888546469372439",
+          "h32": 98199283,
+          "h64": "10244119432013702899"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/left/tsb_left_otba_01",
+          "id": 31002,
+          "fileGuid": "9d50f38e-a4bc-58c8-aee9-52e10e7de6ed",
+          "instanceGuid": "7d1b13ce-f5cb-52ab-b83f-085873b8a4c4",
+          "chunkGuid": "62a3c372-4483-5a4b-8c69-d837e8975401",
+          "rid": "18186832456093646465",
+          "h32": 98199282,
+          "h64": "10244119432013702898"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/left/tsb_left_otba_02",
+          "id": 31003,
+          "fileGuid": "9ecc424a-c18c-591a-9375-abd839b3dab5",
+          "instanceGuid": "086158f1-3615-5a72-851e-dffb9f27432d",
+          "chunkGuid": "b3d6ccad-dc66-51ca-a8e6-60a6820ba601",
+          "rid": "14920869553092995977",
+          "h32": 98199281,
+          "h64": "10244119432013702897"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/left/tsb_left_otba_03",
+          "id": 31004,
+          "fileGuid": "a7b1a37f-deb5-5c1c-a7a0-5fceec0c90e2",
+          "instanceGuid": "4539b7ba-2231-531b-8e22-6c1375158236",
+          "chunkGuid": "5c818db4-7221-5dfc-a65f-5582ab1c2401",
+          "rid": "5121515019275288475",
+          "h32": 98199280,
+          "h64": "10244119432013702896"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/left/tsb_left_otba_04",
+          "id": 31005,
+          "fileGuid": "111b3a78-4d9a-5813-a827-d306f29e19a8",
+          "instanceGuid": "6e87739c-3f82-51b6-baad-3ef112e75630",
+          "chunkGuid": "aca841e1-b0b0-56d7-a58a-fbd9fea63701",
+          "rid": "11863300479872609995",
+          "h32": 98199287,
+          "h64": "10244119432013702903"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/left/tsb_left_otba_05",
+          "id": 31006,
+          "fileGuid": "95315284-7655-517e-a987-b62efdfd0078",
+          "instanceGuid": "923ebc66-f65b-5151-90e8-faa3afafe72b",
+          "chunkGuid": "f49a01cd-e8e6-5381-a598-3d6fabf8b801",
+          "rid": "4234730903652322555",
+          "h32": 98199286,
+          "h64": "10244119432013702902"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/left/tsb_left_otba_06",
+          "id": 31007,
+          "fileGuid": "1cfe16f1-3132-537c-8719-8bb2914430f0",
+          "instanceGuid": "158fe2d8-8bd5-5fe0-8714-2860aeea4b26",
+          "chunkGuid": "de962897-1363-5ff0-a141-3e262935c101",
+          "rid": "18050716658910225269",
+          "h32": 98199285,
+          "h64": "10244119432013702901"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/left/tsb_left_otba_07",
+          "id": 31008,
+          "fileGuid": "27c7e1c1-2c5e-5d66-847b-07586c12d8be",
+          "instanceGuid": "9c7dd091-802a-51f6-a97d-b1eaa2f5690e",
+          "chunkGuid": "09dd0e3a-0d35-5ee0-bd26-974ed6def801",
+          "rid": "11441606307563361589",
+          "h32": 98199284,
+          "h64": "10244119432013702900"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/left/tsb_left_otba_08",
+          "id": 31009,
+          "fileGuid": "9f109f5d-3b22-5310-ae38-f0118b7ebc67",
+          "instanceGuid": "8bd27d48-6e7e-50d5-bc7e-44f7f930df5f",
+          "chunkGuid": "04cf5618-d729-52e0-8a49-266fed7c7e01",
+          "rid": "13074434539653122589",
+          "h32": 98199291,
+          "h64": "10244119432013702907"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/left/tsb_left_otba_09",
+          "id": 31010,
+          "fileGuid": "448fe8f1-8f43-555e-89c3-9ba299ea4f2f",
+          "instanceGuid": "c3a5df52-9cb4-5047-88f2-da0c1f64f766",
+          "chunkGuid": "872175b0-6922-575a-9242-bb07ff8c9601",
+          "rid": "17035378697609476325",
+          "h32": 98199290,
+          "h64": "10244119432013702906"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/left/tsb_left_otba_10",
+          "id": 31011,
+          "fileGuid": "55fc4d1e-6f06-5a8a-8649-3b57fd94deb0",
+          "instanceGuid": "a971c698-91d1-5178-aad8-75d0a42f7837",
+          "chunkGuid": "102b013f-2df9-510d-ac9e-227155741001",
+          "rid": "13935219234667547253",
+          "h32": 98199186,
+          "h64": "10244119432013702802"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/left/tsb_left_otba_11",
+          "id": 31012,
+          "fileGuid": "834ed890-2e62-5147-9baf-d43fd40ea589",
+          "instanceGuid": "2ff5f63e-c91a-506b-96da-d35188e4cb58",
+          "chunkGuid": "c03f9911-4faa-5eee-84cd-8befd9e75501",
+          "rid": "8937406024398805579",
+          "h32": 98199187,
+          "h64": "10244119432013702803"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/left/tsb_left_otba_12",
+          "id": 31013,
+          "fileGuid": "11cd53cc-a30e-51aa-8138-12839e01ca0d",
+          "instanceGuid": "658d3320-8ae6-5a72-bce2-2d829425460f",
+          "chunkGuid": "09c23512-9b2e-5463-a42d-630e553e6901",
+          "rid": "1969646706747664949",
+          "h32": 98199184,
+          "h64": "10244119432013702800"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/left/tsb_left_otba_13",
+          "id": 31014,
+          "fileGuid": "fbbb6b85-987c-5227-b681-5cba3844c3b7",
+          "instanceGuid": "2b4a39b7-efb0-5e2d-9a4c-2618feca8ca2",
+          "chunkGuid": "744584ce-f392-553d-a07e-cc135fbf1c01",
+          "rid": "17872257302853020537",
+          "h32": 98199185,
+          "h64": "10244119432013702801"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/left/tsb_left_otba_14",
+          "id": 31015,
+          "fileGuid": "594cab9e-829a-5dff-a76b-f67efcbf01e9",
+          "instanceGuid": "beb76191-de9c-52f6-bb4f-cbc8245ab646",
+          "chunkGuid": "684969ff-e1f8-5797-98d1-9e945bca2e01",
+          "rid": "11020807545038715755",
+          "h32": 98199190,
+          "h64": "10244119432013702806"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/left/tsb_left_otba_15",
+          "id": 31016,
+          "fileGuid": "55257e51-ca72-5341-98c9-2c57d50a66e3",
+          "instanceGuid": "fe5abd74-33c5-5bdc-9deb-7e034d999edb",
+          "chunkGuid": "af52cb9b-e480-5614-a6ab-ac1364848501",
+          "rid": "529617687363036593",
+          "h32": 98199191,
+          "h64": "10244119432013702807"
+        }
+      ]
+    },
+    "tsb_right": {
+      "group": "tsb",
+      "libraryId": 7,
+      "width": 840,
+      "height": 1080,
+      "marker": 1442840576,
+      "superbundle": 9,
+      "bundleHash": 2386427161,
+      "textureResType": 1809719482,
+      "textureResMeta": "0c000000010000000000000000000000",
+      "bundleLookupIndex": 257,
+      "textures": [
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/right/tsb_right_otba_00",
+          "id": 31101,
+          "fileGuid": "b709058d-1555-5691-9ade-b2a693dcbc2b",
+          "instanceGuid": "99cd7c00-7094-5710-aa80-a62e236d798d",
+          "chunkGuid": "9c2d32f1-d4c8-5c6f-add7-54cb7e0fb201",
+          "rid": "5739245803504331703",
+          "h32": 897552179,
+          "h64": "6360457850258427699"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/right/tsb_right_otba_01",
+          "id": 31102,
+          "fileGuid": "e599827f-a165-5068-b14a-e434aeab4900",
+          "instanceGuid": "182a4ebc-f5e0-597b-8adb-24c5664ee67b",
+          "chunkGuid": "5955e057-0166-54f3-b05b-b902ff5bfe01",
+          "rid": "16355397247882380575",
+          "h32": 897552178,
+          "h64": "6360457850258427698"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/right/tsb_right_otba_02",
+          "id": 31103,
+          "fileGuid": "6e99816e-9515-5a08-a66f-3c4c4efe65aa",
+          "instanceGuid": "e2c06b3f-d5b1-5d43-8a72-85eed03b27a5",
+          "chunkGuid": "93c303b9-f03f-5fd8-a5ec-83a37202fd01",
+          "rid": "13670582723773939339",
+          "h32": 897552177,
+          "h64": "6360457850258427697"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/right/tsb_right_otba_03",
+          "id": 31104,
+          "fileGuid": "63ec35b4-eac1-52a3-8a67-ba919eedeb57",
+          "instanceGuid": "5716769f-392a-539a-8c2e-81cd6e80e7ac",
+          "chunkGuid": "2267cfbd-390f-5c8c-9ead-314f5b3a5601",
+          "rid": "3745743240048833841",
+          "h32": 897552176,
+          "h64": "6360457850258427696"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/right/tsb_right_otba_04",
+          "id": 31105,
+          "fileGuid": "474e444d-fd41-518d-ab71-1452e72cd97b",
+          "instanceGuid": "f697659f-b839-5b9f-b039-7c60ea33a6bc",
+          "chunkGuid": "930c2612-dab2-5551-9ad7-2d16de96a801",
+          "rid": "8738187914409449097",
+          "h32": 897552183,
+          "h64": "6360457850258427703"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/right/tsb_right_otba_05",
+          "id": 31106,
+          "fileGuid": "63419e68-1f27-5e70-bd3b-cd9ae47b9cf0",
+          "instanceGuid": "76506d99-a5f3-5776-a564-f976c8f8cf29",
+          "chunkGuid": "b574f180-3627-583b-9747-a53d87224e01",
+          "rid": "10548571175322479739",
+          "h32": 897552182,
+          "h64": "6360457850258427702"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/right/tsb_right_otba_06",
+          "id": 31107,
+          "fileGuid": "1718637e-346b-50dd-b89b-d12c00879a18",
+          "instanceGuid": "22a9cea0-da65-5814-a7f9-51bf1bdbe62d",
+          "chunkGuid": "aa224744-5efa-5897-a105-5790029c9e01",
+          "rid": "1394900538967970293",
+          "h32": 897552181,
+          "h64": "6360457850258427701"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/right/tsb_right_otba_07",
+          "id": 31108,
+          "fileGuid": "6b1c8a77-3690-58fb-8bad-3442ff3812d1",
+          "instanceGuid": "d1ce6a8a-251c-55e8-b2df-c1866815568e",
+          "chunkGuid": "35a9f2a6-a5ca-5ea6-8525-464131d5ec01",
+          "rid": "17873852623901446489",
+          "h32": 897552180,
+          "h64": "6360457850258427700"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/right/tsb_right_otba_08",
+          "id": 31109,
+          "fileGuid": "881aa93b-fc23-5d64-8e91-ff2ebd80bd83",
+          "instanceGuid": "58c248dc-b62c-531b-b572-e14d7d9b8698",
+          "chunkGuid": "09bd0c70-f8db-5705-8fca-0c2f5bbec401",
+          "rid": "6707827344895277383",
+          "h32": 897552187,
+          "h64": "6360457850258427707"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/right/tsb_right_otba_09",
+          "id": 31110,
+          "fileGuid": "0465ba12-b9e6-5e28-8125-f0adf29b3f4d",
+          "instanceGuid": "793f37be-b621-5059-8f6d-46106db3c354",
+          "chunkGuid": "e015820d-440d-5490-8f19-c24536d6b401",
+          "rid": "14453773081276224215",
+          "h32": 897552186,
+          "h64": "6360457850258427706"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/right/tsb_right_otba_10",
+          "id": 31111,
+          "fileGuid": "699905e9-872d-5980-969c-f7486187e8b6",
+          "instanceGuid": "0b2ed9b1-d569-52f7-9212-6c7e6596aa9b",
+          "chunkGuid": "7247809f-6247-5daf-9f82-24e29b086701",
+          "rid": "10616799082332615215",
+          "h32": 897552082,
+          "h64": "6360457850258427602"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/right/tsb_right_otba_11",
+          "id": 31112,
+          "fileGuid": "1c0b96d3-0c41-537b-9cab-4b9557fcd1bf",
+          "instanceGuid": "bb9d5220-4167-587e-90f6-5b070395fdb5",
+          "chunkGuid": "83b04739-1e85-55bf-b8fd-9031d1d6f001",
+          "rid": "17780519385009189381",
+          "h32": 897552083,
+          "h64": "6360457850258427603"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/right/tsb_right_otba_12",
+          "id": 31113,
+          "fileGuid": "a0b6f275-b0f0-5bac-aed9-c245b13bf641",
+          "instanceGuid": "ca995770-52d4-5a8e-b2fa-bca8c8db6356",
+          "chunkGuid": "520afdb5-4c52-5985-9b29-62cbf88d0601",
+          "rid": "14582915888857737701",
+          "h32": 897552080,
+          "h64": "6360457850258427600"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/right/tsb_right_otba_13",
+          "id": 31114,
+          "fileGuid": "5a10485f-4647-5e75-b6b4-614a87054fff",
+          "instanceGuid": "845a285f-6b2f-511d-b7eb-74c1b664035c",
+          "chunkGuid": "265202dc-f453-5119-9759-4f71ffb3c901",
+          "rid": "1459838800336243763",
+          "h32": 897552081,
+          "h64": "6360457850258427601"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/right/tsb_right_otba_14",
+          "id": 31115,
+          "fileGuid": "8f24a27c-c8bf-5802-ad94-889e303398cf",
+          "instanceGuid": "297884cb-f922-5d32-9244-85fdc9224c1c",
+          "chunkGuid": "6b2c5f5f-88de-5269-bfca-ba2f20d94301",
+          "rid": "11582421282105442783",
+          "h32": 897552086,
+          "h64": "6360457850258427606"
+        },
+        {
+          "name": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assets/right/tsb_right_otba_15",
+          "id": 31116,
+          "fileGuid": "fbca6b08-724e-52fc-961e-a051b35df10f",
+          "instanceGuid": "5bc5fa5b-b3fe-5061-9567-3dbc4a26dd9b",
+          "chunkGuid": "b5538651-90eb-5b02-b288-a3955b274101",
+          "rid": "9345880986755501295",
+          "h32": 897552087,
+          "h64": "6360457850258427607"
+        }
+      ]
+    }
+  },
+  "ui": {
+    "asset": "common/ui/art_screen/frontend/background.ast",
+    "guid": "4c2b6cb7-7baf-5f18-a9ec-b61842081d01",
+    "h32": 2132188968,
+    "h64": "10309062049687576360",
+    "superbundles": [
+      7
+    ],
+    "collectors": [
+      {
+        "name": "ContentShared/global/RtamStorages/Presentation_Common",
+        "guid": "aa482f78-aa24-dbac-4547-5cd46672e895"
+      }
+    ],
+    "names": [
+      30896,
+      31025,
+      31154,
+      31283,
+      31412,
+      31541,
+      31670,
+      31799,
+      31928,
+      32057,
+      32186,
+      32315,
+      32444,
+      32573,
+      32702,
+      32831,
+      32960,
+      33089,
+      33218,
+      33347,
+      33476,
+      33605,
+      33734,
+      33863,
+      33992,
+      34121,
+      34250,
+      34379,
+      34508,
+      34637,
+      34766,
+      34895
+    ],
+    "numbers": [
+      {
+        "marker": 1426063104,
+        "offset": 10889
+      },
+      {
+        "marker": 1375731456,
+        "offset": 10909
+      },
+      {
+        "marker": 1392508928,
+        "offset": 15450
+      },
+      {
+        "marker": 1392508929,
+        "offset": 15463
+      },
+      {
+        "marker": 1392508930,
+        "offset": 15479
+      },
+      {
+        "marker": 1392508931,
+        "offset": 15495
+      },
+      {
+        "marker": 1392508932,
+        "offset": 15511
+      },
+      {
+        "marker": 1392508933,
+        "offset": 15527
+      },
+      {
+        "marker": 1392508934,
+        "offset": 15543
+      },
+      {
+        "marker": 1392508935,
+        "offset": 15559
+      },
+      {
+        "marker": 1392508936,
+        "offset": 15575
+      },
+      {
+        "marker": 1392508937,
+        "offset": 15591
+      },
+      {
+        "marker": 1392508938,
+        "offset": 15607
+      },
+      {
+        "marker": 1392508939,
+        "offset": 15623
+      },
+      {
+        "marker": 1392508940,
+        "offset": 15639
+      },
+      {
+        "marker": 1392508941,
+        "offset": 15655
+      },
+      {
+        "marker": 1392508942,
+        "offset": 15671
+      },
+      {
+        "marker": 1392508943,
+        "offset": 15687
+      },
+      {
+        "marker": 1392508944,
+        "offset": 15703
+      },
+      {
+        "marker": 1392508945,
+        "offset": 15719
+      },
+      {
+        "marker": 1392508946,
+        "offset": 15735
+      },
+      {
+        "marker": 1392508947,
+        "offset": 15751
+      },
+      {
+        "marker": 1392508948,
+        "offset": 15767
+      },
+      {
+        "marker": 1392508949,
+        "offset": 15783
+      },
+      {
+        "marker": 1392508950,
+        "offset": 15799
+      },
+      {
+        "marker": 1392508951,
+        "offset": 15815
+      },
+      {
+        "marker": 1392508952,
+        "offset": 15831
+      },
+      {
+        "marker": 1392508953,
+        "offset": 15847
+      },
+      {
+        "marker": 1392508954,
+        "offset": 15863
+      },
+      {
+        "marker": 1392508955,
+        "offset": 15879
+      },
+      {
+        "marker": 1392508956,
+        "offset": 15895
+      },
+      {
+        "marker": 1392508957,
+        "offset": 15911
+      },
+      {
+        "marker": 1392508958,
+        "offset": 15927
+      },
+      {
+        "marker": 1392508959,
+        "offset": 15943
+      },
+      {
+        "marker": 1409286144,
+        "offset": 15973
+      },
+      {
+        "marker": 1358954496,
+        "offset": 15989
+      },
+      {
+        "marker": 1375731712,
+        "offset": 15995
+      },
+      {
+        "marker": 1409286145,
+        "offset": 16013
+      },
+      {
+        "marker": 1358954497,
+        "offset": 16029
+      },
+      {
+        "marker": 1375731713,
+        "offset": 16035
+      },
+      {
+        "marker": 1409286146,
+        "offset": 16053
+      },
+      {
+        "marker": 1358954498,
+        "offset": 16069
+      },
+      {
+        "marker": 1375731714,
+        "offset": 16075
+      },
+      {
+        "marker": 1409286147,
+        "offset": 16093
+      },
+      {
+        "marker": 1358954499,
+        "offset": 16109
+      },
+      {
+        "marker": 1375731715,
+        "offset": 16115
+      },
+      {
+        "marker": 1409286148,
+        "offset": 16133
+      },
+      {
+        "marker": 1358954500,
+        "offset": 16149
+      },
+      {
+        "marker": 1375731716,
+        "offset": 16155
+      },
+      {
+        "marker": 1409286149,
+        "offset": 16173
+      },
+      {
+        "marker": 1358954501,
+        "offset": 16189
+      },
+      {
+        "marker": 1375731717,
+        "offset": 16195
+      },
+      {
+        "marker": 1409286150,
+        "offset": 16213
+      },
+      {
+        "marker": 1358954502,
+        "offset": 16229
+      },
+      {
+        "marker": 1375731718,
+        "offset": 16235
+      },
+      {
+        "marker": 1409286151,
+        "offset": 16253
+      },
+      {
+        "marker": 1358954503,
+        "offset": 16269
+      },
+      {
+        "marker": 1375731719,
+        "offset": 16275
+      },
+      {
+        "marker": 1409286152,
+        "offset": 16293
+      },
+      {
+        "marker": 1358954504,
+        "offset": 16309
+      },
+      {
+        "marker": 1375731720,
+        "offset": 16315
+      },
+      {
+        "marker": 1409286153,
+        "offset": 16333
+      },
+      {
+        "marker": 1358954505,
+        "offset": 16349
+      },
+      {
+        "marker": 1375731721,
+        "offset": 16355
+      },
+      {
+        "marker": 1409286154,
+        "offset": 16373
+      },
+      {
+        "marker": 1358954506,
+        "offset": 16389
+      },
+      {
+        "marker": 1375731722,
+        "offset": 16395
+      },
+      {
+        "marker": 1409286155,
+        "offset": 16413
+      },
+      {
+        "marker": 1358954507,
+        "offset": 16429
+      },
+      {
+        "marker": 1375731723,
+        "offset": 16435
+      },
+      {
+        "marker": 1409286156,
+        "offset": 16453
+      },
+      {
+        "marker": 1358954508,
+        "offset": 16469
+      },
+      {
+        "marker": 1375731724,
+        "offset": 16475
+      },
+      {
+        "marker": 1409286157,
+        "offset": 16493
+      },
+      {
+        "marker": 1358954509,
+        "offset": 16509
+      },
+      {
+        "marker": 1375731725,
+        "offset": 16515
+      },
+      {
+        "marker": 1409286158,
+        "offset": 16533
+      },
+      {
+        "marker": 1358954510,
+        "offset": 16549
+      },
+      {
+        "marker": 1375731726,
+        "offset": 16555
+      },
+      {
+        "marker": 1409286159,
+        "offset": 16573
+      },
+      {
+        "marker": 1358954511,
+        "offset": 16589
+      },
+      {
+        "marker": 1375731727,
+        "offset": 16595
+      },
+      {
+        "marker": 1409286160,
+        "offset": 16613
+      },
+      {
+        "marker": 1358954512,
+        "offset": 16629
+      },
+      {
+        "marker": 1375731728,
+        "offset": 16635
+      },
+      {
+        "marker": 1409286161,
+        "offset": 16653
+      },
+      {
+        "marker": 1358954513,
+        "offset": 16669
+      },
+      {
+        "marker": 1375731729,
+        "offset": 16675
+      },
+      {
+        "marker": 1409286162,
+        "offset": 16693
+      },
+      {
+        "marker": 1358954514,
+        "offset": 16709
+      },
+      {
+        "marker": 1375731730,
+        "offset": 16715
+      },
+      {
+        "marker": 1409286163,
+        "offset": 16733
+      },
+      {
+        "marker": 1358954515,
+        "offset": 16749
+      },
+      {
+        "marker": 1375731731,
+        "offset": 16755
+      },
+      {
+        "marker": 1409286164,
+        "offset": 16773
+      },
+      {
+        "marker": 1358954516,
+        "offset": 16789
+      },
+      {
+        "marker": 1375731732,
+        "offset": 16795
+      },
+      {
+        "marker": 1409286165,
+        "offset": 16813
+      },
+      {
+        "marker": 1358954517,
+        "offset": 16829
+      },
+      {
+        "marker": 1375731733,
+        "offset": 16835
+      },
+      {
+        "marker": 1409286166,
+        "offset": 16853
+      },
+      {
+        "marker": 1358954518,
+        "offset": 16869
+      },
+      {
+        "marker": 1375731734,
+        "offset": 16875
+      },
+      {
+        "marker": 1409286167,
+        "offset": 16893
+      },
+      {
+        "marker": 1358954519,
+        "offset": 16909
+      },
+      {
+        "marker": 1375731735,
+        "offset": 16915
+      },
+      {
+        "marker": 1409286168,
+        "offset": 16933
+      },
+      {
+        "marker": 1358954520,
+        "offset": 16949
+      },
+      {
+        "marker": 1375731736,
+        "offset": 16955
+      },
+      {
+        "marker": 1409286169,
+        "offset": 16973
+      },
+      {
+        "marker": 1358954521,
+        "offset": 16989
+      },
+      {
+        "marker": 1375731737,
+        "offset": 16995
+      },
+      {
+        "marker": 1409286170,
+        "offset": 17013
+      },
+      {
+        "marker": 1358954522,
+        "offset": 17029
+      },
+      {
+        "marker": 1375731738,
+        "offset": 17035
+      },
+      {
+        "marker": 1409286171,
+        "offset": 17053
+      },
+      {
+        "marker": 1358954523,
+        "offset": 17069
+      },
+      {
+        "marker": 1375731739,
+        "offset": 17075
+      },
+      {
+        "marker": 1409286172,
+        "offset": 17093
+      },
+      {
+        "marker": 1358954524,
+        "offset": 17109
+      },
+      {
+        "marker": 1375731740,
+        "offset": 17115
+      },
+      {
+        "marker": 1409286173,
+        "offset": 17133
+      },
+      {
+        "marker": 1358954525,
+        "offset": 17149
+      },
+      {
+        "marker": 1375731741,
+        "offset": 17155
+      },
+      {
+        "marker": 1409286174,
+        "offset": 17173
+      },
+      {
+        "marker": 1358954526,
+        "offset": 17189
+      },
+      {
+        "marker": 1375731742,
+        "offset": 17195
+      },
+      {
+        "marker": 1409286175,
+        "offset": 17213
+      },
+      {
+        "marker": 1358954527,
+        "offset": 17229
+      },
+      {
+        "marker": 1375731743,
+        "offset": 17235
+      },
+      {
+        "marker": 1426063104,
+        "offset": 23393
+      },
+      {
+        "marker": 1409285888,
+        "offset": 27195
+      }
+    ]
+  },
+  "groups": {
+    "jersey": {
+      "maximumPictures": 16,
+      "tableName": "content/ui/imageassetlibraries/global/teamjerseys/assetlibrary_teamjerseys_brt",
+      "tableResRid": "857169357904315145",
+      "tableResType": 1116654036,
+      "tables": [
+        {
+          "count": 0
+        },
+        {
+          "count": 1
+        },
+        {
+          "count": 2
+        },
+        {
+          "count": 3
+        },
+        {
+          "count": 4
+        },
+        {
+          "count": 5
+        },
+        {
+          "count": 6
+        },
+        {
+          "count": 7
+        },
+        {
+          "count": 8
+        },
+        {
+          "count": 9
+        },
+        {
+          "count": 10
+        },
+        {
+          "count": 11
+        },
+        {
+          "count": 12
+        },
+        {
+          "count": 13
+        },
+        {
+          "count": 14
+        },
+        {
+          "count": 15
+        },
+        {
+          "count": 16
+        }
+      ]
+    },
+    "tsb": {
+      "maximumPictures": 32,
+      "tableName": "content/ui/imageassetlibraries/global/teamselectbackgrounds/assestlibrary_teamselectbackgrounds_brt",
+      "tableResRid": "17517246272158044577",
+      "tableResType": 1116654036,
+      "tables": [
+        {
+          "count": 0
+        },
+        {
+          "count": 1
+        },
+        {
+          "count": 2
+        },
+        {
+          "count": 3
+        },
+        {
+          "count": 4
+        },
+        {
+          "count": 5
+        },
+        {
+          "count": 6
+        },
+        {
+          "count": 7
+        },
+        {
+          "count": 8
+        },
+        {
+          "count": 9
+        },
+        {
+          "count": 10
+        },
+        {
+          "count": 11
+        },
+        {
+          "count": 12
+        },
+        {
+          "count": 13
+        },
+        {
+          "count": 14
+        },
+        {
+          "count": 15
+        },
+        {
+          "count": 16
+        },
+        {
+          "count": 17
+        },
+        {
+          "count": 18
+        },
+        {
+          "count": 19
+        },
+        {
+          "count": 20
+        },
+        {
+          "count": 21
+        },
+        {
+          "count": 22
+        },
+        {
+          "count": 23
+        },
+        {
+          "count": 24
+        },
+        {
+          "count": 25
+        },
+        {
+          "count": 26
+        },
+        {
+          "count": 27
+        },
+        {
+          "count": 28
+        },
+        {
+          "count": 29
+        },
+        {
+          "count": 30
+        },
+        {
+          "count": 31
+        },
+        {
+          "count": 32
+        }
+      ]
+    }
+  },
+  "extraUi": [
+    {
+      "file": "match-portrait.ast",
+      "asset": "common/ui/art_control/image/portraitwithjersey.ast",
+      "guid": "b39b17b6-269a-5044-b017-d3f9bae8f201",
+      "h32": 2881148451,
+      "h64": "13190717074323461667",
+      "superbundles": [
+        7,
+        11
+      ],
+      "collectors": [
+        {
+          "name": "ContentShared/global/RtamStorages/Presentation_Common",
+          "guid": "aa482f78-aa24-dbac-4547-5cd46672e895"
+        },
+        {
+          "name": "UISharedData/global/RtamStorages/UIPreload/uipreload_scriptpod",
+          "guid": "1582747e-3d45-6d77-cf70-ba6698b3d4cd"
+        }
+      ],
+      "names": [
+        11449,
+        11578,
+        11707,
+        11836,
+        11965,
+        12094,
+        12223,
+        12352,
+        12481,
+        12610,
+        12739,
+        12868,
+        12997,
+        13126,
+        13255,
+        13384,
+        13513,
+        13642,
+        13771,
+        13900,
+        14029,
+        14158,
+        14287,
+        14416,
+        14545,
+        14674,
+        14803,
+        14932,
+        15061,
+        15190,
+        15319,
+        15448
+      ],
+      "numbers": [
+        {
+          "marker": 1409285888,
+          "offset": 1329
+        },
+        {
+          "marker": 1392508928,
+          "offset": 2754
+        },
+        {
+          "marker": 1392508929,
+          "offset": 2767
+        },
+        {
+          "marker": 1392508930,
+          "offset": 2783
+        },
+        {
+          "marker": 1392508931,
+          "offset": 2799
+        },
+        {
+          "marker": 1392508932,
+          "offset": 2815
+        },
+        {
+          "marker": 1392508933,
+          "offset": 2831
+        },
+        {
+          "marker": 1392508934,
+          "offset": 2847
+        },
+        {
+          "marker": 1392508935,
+          "offset": 2863
+        },
+        {
+          "marker": 1392508936,
+          "offset": 2879
+        },
+        {
+          "marker": 1392508937,
+          "offset": 2895
+        },
+        {
+          "marker": 1392508938,
+          "offset": 2911
+        },
+        {
+          "marker": 1392508939,
+          "offset": 2927
+        },
+        {
+          "marker": 1392508940,
+          "offset": 2943
+        },
+        {
+          "marker": 1392508941,
+          "offset": 2959
+        },
+        {
+          "marker": 1392508942,
+          "offset": 2975
+        },
+        {
+          "marker": 1392508943,
+          "offset": 2991
+        },
+        {
+          "marker": 1392508944,
+          "offset": 3007
+        },
+        {
+          "marker": 1392508945,
+          "offset": 3023
+        },
+        {
+          "marker": 1392508946,
+          "offset": 3039
+        },
+        {
+          "marker": 1392508947,
+          "offset": 3055
+        },
+        {
+          "marker": 1392508948,
+          "offset": 3071
+        },
+        {
+          "marker": 1392508949,
+          "offset": 3087
+        },
+        {
+          "marker": 1392508950,
+          "offset": 3103
+        },
+        {
+          "marker": 1392508951,
+          "offset": 3119
+        },
+        {
+          "marker": 1392508952,
+          "offset": 3135
+        },
+        {
+          "marker": 1392508953,
+          "offset": 3151
+        },
+        {
+          "marker": 1392508954,
+          "offset": 3167
+        },
+        {
+          "marker": 1392508955,
+          "offset": 3183
+        },
+        {
+          "marker": 1392508956,
+          "offset": 3199
+        },
+        {
+          "marker": 1392508957,
+          "offset": 3215
+        },
+        {
+          "marker": 1392508958,
+          "offset": 3231
+        },
+        {
+          "marker": 1392508959,
+          "offset": 3247
+        },
+        {
+          "marker": 1409286144,
+          "offset": 3277
+        },
+        {
+          "marker": 1375731712,
+          "offset": 3283
+        },
+        {
+          "marker": 1409286145,
+          "offset": 3301
+        },
+        {
+          "marker": 1375731713,
+          "offset": 3307
+        },
+        {
+          "marker": 1409286146,
+          "offset": 3325
+        },
+        {
+          "marker": 1375731714,
+          "offset": 3331
+        },
+        {
+          "marker": 1409286147,
+          "offset": 3349
+        },
+        {
+          "marker": 1375731715,
+          "offset": 3355
+        },
+        {
+          "marker": 1409286148,
+          "offset": 3373
+        },
+        {
+          "marker": 1375731716,
+          "offset": 3379
+        },
+        {
+          "marker": 1409286149,
+          "offset": 3397
+        },
+        {
+          "marker": 1375731717,
+          "offset": 3403
+        },
+        {
+          "marker": 1409286150,
+          "offset": 3421
+        },
+        {
+          "marker": 1375731718,
+          "offset": 3427
+        },
+        {
+          "marker": 1409286151,
+          "offset": 3445
+        },
+        {
+          "marker": 1375731719,
+          "offset": 3451
+        },
+        {
+          "marker": 1409286152,
+          "offset": 3469
+        },
+        {
+          "marker": 1375731720,
+          "offset": 3475
+        },
+        {
+          "marker": 1409286153,
+          "offset": 3493
+        },
+        {
+          "marker": 1375731721,
+          "offset": 3499
+        },
+        {
+          "marker": 1409286154,
+          "offset": 3517
+        },
+        {
+          "marker": 1375731722,
+          "offset": 3523
+        },
+        {
+          "marker": 1409286155,
+          "offset": 3541
+        },
+        {
+          "marker": 1375731723,
+          "offset": 3547
+        },
+        {
+          "marker": 1409286156,
+          "offset": 3565
+        },
+        {
+          "marker": 1375731724,
+          "offset": 3571
+        },
+        {
+          "marker": 1409286157,
+          "offset": 3589
+        },
+        {
+          "marker": 1375731725,
+          "offset": 3595
+        },
+        {
+          "marker": 1409286158,
+          "offset": 3613
+        },
+        {
+          "marker": 1375731726,
+          "offset": 3619
+        },
+        {
+          "marker": 1409286159,
+          "offset": 3637
+        },
+        {
+          "marker": 1375731727,
+          "offset": 3643
+        },
+        {
+          "marker": 1409286160,
+          "offset": 3661
+        },
+        {
+          "marker": 1375731728,
+          "offset": 3667
+        },
+        {
+          "marker": 1409286161,
+          "offset": 3685
+        },
+        {
+          "marker": 1375731729,
+          "offset": 3691
+        },
+        {
+          "marker": 1409286162,
+          "offset": 3709
+        },
+        {
+          "marker": 1375731730,
+          "offset": 3715
+        },
+        {
+          "marker": 1409286163,
+          "offset": 3733
+        },
+        {
+          "marker": 1375731731,
+          "offset": 3739
+        },
+        {
+          "marker": 1409286164,
+          "offset": 3757
+        },
+        {
+          "marker": 1375731732,
+          "offset": 3763
+        },
+        {
+          "marker": 1409286165,
+          "offset": 3781
+        },
+        {
+          "marker": 1375731733,
+          "offset": 3787
+        },
+        {
+          "marker": 1409286166,
+          "offset": 3805
+        },
+        {
+          "marker": 1375731734,
+          "offset": 3811
+        },
+        {
+          "marker": 1409286167,
+          "offset": 3829
+        },
+        {
+          "marker": 1375731735,
+          "offset": 3835
+        },
+        {
+          "marker": 1409286168,
+          "offset": 3853
+        },
+        {
+          "marker": 1375731736,
+          "offset": 3859
+        },
+        {
+          "marker": 1409286169,
+          "offset": 3877
+        },
+        {
+          "marker": 1375731737,
+          "offset": 3883
+        },
+        {
+          "marker": 1409286170,
+          "offset": 3901
+        },
+        {
+          "marker": 1375731738,
+          "offset": 3907
+        },
+        {
+          "marker": 1409286171,
+          "offset": 3925
+        },
+        {
+          "marker": 1375731739,
+          "offset": 3931
+        },
+        {
+          "marker": 1409286172,
+          "offset": 3949
+        },
+        {
+          "marker": 1375731740,
+          "offset": 3955
+        },
+        {
+          "marker": 1409286173,
+          "offset": 3973
+        },
+        {
+          "marker": 1375731741,
+          "offset": 3979
+        },
+        {
+          "marker": 1409286174,
+          "offset": 3997
+        },
+        {
+          "marker": 1375731742,
+          "offset": 4003
+        },
+        {
+          "marker": 1409286175,
+          "offset": 4021
+        },
+        {
+          "marker": 1375731743,
+          "offset": 4027
+        },
+        {
+          "marker": 1409285888,
+          "offset": 5985
+        },
+        {
+          "marker": 1426063104,
+          "offset": 7716
+        }
+      ]
+    },
+    {
+      "file": "match-pause.ast",
+      "asset": "common/ui/art_screen/pause/pausebackground.ast",
+      "guid": "20bae202-a517-5409-a5a0-0cd02d8fba01",
+      "h32": 488624550,
+      "h64": "5232150390499168678",
+      "superbundles": [
+        7,
+        11
+      ],
+      "collectors": [
+        {
+          "name": "ContentShared/global/RtamStorages/Presentation_Common",
+          "guid": "aa482f78-aa24-dbac-4547-5cd46672e895"
+        },
+        {
+          "name": "UISharedData/global/RtamStorages/UIPreload/uipreload_playnow",
+          "guid": "a175ef70-d5c6-8baa-92d3-8fb1e862d4c9"
+        },
+        {
+          "name": "UISharedData/global/RtamStorages/UIPreload/uipreload_scriptpod",
+          "guid": "1582747e-3d45-6d77-cf70-ba6698b3d4cd"
+        }
+      ],
+      "names": [
+        14945,
+        15074,
+        15203,
+        15332,
+        15461,
+        15590,
+        15719,
+        15848,
+        15977,
+        16106,
+        16235,
+        16364,
+        16493,
+        16622,
+        16751,
+        16880,
+        17009,
+        17138,
+        17267,
+        17396,
+        17525,
+        17654,
+        17783,
+        17912,
+        18041,
+        18170,
+        18299,
+        18428,
+        18557,
+        18686,
+        18815,
+        18944
+      ],
+      "numbers": [
+        {
+          "marker": 1409285888,
+          "offset": 4825
+        },
+        {
+          "marker": 1392508928,
+          "offset": 6250
+        },
+        {
+          "marker": 1392508929,
+          "offset": 6263
+        },
+        {
+          "marker": 1392508930,
+          "offset": 6279
+        },
+        {
+          "marker": 1392508931,
+          "offset": 6295
+        },
+        {
+          "marker": 1392508932,
+          "offset": 6311
+        },
+        {
+          "marker": 1392508933,
+          "offset": 6327
+        },
+        {
+          "marker": 1392508934,
+          "offset": 6343
+        },
+        {
+          "marker": 1392508935,
+          "offset": 6359
+        },
+        {
+          "marker": 1392508936,
+          "offset": 6375
+        },
+        {
+          "marker": 1392508937,
+          "offset": 6391
+        },
+        {
+          "marker": 1392508938,
+          "offset": 6407
+        },
+        {
+          "marker": 1392508939,
+          "offset": 6423
+        },
+        {
+          "marker": 1392508940,
+          "offset": 6439
+        },
+        {
+          "marker": 1392508941,
+          "offset": 6455
+        },
+        {
+          "marker": 1392508942,
+          "offset": 6471
+        },
+        {
+          "marker": 1392508943,
+          "offset": 6487
+        },
+        {
+          "marker": 1392508944,
+          "offset": 6503
+        },
+        {
+          "marker": 1392508945,
+          "offset": 6519
+        },
+        {
+          "marker": 1392508946,
+          "offset": 6535
+        },
+        {
+          "marker": 1392508947,
+          "offset": 6551
+        },
+        {
+          "marker": 1392508948,
+          "offset": 6567
+        },
+        {
+          "marker": 1392508949,
+          "offset": 6583
+        },
+        {
+          "marker": 1392508950,
+          "offset": 6599
+        },
+        {
+          "marker": 1392508951,
+          "offset": 6615
+        },
+        {
+          "marker": 1392508952,
+          "offset": 6631
+        },
+        {
+          "marker": 1392508953,
+          "offset": 6647
+        },
+        {
+          "marker": 1392508954,
+          "offset": 6663
+        },
+        {
+          "marker": 1392508955,
+          "offset": 6679
+        },
+        {
+          "marker": 1392508956,
+          "offset": 6695
+        },
+        {
+          "marker": 1392508957,
+          "offset": 6711
+        },
+        {
+          "marker": 1392508958,
+          "offset": 6727
+        },
+        {
+          "marker": 1392508959,
+          "offset": 6743
+        },
+        {
+          "marker": 1409286144,
+          "offset": 6773
+        },
+        {
+          "marker": 1375731712,
+          "offset": 6779
+        },
+        {
+          "marker": 1409286145,
+          "offset": 6797
+        },
+        {
+          "marker": 1375731713,
+          "offset": 6803
+        },
+        {
+          "marker": 1409286146,
+          "offset": 6821
+        },
+        {
+          "marker": 1375731714,
+          "offset": 6827
+        },
+        {
+          "marker": 1409286147,
+          "offset": 6845
+        },
+        {
+          "marker": 1375731715,
+          "offset": 6851
+        },
+        {
+          "marker": 1409286148,
+          "offset": 6869
+        },
+        {
+          "marker": 1375731716,
+          "offset": 6875
+        },
+        {
+          "marker": 1409286149,
+          "offset": 6893
+        },
+        {
+          "marker": 1375731717,
+          "offset": 6899
+        },
+        {
+          "marker": 1409286150,
+          "offset": 6917
+        },
+        {
+          "marker": 1375731718,
+          "offset": 6923
+        },
+        {
+          "marker": 1409286151,
+          "offset": 6941
+        },
+        {
+          "marker": 1375731719,
+          "offset": 6947
+        },
+        {
+          "marker": 1409286152,
+          "offset": 6965
+        },
+        {
+          "marker": 1375731720,
+          "offset": 6971
+        },
+        {
+          "marker": 1409286153,
+          "offset": 6989
+        },
+        {
+          "marker": 1375731721,
+          "offset": 6995
+        },
+        {
+          "marker": 1409286154,
+          "offset": 7013
+        },
+        {
+          "marker": 1375731722,
+          "offset": 7019
+        },
+        {
+          "marker": 1409286155,
+          "offset": 7037
+        },
+        {
+          "marker": 1375731723,
+          "offset": 7043
+        },
+        {
+          "marker": 1409286156,
+          "offset": 7061
+        },
+        {
+          "marker": 1375731724,
+          "offset": 7067
+        },
+        {
+          "marker": 1409286157,
+          "offset": 7085
+        },
+        {
+          "marker": 1375731725,
+          "offset": 7091
+        },
+        {
+          "marker": 1409286158,
+          "offset": 7109
+        },
+        {
+          "marker": 1375731726,
+          "offset": 7115
+        },
+        {
+          "marker": 1409286159,
+          "offset": 7133
+        },
+        {
+          "marker": 1375731727,
+          "offset": 7139
+        },
+        {
+          "marker": 1409286160,
+          "offset": 7157
+        },
+        {
+          "marker": 1375731728,
+          "offset": 7163
+        },
+        {
+          "marker": 1409286161,
+          "offset": 7181
+        },
+        {
+          "marker": 1375731729,
+          "offset": 7187
+        },
+        {
+          "marker": 1409286162,
+          "offset": 7205
+        },
+        {
+          "marker": 1375731730,
+          "offset": 7211
+        },
+        {
+          "marker": 1409286163,
+          "offset": 7229
+        },
+        {
+          "marker": 1375731731,
+          "offset": 7235
+        },
+        {
+          "marker": 1409286164,
+          "offset": 7253
+        },
+        {
+          "marker": 1375731732,
+          "offset": 7259
+        },
+        {
+          "marker": 1409286165,
+          "offset": 7277
+        },
+        {
+          "marker": 1375731733,
+          "offset": 7283
+        },
+        {
+          "marker": 1409286166,
+          "offset": 7301
+        },
+        {
+          "marker": 1375731734,
+          "offset": 7307
+        },
+        {
+          "marker": 1409286167,
+          "offset": 7325
+        },
+        {
+          "marker": 1375731735,
+          "offset": 7331
+        },
+        {
+          "marker": 1409286168,
+          "offset": 7349
+        },
+        {
+          "marker": 1375731736,
+          "offset": 7355
+        },
+        {
+          "marker": 1409286169,
+          "offset": 7373
+        },
+        {
+          "marker": 1375731737,
+          "offset": 7379
+        },
+        {
+          "marker": 1409286170,
+          "offset": 7397
+        },
+        {
+          "marker": 1375731738,
+          "offset": 7403
+        },
+        {
+          "marker": 1409286171,
+          "offset": 7421
+        },
+        {
+          "marker": 1375731739,
+          "offset": 7427
+        },
+        {
+          "marker": 1409286172,
+          "offset": 7445
+        },
+        {
+          "marker": 1375731740,
+          "offset": 7451
+        },
+        {
+          "marker": 1409286173,
+          "offset": 7469
+        },
+        {
+          "marker": 1375731741,
+          "offset": 7475
+        },
+        {
+          "marker": 1409286174,
+          "offset": 7493
+        },
+        {
+          "marker": 1375731742,
+          "offset": 7499
+        },
+        {
+          "marker": 1409286175,
+          "offset": 7517
+        },
+        {
+          "marker": 1375731743,
+          "offset": 7523
+        },
+        {
+          "marker": 1409285888,
+          "offset": 9481
+        },
+        {
+          "marker": 1426063104,
+          "offset": 11212
+        }
+      ]
+    },
+    {
+      "requiresAny": [
+        "tsb_left",
+        "tsb_right"
+      ],
+      "file": "tsb-teamselect.ast",
+      "asset": "common/ui/art_screen/teamselect/teamselectbackground.ast",
+      "guid": "f886d3b4-9a61-5624-bed8-a35f6c953701",
+      "h32": 1465321318,
+      "h64": "9369924749185451878",
+      "superbundles": [
+        7,
+        11
+      ],
+      "collectors": [
+        {
+          "name": "ContentShared/global/RtamStorages/Presentation_Common",
+          "guid": "aa482f78-aa24-dbac-4547-5cd46672e895"
+        },
+        {
+          "name": "UISharedData/global/RtamStorages/UIPreload/uipreload_frontend",
+          "guid": "5bf0f76a-950c-be51-e814-750e78e321a9"
+        }
+      ],
+      "names": [
+        9485,
+        9614,
+        9743,
+        9872,
+        10001,
+        10130,
+        10259,
+        10388,
+        10517,
+        10646,
+        10775,
+        10904,
+        11033,
+        11162,
+        11291,
+        11420,
+        11549,
+        11678,
+        11807,
+        11936,
+        12065,
+        12194,
+        12323,
+        12452,
+        12581,
+        12710,
+        12839,
+        12968,
+        13097,
+        13226,
+        13355,
+        13484
+      ],
+      "numbers": [
+        {
+          "marker": 1392508928,
+          "offset": 3799
+        },
+        {
+          "marker": 1392508929,
+          "offset": 3815
+        },
+        {
+          "marker": 1392508930,
+          "offset": 3831
+        },
+        {
+          "marker": 1392508931,
+          "offset": 3847
+        },
+        {
+          "marker": 1392508932,
+          "offset": 3863
+        },
+        {
+          "marker": 1392508933,
+          "offset": 3879
+        },
+        {
+          "marker": 1392508934,
+          "offset": 3895
+        },
+        {
+          "marker": 1392508935,
+          "offset": 3911
+        },
+        {
+          "marker": 1392508936,
+          "offset": 3927
+        },
+        {
+          "marker": 1392508937,
+          "offset": 3943
+        },
+        {
+          "marker": 1392508938,
+          "offset": 3959
+        },
+        {
+          "marker": 1392508939,
+          "offset": 3975
+        },
+        {
+          "marker": 1392508940,
+          "offset": 3991
+        },
+        {
+          "marker": 1392508941,
+          "offset": 4007
+        },
+        {
+          "marker": 1392508942,
+          "offset": 4023
+        },
+        {
+          "marker": 1392508943,
+          "offset": 4039
+        },
+        {
+          "marker": 1392508944,
+          "offset": 4055
+        },
+        {
+          "marker": 1392508945,
+          "offset": 4071
+        },
+        {
+          "marker": 1392508946,
+          "offset": 4087
+        },
+        {
+          "marker": 1392508947,
+          "offset": 4103
+        },
+        {
+          "marker": 1392508948,
+          "offset": 4119
+        },
+        {
+          "marker": 1392508949,
+          "offset": 4135
+        },
+        {
+          "marker": 1392508950,
+          "offset": 4151
+        },
+        {
+          "marker": 1392508951,
+          "offset": 4167
+        },
+        {
+          "marker": 1392508952,
+          "offset": 4183
+        },
+        {
+          "marker": 1392508953,
+          "offset": 4199
+        },
+        {
+          "marker": 1392508954,
+          "offset": 4215
+        },
+        {
+          "marker": 1392508955,
+          "offset": 4231
+        },
+        {
+          "marker": 1392508956,
+          "offset": 4247
+        },
+        {
+          "marker": 1392508957,
+          "offset": 4263
+        },
+        {
+          "marker": 1392508958,
+          "offset": 4279
+        },
+        {
+          "marker": 1392508959,
+          "offset": 4295
+        },
+        {
+          "marker": 1426063360,
+          "offset": 4325
+        },
+        {
+          "marker": 1442840576,
+          "offset": 4331
+        },
+        {
+          "marker": 1426063361,
+          "offset": 4357
+        },
+        {
+          "marker": 1442840577,
+          "offset": 4363
+        },
+        {
+          "marker": 1426063362,
+          "offset": 4389
+        },
+        {
+          "marker": 1442840578,
+          "offset": 4395
+        },
+        {
+          "marker": 1426063363,
+          "offset": 4421
+        },
+        {
+          "marker": 1442840579,
+          "offset": 4427
+        },
+        {
+          "marker": 1426063364,
+          "offset": 4453
+        },
+        {
+          "marker": 1442840580,
+          "offset": 4459
+        },
+        {
+          "marker": 1426063365,
+          "offset": 4485
+        },
+        {
+          "marker": 1442840581,
+          "offset": 4491
+        },
+        {
+          "marker": 1426063366,
+          "offset": 4517
+        },
+        {
+          "marker": 1442840582,
+          "offset": 4523
+        },
+        {
+          "marker": 1426063367,
+          "offset": 4549
+        },
+        {
+          "marker": 1442840583,
+          "offset": 4555
+        },
+        {
+          "marker": 1426063368,
+          "offset": 4581
+        },
+        {
+          "marker": 1442840584,
+          "offset": 4587
+        },
+        {
+          "marker": 1426063369,
+          "offset": 4613
+        },
+        {
+          "marker": 1442840585,
+          "offset": 4619
+        },
+        {
+          "marker": 1426063370,
+          "offset": 4645
+        },
+        {
+          "marker": 1442840586,
+          "offset": 4651
+        },
+        {
+          "marker": 1426063371,
+          "offset": 4677
+        },
+        {
+          "marker": 1442840587,
+          "offset": 4683
+        },
+        {
+          "marker": 1426063372,
+          "offset": 4709
+        },
+        {
+          "marker": 1442840588,
+          "offset": 4715
+        },
+        {
+          "marker": 1426063373,
+          "offset": 4741
+        },
+        {
+          "marker": 1442840589,
+          "offset": 4747
+        },
+        {
+          "marker": 1426063374,
+          "offset": 4773
+        },
+        {
+          "marker": 1442840590,
+          "offset": 4779
+        },
+        {
+          "marker": 1426063375,
+          "offset": 4805
+        },
+        {
+          "marker": 1442840591,
+          "offset": 4811
+        },
+        {
+          "marker": 1426063376,
+          "offset": 4837
+        },
+        {
+          "marker": 1442840592,
+          "offset": 4843
+        },
+        {
+          "marker": 1426063377,
+          "offset": 4869
+        },
+        {
+          "marker": 1442840593,
+          "offset": 4875
+        },
+        {
+          "marker": 1426063378,
+          "offset": 4901
+        },
+        {
+          "marker": 1442840594,
+          "offset": 4907
+        },
+        {
+          "marker": 1426063379,
+          "offset": 4933
+        },
+        {
+          "marker": 1442840595,
+          "offset": 4939
+        },
+        {
+          "marker": 1426063380,
+          "offset": 4965
+        },
+        {
+          "marker": 1442840596,
+          "offset": 4971
+        },
+        {
+          "marker": 1426063381,
+          "offset": 4997
+        },
+        {
+          "marker": 1442840597,
+          "offset": 5003
+        },
+        {
+          "marker": 1426063382,
+          "offset": 5029
+        },
+        {
+          "marker": 1442840598,
+          "offset": 5035
+        },
+        {
+          "marker": 1426063383,
+          "offset": 5061
+        },
+        {
+          "marker": 1442840599,
+          "offset": 5067
+        },
+        {
+          "marker": 1426063384,
+          "offset": 5093
+        },
+        {
+          "marker": 1442840600,
+          "offset": 5099
+        },
+        {
+          "marker": 1426063385,
+          "offset": 5125
+        },
+        {
+          "marker": 1442840601,
+          "offset": 5131
+        },
+        {
+          "marker": 1426063386,
+          "offset": 5157
+        },
+        {
+          "marker": 1442840602,
+          "offset": 5163
+        },
+        {
+          "marker": 1426063387,
+          "offset": 5189
+        },
+        {
+          "marker": 1442840603,
+          "offset": 5195
+        },
+        {
+          "marker": 1426063388,
+          "offset": 5221
+        },
+        {
+          "marker": 1442840604,
+          "offset": 5227
+        },
+        {
+          "marker": 1426063389,
+          "offset": 5253
+        },
+        {
+          "marker": 1442840605,
+          "offset": 5259
+        },
+        {
+          "marker": 1426063390,
+          "offset": 5285
+        },
+        {
+          "marker": 1442840606,
+          "offset": 5291
+        },
+        {
+          "marker": 1426063391,
+          "offset": 5317
+        },
+        {
+          "marker": 1442840607,
+          "offset": 5323
+        }
+      ]
+    }
+  ]
+}

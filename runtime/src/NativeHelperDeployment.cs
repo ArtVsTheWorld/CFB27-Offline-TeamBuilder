@@ -12,7 +12,7 @@ internal static class NativeHelperDeployment
     internal const string ResourceName="OfflineTeamBuilderRuntime.NativePayload.dll";
 
     internal static byte[] Payload() {
-        using(var stream=typeof(RuntimeAction).Assembly.GetManifestResourceStream(ResourceName)) {
+        using(var stream=typeof(NativeHelperDeployment).Assembly.GetManifestResourceStream(ResourceName)) {
             if(stream==null)throw new InvalidDataException("Embedded native helper is missing.");
             using(var output=new MemoryStream()) {stream.CopyTo(output);return output.ToArray();}
         }

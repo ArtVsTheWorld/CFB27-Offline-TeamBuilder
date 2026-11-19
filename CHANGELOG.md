@@ -1,3 +1,7 @@
+# Offline TeamBuilder 2.4.13
+
+See the [release notes](runtime/RELEASE-NOTES.md) and [source comparison](runtime/SOURCE-COMPARISON.md) for changes since 2.1.7.
+
 # Offline TeamBuilder 2.1.7
 
 JDHalfRack / Ace / Timberline Tex

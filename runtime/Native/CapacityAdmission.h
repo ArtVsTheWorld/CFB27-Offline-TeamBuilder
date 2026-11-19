@@ -10,7 +10,7 @@ using SeedFn = unsigned (__fastcall*)(unsigned);
 using ClockFn = ULONGLONG (WINAPI*)();
 using SleepFn = void (WINAPI*)(DWORD);
 constexpr unsigned First = 2007, Count = 3200, Invalid = 5207, Headroom = 64, DeadlineMs = 1000;
-constexpr uintptr_t AcquireRva = 0x53F1980;
+constexpr uintptr_t AcquireRva = 0x53F1A10;
 static const unsigned char Prefix[] = {0x48,0x8b,0xc4,0x55,0x53,0x57,0x48,0x8d,0x68,0xa1,0x48,0x81,0xec,0x00,0x01,0x00,0x00};
 static AcquireFn original;
 static LookupFn lookup;
@@ -146,12 +146,12 @@ static void Stats(FILE* file) {
         n, InterlockedCompareExchange64(&pressure,0,0), InterlockedCompareExchange64(&existing,0,0), w,
         t, elapsed);
 }
-static const unsigned char seedPrefix[] = {0x48,0x63,0xc1,0x48,0x8d,0x0d,0x92,0xb5,0x38,0x0a,0x8b,0x04,0x81,0xc3};
+static const unsigned char seedPrefix[] = {0x48,0x63,0xc1,0x48,0x8d,0x0d,0x02,0xb5,0x38,0x0a,0x8b,0x04,0x81,0xc3};
 static const unsigned char findPrefix[] = {0x48,0x89,0x5c,0x24,0x08,0x48,0x89,0x74,0x24,0x10,0x48,0x89,0x7c,0x24,0x18,0x41,0x56,0x48,0x83,0xec,0x20,0x66,0x41,0xc7,0x00,0x57,0x14,0x49,0x8b,0xf1,0x49,0xc7};
 static bool ContractsReady(uintptr_t base) {
     return !memcmp(reinterpret_cast<void*>(base+AcquireRva),Prefix,sizeof(Prefix)) &&
-        !memcmp(reinterpret_cast<void*>(base+0x53CEDE0),seedPrefix,sizeof(seedPrefix)) &&
-        !memcmp(reinterpret_cast<void*>(base+0x53EF9A0),findPrefix,sizeof(findPrefix));
+        !memcmp(reinterpret_cast<void*>(base+0x53CEE70),seedPrefix,sizeof(seedPrefix)) &&
+        !memcmp(reinterpret_cast<void*>(base+0x53EFA30),findPrefix,sizeof(findPrefix));
 }
 static bool Start(FILE* file) {
     uintptr_t base = reinterpret_cast<uintptr_t>(GetModuleHandleW(L"CollegeFB27.exe"));
@@ -159,7 +159,7 @@ static bool Start(FILE* file) {
     // These helpers and the acquisition prologue are checked against the same
     // live capture used for the successful/failing paired run.
     if (!ContractsReady(base)) return false;
-    lookup = reinterpret_cast<LookupFn>(base + 0x53EF9A0); seed = reinterpret_cast<SeedFn>(base + 0x53CEDE0);
+    lookup = reinterpret_cast<LookupFn>(base + 0x53EFA30); seed = reinterpret_cast<SeedFn>(base + 0x53CEE70);
     slots = reinterpret_cast<uintptr_t volatile*>(base + 0xF718160);
     reserved = reinterpret_cast<DWORD volatile*>(base + 0xF718150 + 0x422BC);
     if (!Install(reinterpret_cast<unsigned char*>(base + AcquireRva))) return false;

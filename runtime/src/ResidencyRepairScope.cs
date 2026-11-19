@@ -31,7 +31,9 @@ internal static class ResidencyRepairScope
         Action<int> jump=target=>{emit("e9");int p=b.Count;b.AddRange(new byte[4]);patch(p,target);};
         int stub=b.Count;
         emit("9c505152415041514152"); // flags, RAX/RCX/RDX/R8/R9/R10
-        emit("4183bbb400000000");branch("0f84",allow); // initial pass
+        emit("4183bbb400000000");var repair=new List<int>();branch("0f85",repair);
+        emit("4183bbd401000001");branch("0f85",allow); // ordinary initial pass
+        foreach(int p in repair)patch(p,b.Count); // late startup is missing-only too
         emit("498b4b304885c9");branch("0f84",allow); // manager
         emit("4c8b81c80100004c8b91d0010000");          // record begin/end
         emit("4d85c0");branch("0f84",allow);

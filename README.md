@@ -1,78 +1,37 @@
 # Offline TeamBuilder for College Football 27
 
-Use downloaded TeamBuilder teams in offline Dynasty with custom uniforms,
-stadiums, logos and stadium sounds, without resetting Dynasty progress.
+Use downloaded TeamBuilder schools in offline Dynasty with their uniforms,
+stadiums, logos and stadium sounds. Add your own menu, player-card, headshot and
+pregame artwork per school.
 
 ## Download
 
-[Download 2.1.7](dist/v2.1.7/OfflineTeamBuilder-2.1.7.zip) · [Matching source](dist/v2.1.7/OfflineTeamBuilder-2.1.7-source.zip)
+[Offline TeamBuilder 2.4.13](https://github.com/ArtVsTheWorld/CFB27-Offline-TeamBuilder/releases/tag/v2.4.13)
+targets the November 19, 2026 game update. The player ZIP includes one runtime
+DLL and two separate MMC mods.
 
-2.1.7 moves plugin-generated data out of MMC/Plugins, improves startup/failure
-reports and retains the confirmed Windows-export startup fix. One DLL to install;
-the checked native helper is embedded and deployed automatically to user data.
+1. Close the game and MMC, then replace the runtime DLL in MMC's Plugins
+   folder. Move older TeamBuilder DLLs and the standalone Shared UI launcher
+   out of Plugins.
+2. Import and enable the included `OfflineTeamBuilder.fbmod`.
+3. Import `TeamBuilderSharedUi.fbmod`. Enable **Offline TeamBuilder Shared UI
+   (Automatic)** at highest priority if you use AIO Dynasty or a Dynasty
+   customizer. Disable the old static TeamBuilder UI patch for that same mod.
+4. Launch through MMC and keep it open until the runtime reports **Ready**.
 
-## Install
+[Full install instructions](runtime/USER-README.txt) ·
+[Custom artwork instructions](runtime/CUSTOM-ARTWORK.txt) ·
+[2.4.13 changes](CHANGELOG.md) ·
+[2.1.7 and its historical compatibility patches](https://github.com/ArtVsTheWorld/CFB27-Offline-TeamBuilder/releases/tag/v2.1.7)
 
-1. Back up the save and close the game and MMC.
-2. Copy `Plugins/OfflineTeamBuilderRuntime.dll` from the ZIP into MMC/Plugins.
-   Replace the old version and move legacy split TeamBuilder DLLs/backups out.
-3. Import/enable the included `OfflineTeamBuilder.fbmod`; keep one version.
-   Retain required AIO and matching compatibility mods for AIO dynasties.
-4. Restart MMC, launch normally and keep MMC running. No F9 step is required.
+## Support and development
 
-The player ZIP includes the runtime DLL, fbmod, installation README and an
-optional `compatibility patches` folder. Use only the patch matching AIO Dynasty
-1.4.1, Playoff Customizer 1.3.0, Conference Customizer 1.0.2 or Dynasty Customizer
-1.1.0, and give it highest precedence over the originals.
+Open `%LOCALAPPDATA%\Ace\OfflineTeamBuilder` for `status.txt` and
+`runtime.log`. `SharedUi\launch.log` records the companion result, and
+`ArtworkCache\prepare-result.json` lists the artwork that was prepared.
 
-Popup Remover 1.2.0 needs no extra patch, including with AIO. Its fixes load
-early. Put Popup Remover below AIO/the customizer, with the normal TeamBuilder
-compatibility patch highest, to keep the customizer's other menu changes too.
-With just Popup Remover and TeamBuilder, give TeamBuilder higher precedence.
-See the [patch instructions](assets/compatibility/README.txt) and
-[Popup Remover's release notes](https://github.com/ASThome00/cfb27-popup-remover/releases/tag/v1.2.0).
+[Build from source](BUILDING.md) ·
+[Collect local support logs](runtime/collect-diagnostics.ps1) ·
+[Credits and notices](CREDITS.md)
 
-Editable assets and support tools are available separately in this repository.
-Teams must already be downloaded.
-Targets the October 30, 2026 native layout; future game updates may need a port.
-Offline only. Native fingerprints and hook ownership checks remain required.
-
-## Logs and support
-
-Open `%LOCALAPPDATA%\Ace\OfflineTeamBuilder` (paste into Win+R).
-Start with `status.txt`, then `runtime.log`. Reports include the blocking stage,
-next step, Windows errors, session IDs, environment/plugin inventory and selected
-pack/built-mod context. `Ready` means runtime hooks are active, not that textures
-are proven rendered. The last failure remains in the current session's status.
-
-Download [collect-diagnostics.ps1](runtime/collect-diagnostics.ps1) and run it
-for a report under that folder's `Support`
-directory. Review personal paths before sharing. Settings, saves, caches, DLLs
-and memory dumps are excluded; no automatic upload occurs.
-
-Legacy settings are copied without deleting originals; existing user settings
-win and conflicts/old logs are archived under `Migration`. All MMC copies for
-one account share user data. The old Local AppData asset store is retained.
-The plugin does not write runtime files into the installation; MMC itself still
-needs normal access for its own files.
-
-## Known limitation and validation
-
-Broadcast Universe 0.7-beta1 plus AIO 1.4.1 and the affected dynasty can still hang
-during matchup loading/reloading, including on 2.1.5. That interaction is not
-claimed fixed; disable Broadcast for a focused baseline.
-
-The previous startup fix was tester-confirmed. 2.1.7 has private native/runtime,
-actual write-denied filesystem, migration, diagnostic and package tests; this is
-not a new live-game certification. See [validation](runtime/VALIDATION.txt).
-
-The bundled compatibility patches have bytecode and MMC composition checks;
-they still need in-game confirmation. No runtime DLL or base-fbmod bytes changed
-when the optional patches were added.
-
-## Development
-
-[Build from source](BUILDING.md) · [Native updates](UPDATING.md) · [Changelog](CHANGELOG.md) · [Editable assets](assets/)
-
-JDHalfRack / Ace / Timberline Tex. Unofficial; not affiliated with EA.
-See [credits/notices](CREDITS.md). Earlier distributions remain under their tags.
+JDHalfRack / Ace / Timberline Tex. Unofficial project.

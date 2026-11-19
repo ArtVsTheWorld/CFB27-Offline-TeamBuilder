@@ -130,6 +130,66 @@ def load_module(name, path):
     return module
 
 
+
+def verify_current_archives(root, version):
+    dist = root / f'dist/v{version}'
+    player_files = {
+        'Plugins/OfflineTeamBuilderRuntime.dll': dist / 'OfflineTeamBuilderRuntime.dll',
+        'OfflineTeamBuilder.fbmod': dist / 'OfflineTeamBuilder.fbmod',
+        'TeamBuilderSharedUi.fbmod': dist / 'TeamBuilderSharedUi.fbmod',
+        'README.txt': root / 'runtime/USER-README.txt',
+        'CUSTOM-ARTWORK.txt': root / 'runtime/CUSTOM-ARTWORK.txt',
+    }
+    with zipfile.ZipFile(dist / f'OfflineTeamBuilder-{version}.zip') as archive:
+        if len(archive.namelist()) != len(player_files) or set(archive.namelist()) != player_files.keys():
+            raise ValueError('Unexpected player ZIP entries')
+        for name, path in player_files.items():
+            if archive.read(name) != path.read_bytes():
+                raise ValueError('Player ZIP/source mismatch: '+name)
+
+    inputs = {
+        'Native/bin/Release/OfflineTeamBuilderNative.dll': dist / 'OfflineTeamBuilderNative.dll',
+        'ArtworkNative/bin/OfflineTeamBuilder.ArtworkCodec.dll': dist / 'OfflineTeamBuilder.ArtworkCodec.dll',
+        'CREDITS.md': root / 'CREDITS.md',
+    }
+    with zipfile.ZipFile(dist / f'OfflineTeamBuilder-{version}-source.zip') as archive:
+        names = archive.namelist()
+        if len(names) != len(set(names)) or not inputs.keys() <= set(names):
+            raise ValueError('Unexpected source ZIP entries')
+        for name in names:
+            parts = PurePosixPath(name).parts
+            if not parts or PurePosixPath(name).is_absolute() or '..' in parts or ':' in name or '\\' in name:
+                raise ValueError('Unsafe source archive path: '+name)
+            path = inputs.get(name, root / 'runtime' / name)
+            if not path.is_file():
+                raise ValueError('Missing repository source for '+name)
+            expected = path.read_bytes()
+            archived = archive.read(name)
+            if name == 'CREDITS.md':
+                expected = expected.replace(b'\r\n', b'\n')
+                archived = archived.replace(b'\r\n', b'\n')
+            if archived != expected:
+                raise ValueError('Source ZIP/repository mismatch: '+name)
+        if not {'build.ps1', 'SharedUi/worker.zip', 'Host/Program.cs', 'src/PluginIdentity.cs'} <= set(names):
+            raise ValueError('Missing release source')
+
+    resources = clr_resources(player_files['Plugins/OfflineTeamBuilderRuntime.dll'].read_bytes())
+    native = inputs['Native/bin/Release/OfflineTeamBuilderNative.dll'].read_bytes()
+    native_manifest = (root / 'runtime/Native/native-helper-manifest.json').read_bytes()
+    if hashlib.sha256(native).hexdigest() != json.loads(native_manifest.decode('utf-8-sig'))['sha256'].lower():
+        raise ValueError('Native helper hash mismatch')
+    host_manifest = (root / 'runtime/Host/host-manifest.json').read_bytes()
+    worker = (root / 'runtime/SharedUi/worker.zip').read_bytes()
+    for payload in (native, native_manifest, host_manifest, worker):
+        if struct.pack('<I', len(payload)) + payload not in resources:
+            raise ValueError('Release input differs from embedded resources')
+
+    header = load_module('release_mod_header', root / 'runtime/tools/rebrand_fbmod.py').header
+    for filename, title in (('OfflineTeamBuilder.fbmod', 'Offline TeamBuilder'),
+                            ('TeamBuilderSharedUi.fbmod', 'Offline TeamBuilder Shared UI (Automatic)')):
+        if header((dist / filename).read_bytes())['details'][0] != title:
+            raise ValueError('Unexpected fbmod identity: '+filename)
+
 def check(root=ROOT):
     manifest = json.loads((root / 'release-files.json').read_text(encoding='utf-8-sig'))
     if manifest['authors'] != AUTHORS or not re.fullmatch(r'\d+\.\d+\.\d+', manifest['version']):
@@ -143,6 +203,9 @@ def check(root=ROOT):
     profile = json.loads((root / ('runtime/Profiles/'+profile_name+'.json')).read_text(encoding='utf-8-sig'))
     if profile['id'] != manifest['nativeProfile']:
         raise ValueError('Native profile mismatch')
+    if version == '2.4.13':
+        verify_current_archives(root, version)
+        return version
     mod = load_module('release_mod_header', root / 'runtime/tools/rebrand_fbmod.py')
     details = mod.header((root / 'assets/OfflineTeamBuilder.fbmod').read_bytes())['details']
     if details[:4] != ['Offline TeamBuilder', AUTHORS, 'TeamBuilder', version]:
@@ -159,7 +222,7 @@ def check(root=ROOT):
 
 if __name__ == '__main__':
     try:
-        print('PASS: release '+check()+' file hashes, ZIP, project, version and credits.')
+        print('PASS: release '+check()+' file hashes, ZIPs, version and credits.')
         print('DLL/game execution is not part of these repository checks.')
     except Exception as error:
         print('FAIL: '+str(error), file=sys.stderr)
