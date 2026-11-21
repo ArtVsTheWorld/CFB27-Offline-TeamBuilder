@@ -1,5 +1,5 @@
 {
-  "version": "2.4.13",
+  "version": "2.4.14",
   "files": {
     "assets/OfflineTeamBuilder.fbmod": "528E82EBFE12EFAEB906E493CCD0C159AF47E96642DF5F9EEF90C565D48C5C74",
     "assets/OfflineTeamBuilder.fbproject": "B319318975850A15521F1CBA75D8F7056572251CE7F6EC89B4351B233ADC7134",
@@ -24,10 +24,18 @@
     "dist/v2.4.13/OfflineTeamBuilderNative.dll": "faa41c7f49e432bf8814ff49d5a20079fd3c3a93a0732fbca1af18deec7d7716",
     "dist/v2.4.13/OfflineTeamBuilderRuntime.dll": "838a38e9ad07e20f17dca74ca31ac9151ea8681d25e5045d48ff417f9aeb5db0",
     "dist/v2.4.13/TeamBuilderSharedUi.fbmod": "4a23671297aaf3f06bf69b92c22193e48ff57f8dd6c8e196f6ae00fa11add69e",
-    "runtime/Host/host-manifest.json": "81e77dad1278b277aff4c6cce99c3c082b91813c2f447e3586676f9332c5878d",
+    "runtime/Host/host-manifest.json": "ce9bb65e4608853a15b71fc2957b0fbb1b3ab974b290cef2bc619ea2f712437f",
     "runtime/Native/native-helper-manifest.json": "884bc45fe1ce0ce28c9343910370ad1adcfcc37debbac3dd0efbc0a21aa52d5f",
     "runtime/Profiles/cfb27-2026-11-19.json": "77c21648cc2f99be1f8dcd17b61bf5f45e7b55e4a3a5bcf9ef30e2d7342dd797",
-    "runtime/SharedUi/worker.zip": "0a55019f390dc0666d5a9c835858239ba8d4f02702f895c691d34ae7cc6f54c4"
+    "runtime/SharedUi/worker.zip": "d43de73f6ed5908a91aac8670134eba14399bc280918546c295bd557f699269c",
+    "dist/v2.4.14/Offline-TeamBuilder-Custom-Artwork-Guide.pdf": "cd9b0b4536bf7f30d96993ab267ea8d4b33c82c8f29dba004cead0c74f0eac5c",
+    "dist/v2.4.14/OfflineTeamBuilder-2.4.14-source.zip": "d9ab20b37f5168bae450d226e54c4623bcdb3a3127ff85a7118d974781fd5c2c",
+    "dist/v2.4.14/OfflineTeamBuilder-2.4.14.zip": "81bcda1827f1dab5085ffcc1760b436a0b9baea5563b8f0383aece47ffe39cf4",
+    "dist/v2.4.14/OfflineTeamBuilder.ArtworkCodec.dll": "b46489b554a9bd5f7702150dde6676b4ea7bab0270888e903ad13ee3d2e2e2dc",
+    "dist/v2.4.14/OfflineTeamBuilder.fbmod": "f3b8ca1ecc23802547a4e99502c55b2d60b345f51a0a6ca356bfbb205eb9435d",
+    "dist/v2.4.14/OfflineTeamBuilderNative.dll": "faa41c7f49e432bf8814ff49d5a20079fd3c3a93a0732fbca1af18deec7d7716",
+    "dist/v2.4.14/OfflineTeamBuilderRuntime.dll": "cf12bcf23508afb18793ead3d1348cbcc6cf91cc7a88670f34a41f4ecd04d005",
+    "dist/v2.4.14/TeamBuilderSharedUi.fbmod": "4a23671297aaf3f06bf69b92c22193e48ff57f8dd6c8e196f6ae00fa11add69e"
   },
   "nativeProfile": "cfb27-2026-11-19",
   "authors": "JDHalfRack / Ace / Timberline Tex",

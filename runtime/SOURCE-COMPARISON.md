@@ -1,19 +1,16 @@
-# 2.4.13 source comparison
+# 2.4.14 source comparison
 
-The baseline is the public `v2.1.7` source tag. The release DLL is the
-tested 2.4.13 candidate preserved in `dist/v2.4.13`. The source rebuild
-passes the managed suite. The detached host build can embed path-dependent
-debug metadata, so a rebuild in a different directory can have a different
-binary checksum.
+Compared directly with public tag `v2.4.13`. The shipped DLL matches
+the runtime verified in the fourth-priority launch.
 
-| Change | Source compared against 2.1.7 |
-| --- | --- |
-| November 19 title update | `runtime/Profiles/cfb27-2026-11-19.json`, `GameProfile.cs`, native helper manifest and guards |
-| Multi-school artwork and name aliases | `ArtworkPreparation.cs`, `ArtworkCompiler.cs`, `ArtworkLibraryWriter.cs`, `Store/TeamArtworkCatalog.cs`, `UnifiedModWriter.cs` |
-| Full player-card background, in-game depth chart, and pregame sides | `ArtworkNative/Templates/manifest.json` and the player-card, match and team-select scripts packed in `templates.zip` |
-| Automatic shared UI companion | `RuntimeAction.cs`, `SharedUi/SharedUiPreparation.cs`, the builder source in `runtime/SharedUi/worker.zip` |
-| Startup and viewed-team recovery | `Engine/AssetRuntime.cs`, `ColdStartBootstrapScope.cs`, `CardDemandRepairScope.cs`, `NativeJobQueueReader.cs` |
-| Midgame Save export and legacy fallback | `CareerHubCompatibility.cs`, `tests/CareerHubExportChecks.cs` |
-| Detached runtime and disabled loading gate | `DetachedHostLauncher.cs`, `Host/Program.cs`, `RuntimeCoordinator.cs`, `HubLoadingGateRuntime.cs` |
-
-Unless otherwise indicated, source filenames above are under `runtime/src`.
+- `src/SharedUi/SharedUiPreparation.cs` removes the blanket first-priority
+  requirement. A reported overlap clears the generated companion under the
+  existing pack lock and lets MMC proceed.
+- `SharedUi/worker.zip` contains the updated `Builder/Tools/resolve-pack.ps1`
+  and `Builder/Tools/auto_launch.py`. The resolver identifies higher-priority
+  writes to the same UI rows, target collectors, or generated chunks. The
+  worker passes that result back to the launcher.
+- `src/PluginIdentity.cs` and `Host/host-manifest.json` identify and validate
+  the new embedded build. The native profile and native helper are unchanged.
+- Both shipped fbmods match the 2.4.13 release byte for byte. The companion
+  seed is empty until the launcher generates it for the enabled pack.

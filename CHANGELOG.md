@@ -1,3 +1,9 @@
+# Offline TeamBuilder 2.4.14
+
+Shared UI works below unrelated mods. When a higher-priority mod edits the
+same menus, the game can launch with the companion inactive. The player ZIP
+includes the illustrated artwork guide. See the [release notes](runtime/RELEASE-NOTES.md).
+
 # Offline TeamBuilder 2.4.13
 
 See the [release notes](runtime/RELEASE-NOTES.md) and [source comparison](runtime/SOURCE-COMPARISON.md) for changes since 2.1.7.

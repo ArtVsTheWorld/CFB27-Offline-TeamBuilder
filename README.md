@@ -6,7 +6,7 @@ pregame artwork per school.
 
 ## Download
 
-[Offline TeamBuilder 2.4.13](https://github.com/ArtVsTheWorld/CFB27-Offline-TeamBuilder/releases/tag/v2.4.13)
+[Offline TeamBuilder 2.4.14](https://github.com/ArtVsTheWorld/CFB27-Offline-TeamBuilder/releases/tag/v2.4.14)
 targets the November 19, 2026 game update. The player ZIP includes one runtime
 DLL and two separate MMC mods.
 
@@ -14,14 +14,16 @@ DLL and two separate MMC mods.
    folder. Move older TeamBuilder DLLs and the standalone Shared UI launcher
    out of Plugins.
 2. Import and enable the included `OfflineTeamBuilder.fbmod`.
-3. Import `TeamBuilderSharedUi.fbmod`. Enable **Offline TeamBuilder Shared UI
-   (Automatic)** at highest priority if you use AIO Dynasty or a Dynasty
-   customizer. Disable the old static TeamBuilder UI patch for that same mod.
+3. Import `TeamBuilderSharedUi.fbmod` if you use AIO Dynasty or another Dynasty
+   mod that needs Shared UI compatibility. Put **Offline TeamBuilder Shared UI
+   (Automatic)** above the base TeamBuilder mod and any mod that edits the same
+   Dynasty hub or new Dynasty menus. Unrelated mods can sit above it. Disable
+   the old static TeamBuilder UI patch for the same mod.
 4. Launch through MMC and keep it open until the runtime reports **Ready**.
 
 [Full install instructions](runtime/USER-README.txt) ·
-[Custom artwork instructions](runtime/CUSTOM-ARTWORK.txt) ·
-[2.4.13 changes](CHANGELOG.md) ·
+[Illustrated artwork guide](dist/v2.4.14/Offline-TeamBuilder-Custom-Artwork-Guide.pdf) ·
+[2.4.14 changes](CHANGELOG.md) ·
 [2.1.7 and its historical compatibility patches](https://github.com/ArtVsTheWorld/CFB27-Offline-TeamBuilder/releases/tag/v2.1.7)
 
 ## Support and development

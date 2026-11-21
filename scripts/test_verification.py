@@ -9,7 +9,7 @@ from verify_repo import AUTHORS, ROOT, check, verify_hashes, verify_identity, co
 
 class ReleaseChecks(unittest.TestCase):
     def test_actual_release(self):
-        self.assertEqual(check(ROOT), '2.4.13')
+        self.assertEqual(check(ROOT), '2.4.14')
 
     def test_valid_digest(self):
         with tempfile.TemporaryDirectory() as folder:

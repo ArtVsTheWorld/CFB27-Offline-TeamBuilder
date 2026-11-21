@@ -12,7 +12,7 @@
     <EnableSourceControlManagerQueries>false</EnableSourceControlManagerQueries>
     <EnableSourceLink>false</EnableSourceLink>
     <NativeHelperPath Condition="'$(NativeHelperPath)' == '' And Exists('$(MSBuildProjectDirectory)/Native/bin/Release/OfflineTeamBuilderNative.dll')">$(MSBuildProjectDirectory)/Native/bin/Release/OfflineTeamBuilderNative.dll</NativeHelperPath>
-    <NativeHelperPath Condition="'$(NativeHelperPath)' == ''">$(MSBuildProjectDirectory)/../dist/v2.4.13/OfflineTeamBuilderNative.dll</NativeHelperPath>
+    <NativeHelperPath Condition="'$(NativeHelperPath)' == ''">$(MSBuildProjectDirectory)/../dist/v2.4.14/OfflineTeamBuilderNative.dll</NativeHelperPath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="src/**/*.cs" />

@@ -1,4 +1,4 @@
-Offline TeamBuilder 2.4.13
+Offline TeamBuilder 2.4.14
 JDHalfRack / Ace / Timberline Tex
 
 For College Football 27's November 19, 2026 title update. Offline Dynasty
@@ -11,27 +11,36 @@ Install or update
    Plugins folder. Replace the previous version. Move old split TeamBuilder
    DLLs (OfflineTeamBuilder.dll and OfflineTeamBuilderReentry.dll), the old
    TeamBuilderSharedUi.Launch.dll and any DLL backups out of Plugins.
-3. Import and enable the included OfflineTeamBuilder.fbmod. Disable older
-   TeamBuilder and separate Folder Artwork (Auto) fbmods. Keep the filename
-   OfflineTeamBuilder.fbmod so the runtime can find it.
-4. Import the included TeamBuilderSharedUi.fbmod. If you use AIO Dynasty or a
-   Dynasty customizer, enable its entry, Offline TeamBuilder Shared UI
-   (Automatic), at highest priority. Disable your old static TeamBuilder UI
-   patch for that same mod. Keep AIO or the customizer itself enabled.
-   The companion is optional if your pack needs no shared UI compatibility.
+3. Import and enable OfflineTeamBuilder.fbmod. Disable older TeamBuilder
+   and separate Folder Artwork (Auto) mods. Keep the included filename.
+4. Import TeamBuilderSharedUi.fbmod. Enable Offline TeamBuilder Shared UI
+   (Automatic) if you use AIO Dynasty or another Dynasty UI mod that needs
+   TeamBuilder compatibility. Keep that mod enabled and disable its old
+   static TeamBuilder UI compatibility patch. See priority below.
 5. Restart MMC and launch the game through it. Keep MMC open until the
    TeamBuilder runtime reports Ready. You can leave it minimized. Once Ready,
    a separate helper serves the team assets while the game is running.
 
+Shared UI priority
+
+Put Shared UI at higher priority than OfflineTeamBuilder.fbmod and any mod
+that changes the same Dynasty hub or new Dynasty setup menus. It can sit
+below unrelated gameplay, equipment, and visual mods.
+
+If a higher-priority mod edits the same UI, the game can still launch with
+the companion inactive. To restore its changes, open SharedUi\launch.log
+and move Shared UI above any mod listed under PRIORITY CONFLICT.
+
+Shared UI is optional for packs that only use the base TeamBuilder UI.
+
 Custom images
 
-See CUSTOM-ARTWORK.txt. Use one folder per school. Your images and settings
-carry over when you replace the runtime and import the two fbmods.
+Open Offline-TeamBuilder-Custom-Artwork-Guide.pdf for the illustrated
+tutorial. CUSTOM-ARTWORK.txt is a quick reference for image names and sizes.
+Your existing artwork folders and settings carry over when you update.
 
 Troubleshooting
 
 Press Win+R, paste %LOCALAPPDATA%\Ace\OfflineTeamBuilder and press Enter.
 Check status.txt and runtime.log for startup, SharedUi\launch.log for the
 companion, or ArtworkCache\prepare-result.json for custom images.
-If a launch closes during startup, restart MMC and retry once. Keep the logs
-if it happens again.

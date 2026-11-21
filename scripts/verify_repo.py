@@ -140,6 +140,9 @@ def verify_current_archives(root, version):
         'README.txt': root / 'runtime/USER-README.txt',
         'CUSTOM-ARTWORK.txt': root / 'runtime/CUSTOM-ARTWORK.txt',
     }
+    if version == '2.4.14':
+        guide = 'Offline-TeamBuilder-Custom-Artwork-Guide.pdf'
+        player_files[guide] = dist / guide
     with zipfile.ZipFile(dist / f'OfflineTeamBuilder-{version}.zip') as archive:
         if len(archive.namelist()) != len(player_files) or set(archive.namelist()) != player_files.keys():
             raise ValueError('Unexpected player ZIP entries')
@@ -203,7 +206,7 @@ def check(root=ROOT):
     profile = json.loads((root / ('runtime/Profiles/'+profile_name+'.json')).read_text(encoding='utf-8-sig'))
     if profile['id'] != manifest['nativeProfile']:
         raise ValueError('Native profile mismatch')
-    if version == '2.4.13':
+    if version in {'2.4.13', '2.4.14'}:
         verify_current_archives(root, version)
         return version
     mod = load_module('release_mod_header', root / 'runtime/tools/rebrand_fbmod.py')

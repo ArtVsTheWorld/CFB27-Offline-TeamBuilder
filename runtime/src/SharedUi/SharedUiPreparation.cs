@@ -21,6 +21,7 @@ namespace OfflineTeamBuilderRuntime
     {
         internal const string OverlayName = "TeamBuilderSharedUi.fbmod";
         internal const string OverlayTitle = "Offline TeamBuilder Shared UI (Automatic)";
+        private const int PriorityConflict = 3;
         private static readonly object Sync = new object();
         private const string StandaloneAssembly = "TeamBuilderSharedUi.Launch";
 
@@ -107,9 +108,6 @@ namespace OfflineTeamBuilderRuntime
                 {
                     if (!snapshot.Files.Contains("OfflineTeamBuilder.fbmod", StringComparer.OrdinalIgnoreCase))
                         throw new InvalidOperationException("Enable OfflineTeamBuilder.fbmod first.");
-                    if (!snapshot.HighestPriority)
-                        throw new InvalidOperationException("Give Offline TeamBuilder Shared UI (Automatic) highest priority, then launch again.");
-
                     string worker = SharedUiPayload.Prepare(store, token);
                     var workerStore = new UserRuntimeStore(worker);
                     string input = workerStore.Resolve("Builder/Evidence/live-pack.json");
@@ -120,6 +118,15 @@ namespace OfflineTeamBuilderRuntime
                     int result = RunProcess(python, new[] { "-B", script, "--sdk", snapshot.ManagerRoot, "--config", input },
                         worker, token, log);
                     token.ThrowIfCancellationRequested();
+                    if (result == PriorityConflict)
+                    {
+                        if (snapshot.Identity != capture().Identity)
+                            throw new OperationCanceledException("The active pack changed during the priority check. Launch again.");
+                        ValidateIdentity(snapshot.OverlayPath);
+                        Neutralize(snapshot.OverlayPath, snapshot.ManagerRoot);
+                        log("SKIPPED: Higher-priority mods replace Shared UI assets. Launching without the companion's changes. Move it above the listed mods to apply them.");
+                        return;
+                    }
                     if (result != 0)
                         throw new InvalidOperationException("The structural builder failed (exit " + result + "). See SharedUi/launch.log.");
 
@@ -166,7 +173,6 @@ namespace OfflineTeamBuilderRuntime
         internal sealed class Snapshot
         {
             public string Name,ManagerRoot,GamePath,OverlayPath;
-            public bool HighestPriority;
             public readonly List<string> Files=new List<string>();
             public string Identity { get; private set; }
             public void Seal() { Identity=ManagerRoot+"\n"+GamePath+"\n"+Name+"\n"+string.Join("\n",Files.Select(f=>{
@@ -199,7 +205,7 @@ namespace OfflineTeamBuilderRuntime
                 return file.Equals(OverlayName,StringComparison.OrdinalIgnoreCase)||Convert.ToString(Member(Member(mod,"ModDetails"),"Title"))==OverlayTitle;
             });
             if(!ownEnabled){snapshot.Seal();return snapshot;}
-            int ownIndex=-1;int ownCount=0;
+            int ownCount=0;
             foreach(object entry in enabledEntries)
             {
                 if(!(Member(entry,"IsEnabled") is bool enabled) || !enabled)continue;
@@ -210,12 +216,11 @@ namespace OfflineTeamBuilderRuntime
                 string title=Convert.ToString(Member(Member(mod,"ModDetails"),"Title"));
                 if(file.Equals(OverlayName,StringComparison.OrdinalIgnoreCase) || title==OverlayTitle)
                 {
-                    ownCount++;ownIndex=snapshot.Files.Count-1;
+                    ownCount++;
                     snapshot.OverlayPath=Path.Combine(manager,"Mods","CollegeFB27",file);
                 }
             }
             if(ownCount>1)throw new InvalidOperationException("Disable duplicate structural TeamBuilder UI overlays.");
-            snapshot.HighestPriority=ownCount==1 && ownIndex==snapshot.Files.Count-1;
             if(string.IsNullOrWhiteSpace(snapshot.Name) || string.IsNullOrWhiteSpace(snapshot.GamePath))throw new InvalidOperationException("Pack name or game path is missing.");
             snapshot.Seal();
             return snapshot;

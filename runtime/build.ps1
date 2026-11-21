@@ -9,7 +9,7 @@ if(Test-Path -LiteralPath $out){throw 'Use a fresh output directory; preserve pr
 if($RebuildNative){& (Join-Path $PSScriptRoot 'Native\BuildNative.ps1');if($LASTEXITCODE -ne 0){throw 'Native build failed.'}}
 $native=Join-Path $PSScriptRoot 'Native\bin\Release\OfflineTeamBuilderNative.dll'
 if(-not(Test-Path -LiteralPath $native)) {
-    $distributed=Join-Path $PSScriptRoot '..\dist\v2.4.13\OfflineTeamBuilderNative.dll'
+    $distributed=Join-Path $PSScriptRoot '..\dist\v2.4.14\OfflineTeamBuilderNative.dll'
     if(-not(Test-Path -LiteralPath $distributed)){throw 'Native build input missing. Use -RebuildNative with MSVC, or supply the checked source-package helper.'}
     New-Item -ItemType Directory -Path (Split-Path $native -Parent) -Force|Out-Null
     Copy-Item -LiteralPath $distributed -Destination $native
@@ -18,7 +18,7 @@ $manifestPath=Join-Path $PSScriptRoot 'Native\native-helper-manifest.json'
 $manifest=Get-Content -LiteralPath $manifestPath -Raw|ConvertFrom-Json
 if((Get-FileHash -LiteralPath $native).Hash -ine $manifest.sha256){throw 'Native helper does not match its embedded manifest.'}
 $codec=Join-Path $PSScriptRoot 'ArtworkNative\bin\OfflineTeamBuilder.ArtworkCodec.dll'
-$distributedCodec=Join-Path $PSScriptRoot '..\dist\v2.4.13\OfflineTeamBuilder.ArtworkCodec.dll'
+$distributedCodec=Join-Path $PSScriptRoot '..\dist\v2.4.14\OfflineTeamBuilder.ArtworkCodec.dll'
 if(!$RebuildArtworkNative -and !(Test-Path -LiteralPath $codec) -and (Test-Path -LiteralPath $distributedCodec)){
     New-Item -ItemType Directory -Path (Split-Path $codec -Parent) -Force|Out-Null
     Copy-Item -LiteralPath $distributedCodec -Destination $codec
